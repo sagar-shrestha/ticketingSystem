@@ -1,8 +1,8 @@
 package com.cellpay.ticketingSystem.service;
 
-import com.cellpay.ticketingSystem.common.pojo.request.TicketRequestPojo;
+import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.util.GenericFileUtil;
-import com.cellpay.ticketingSystem.entity.TicketEntity;
+import com.cellpay.ticketingSystem.entity.Ticket;
 import com.cellpay.ticketingSystem.entity.TicketPhotos;
 import com.cellpay.ticketingSystem.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,24 +21,23 @@ public class TicketServiceImpl implements TicketService {
 
     @Transactional
     @Override
-    public void saveTicket(TicketRequestPojo ticketRequestPojo) throws Exception {
+    public void saveTicket(TicketRequest ticketRequestPojo) throws Exception {
         List<TicketPhotos> ticketPhotosList = new ArrayList<>();
         for (MultipartFile photo : ticketRequestPojo.getPhotos()) {
             String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getPhotos().get(ticketRequestPojo.getPhotos().indexOf(photo)));
             TicketPhotos ticketPhotos = TicketPhotos
                     .builder()
                     .photo(imagePath)
-                    .ticket(TicketEntity.builder().build())
+                    .ticket(Ticket.builder().build())
                     .build();
             ticketPhotosList.add(ticketPhotos);
         }
 
-        TicketEntity ticketEntity = TicketEntity
+        Ticket ticket = Ticket
                 .builder()
-                .ticketTopic(ticketRequestPojo.getTicketTopic())
                 .photo(ticketPhotosList)
                 .build();
-        ticketRepository.save(ticketEntity);
+        ticketRepository.save(ticket);
     }
 
 }

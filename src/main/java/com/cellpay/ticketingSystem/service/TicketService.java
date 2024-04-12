@@ -1,10 +1,8 @@
 package com.cellpay.ticketingSystem.service;
 
-import com.cellpay.ticketingSystem.common.pojo.request.TicketRequestPojo;
-
-import java.io.IOException;
+import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 
 public interface TicketService {
 
-    void saveTicket(TicketRequestPojo ticketRequestPojo) throws Exception;
+    void saveTicket(TicketRequest ticketRequestPojo) throws Exception;
 }

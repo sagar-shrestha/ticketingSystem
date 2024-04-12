@@ -1,6 +1,6 @@
 package com.cellpay.ticketingSystem.common.pojo.request;
 
-import com.cellpay.ticketingSystem.common.constant.TicketTopic;
+import com.cellpay.ticketingSystem.entity.TicketTopic;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class TicketRequestPojo {
+public class TicketRequest {
 
     private TicketTopic ticketTopic;
     private List<MultipartFile> photos;

@@ -1,10 +1,8 @@
 package com.cellpay.ticketingSystem.controller;
 
-import com.cellpay.ticketingSystem.common.pojo.request.TicketRequestPojo;
+import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
-import com.cellpay.ticketingSystem.repository.TicketRepository;
 import com.cellpay.ticketingSystem.service.TicketService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +17,7 @@ public class TicketController {
     private final TicketService ticketService;
 
     @PostMapping(value = "saveTicket", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    private ResponseEntity<GlobalApiResponse> saveTicket(@ModelAttribute TicketRequestPojo ticketRequestPojo) throws Exception {
+    private ResponseEntity<GlobalApiResponse> saveTicket(@ModelAttribute TicketRequest ticketRequestPojo) throws Exception {
         ticketService.saveTicket(ticketRequestPojo);
         return ResponseEntity.ok(GlobalApiResponse
                 .builder()

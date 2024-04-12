@@ -4,19 +4,16 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "ticket_photos")
+@Table(name = "ticket_topic")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TicketPhotos {
+public class TicketTopic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @ManyToOne
-    @JoinColumn(name = "ticket_id")
-    private Ticket ticket;
-    private String photo;
+    private String topic;
 }
