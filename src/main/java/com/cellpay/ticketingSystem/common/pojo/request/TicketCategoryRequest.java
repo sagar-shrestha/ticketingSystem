@@ -1,22 +1,19 @@
 package com.cellpay.ticketingSystem.common.pojo.request;
 
-import com.cellpay.ticketingSystem.entity.TicketTopic;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
+@Builder
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TicketRequest {
+public class TicketCategoryRequest {
 
-    private TicketTopic ticketTopic;
-    private List<MultipartFile> photos;
+    private String category;
+    private int ticketTopic;
+
 }

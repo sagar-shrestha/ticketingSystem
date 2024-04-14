@@ -1,10 +1,8 @@
 package com.cellpay.ticketingSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "ticket_category")
@@ -12,6 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class TicketCategory {
 
     @Id
@@ -20,5 +19,6 @@ public class TicketCategory {
     private String category;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_topic", foreignKey = @ForeignKey(name = "fk_ticket_topic_id"))
+    @JsonBackReference
     private TicketTopic ticketTopic;
 }
