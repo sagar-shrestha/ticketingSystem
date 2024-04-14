@@ -7,10 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GlobalApiResponse {
+public class TicketTopicResponse {
 
-    private int code;
-    private String message;
-    private Object data;
-    private boolean status;
+    private int id;
+    private String topic;
 }

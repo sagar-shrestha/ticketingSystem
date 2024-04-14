@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rest")
@@ -19,7 +16,7 @@ public class TicketTopicController {
 
     private final TicketTopicService ticketTopicService;
 
-    @PostMapping("/ticketTopic")
+    @PostMapping("/saveTopic")
     public ResponseEntity<GlobalApiResponse> saveTicketTopic(
             @RequestBody TicketTopicRequest ticketTopicRequest) {
         ticketTopicService.saveTicketTopic(ticketTopicRequest);
@@ -28,6 +25,17 @@ public class TicketTopicController {
                 .data(null)
                 .status(true)
                 .message("Topic Saved Successfully.")
+                .build());
+    }
+
+    @GetMapping("/getTopicById/{id}")
+    public ResponseEntity<GlobalApiResponse> getTopicById(@PathVariable int id) {
+        return ResponseEntity.ok(GlobalApiResponse
+                .builder()
+                        .code(HttpStatus.OK.value())
+                        .data(ticketTopicService.getTopicById(id))
+                        .message("Topic Found Successfully.")
+                        .status(true)
                 .build());
     }
 }
