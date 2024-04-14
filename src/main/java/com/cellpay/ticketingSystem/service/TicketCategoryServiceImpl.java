@@ -36,6 +36,9 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
                 .category(ticketCategoryRequest.getCategory())
                 .ticketTopic(ticketTopic)
                 .build();
+//      To know about this concept
+//        TicketCategory ticketCategory = objectMapper.convertValue(ticketCategoryRequest, TicketCategory.class);
+//        ticketCategory.setTicketTopic(ticketTopic);
         ticketCategoryRepository.save(ticketCategory);
     }
 }
