@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TicketCategoryServiceImpl implements TicketCategoryService {
@@ -41,4 +43,17 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
 //        ticketCategory.setTicketTopic(ticketTopic);
         ticketCategoryRepository.save(ticketCategory);
     }
+
+    @Override
+    public TicketCategory getCategoryById(int id) {
+        return ticketCategoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ticket Category not found."));
+    }
+
+    @Override
+    public List<TicketCategory> getAllCategory() {
+        return ticketCategoryRepository.findAll();
+    }
+
+
 }

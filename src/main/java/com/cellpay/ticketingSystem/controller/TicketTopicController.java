@@ -28,14 +28,36 @@ public class TicketTopicController {
                 .build());
     }
 
+    @PutMapping("/saveTopic")
+    public ResponseEntity<GlobalApiResponse> updateTicketTopic(@RequestBody TicketTopicRequest ticketTopicRequest,
+                                                               int id) {
+        return ResponseEntity.ok(GlobalApiResponse.builder()
+                .code(HttpStatus.OK.value())
+                .data(ticketTopicService.updateTicketTopic(ticketTopicRequest, id))
+                .message("Topic Updated Successfully.")
+                .status(true)
+                .build());
+    }
+
     @GetMapping("/getTopicById/{id}")
     public ResponseEntity<GlobalApiResponse> getTopicById(@PathVariable int id) {
         return ResponseEntity.ok(GlobalApiResponse
                 .builder()
-                        .code(HttpStatus.OK.value())
-                        .data(ticketTopicService.getTopicById(id))
-                        .message("Topic Found Successfully.")
-                        .status(true)
+                .code(HttpStatus.OK.value())
+                .data(ticketTopicService.getTopicById(id))
+                .message("Topic Found Successfully.")
+                .status(true)
+                .build());
+    }
+
+    @GetMapping("getAllTopic")
+    public ResponseEntity<GlobalApiResponse> getAllTopic() {
+        return ResponseEntity.ok(GlobalApiResponse
+                .builder()
+                .code(HttpStatus.OK.value())
+                .data(ticketTopicService.getAllTopic())
+                .message("Topic Found Successfully.")
+                .status(true)
                 .build());
     }
 }

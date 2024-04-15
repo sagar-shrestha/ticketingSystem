@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TicketTopicServiceImpl implements TicketTopicService {
@@ -28,7 +30,20 @@ public class TicketTopicServiceImpl implements TicketTopicService {
     }
 
     @Override
+    public TicketTopic updateTicketTopic(TicketTopicRequest ticketTopicRequest, int id) {
+        TicketTopic existingTicketTopic = ticketTopicRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Topic not found"));
+        TicketTopic updatedTicketTopic = objectMapper.convertValue(existingTicketTopic, TicketTopic.class);
+        updatedTicketTopic.setId(existingTicketTopic.getId());
+        return ticketTopicRepository.save(updatedTicketTopic);
+    }
+
+    @Override
     public TicketTopicResponse getTopicById(int id) {
         return ticketTopicHelper.getTopicById(id);
+    }
+
+    @Override
+    public List<TicketTopic> getAllTopic() {
+        return ticketTopicRepository.findAll();
     }
 }
