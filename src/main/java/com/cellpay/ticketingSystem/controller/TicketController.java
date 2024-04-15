@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
+
 @RestController
 @RequestMapping("rest/")
 @RequiredArgsConstructor
@@ -30,5 +32,15 @@ public class TicketController {
     @PutMapping("saveTicket")
     public String updateTicket() {
         return "Ticket Successfully Updated.";
+    }
+
+    @GetMapping("getTicketById/{id}")
+    public ResponseEntity<GlobalApiResponse> getTicketById(@PathVariable Long id) throws MalformedURLException {
+        return ResponseEntity.ok(GlobalApiResponse
+                .builder()
+                .code(HttpStatus.OK.value())
+                .data(ticketService.getTicketById(id))
+                .message("Ticket Found Successfully.")
+                .build());
     }
 }

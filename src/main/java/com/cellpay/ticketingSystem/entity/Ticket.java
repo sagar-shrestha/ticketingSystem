@@ -16,11 +16,12 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ticket_category", foreignKey = @ForeignKey(name = "fk_ticket_category_id"))
+    @JoinColumn(name = "ticket_category", foreignKey = @ForeignKey(name = "fk_ticket_category_id"),
+            referencedColumnName = "id")
     private TicketCategory ticketCategory;
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
-    private List<TicketPhotos> photo;
+    private List<TicketPhoto> photo;
 }

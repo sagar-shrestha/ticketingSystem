@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TicketRequest {
 
-    private TicketTopic ticketTopic;
+    private int ticketCategory;
+    private String description;
     private List<MultipartFile> photos;
 }
