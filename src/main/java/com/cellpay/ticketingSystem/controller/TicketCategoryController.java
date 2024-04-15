@@ -29,6 +29,18 @@ public class TicketCategoryController {
                 .build());
     }
 
+    @PutMapping("/saveTicketCategory/{id}")
+    public ResponseEntity<GlobalApiResponse> updateTicketCategory(@RequestBody TicketCategoryRequest ticketCategoryRequest,
+                                                                  @PathVariable int id) {
+        return ResponseEntity.ok(GlobalApiResponse
+                .builder()
+                .code(HttpStatus.OK.value())
+                .data(ticketCategoryService.updateTicketCategory(ticketCategoryRequest, id))
+                .message("TicketCategory updated successfully")
+                .status(true)
+                .build());
+    }
+
     @GetMapping("getCategoryById/{id}")
     public ResponseEntity<GlobalApiResponse> getCategoryById(@PathVariable int id) {
         return ResponseEntity.ok(GlobalApiResponse

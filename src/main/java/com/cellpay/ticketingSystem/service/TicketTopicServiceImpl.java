@@ -21,7 +21,7 @@ public class TicketTopicServiceImpl implements TicketTopicService {
 
     @Override
     public void saveTicketTopic(TicketTopicRequest ticketTopicRequest) {
-        TicketTopic ticketTopic =    objectMapper.convertValue(ticketTopicRequest, TicketTopic.class);
+        TicketTopic ticketTopic = objectMapper.convertValue(ticketTopicRequest, TicketTopic.class);
 //        TicketTopic ticketTopic = TicketTopic
 //                .builder()
 //                .topic(ticketTopicRequest.getTopic())
@@ -31,15 +31,16 @@ public class TicketTopicServiceImpl implements TicketTopicService {
 
     @Override
     public TicketTopic updateTicketTopic(TicketTopicRequest ticketTopicRequest, int id) {
-        TicketTopic existingTicketTopic = ticketTopicRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Topic not found"));
-        TicketTopic updatedTicketTopic = objectMapper.convertValue(existingTicketTopic, TicketTopic.class);
+        TicketTopic existingTicketTopic = getTopicById(id);
+        TicketTopic updatedTicketTopic = objectMapper.convertValue(ticketTopicRequest, TicketTopic.class);
         updatedTicketTopic.setId(existingTicketTopic.getId());
         return ticketTopicRepository.save(updatedTicketTopic);
     }
 
     @Override
-    public TicketTopicResponse getTopicById(int id) {
-        return ticketTopicHelper.getTopicById(id);
+    public TicketTopic getTopicById(int id) {
+        return ticketTopicRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ticket Topic not found"));
     }
 
     @Override

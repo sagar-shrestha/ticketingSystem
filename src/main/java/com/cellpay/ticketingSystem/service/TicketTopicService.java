@@ -12,7 +12,7 @@ void saveTicketTopic(TicketTopicRequest ticketTopicRequest);
 
 TicketTopic updateTicketTopic(TicketTopicRequest ticketTopicRequest, int id);
 
-TicketTopicResponse getTopicById(int id);
+TicketTopic getTopicById(int id);
 
 List<TicketTopic> getAllTopic();
 

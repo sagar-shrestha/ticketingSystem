@@ -25,8 +25,7 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     @Override
     @Transactional
     public void saveTicketCategory(TicketCategoryRequest ticketCategoryRequest) {
-        TicketTopic ticketTopic = ticketTopicRepository.findById(ticketCategoryRequest.getTicketTopic())
-                .orElseThrow(() -> new RuntimeException("Topic not found."));
+        //TicketTopic ticketTopic = ticketTopicService.getTopicById(ticketCategoryRequest.getTicketTopic());
 //        TicketTopicResponse ticketTopicResponse = ticketTopicService
 //                .getTopicById(ticketCategoryRequest.getTicketTopic());
 //        TicketTopic ticketTopic = TicketTopic.builder()
@@ -36,12 +35,25 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
         TicketCategory ticketCategory = TicketCategory
                 .builder()
                 .category(ticketCategoryRequest.getCategory())
-                .ticketTopic(ticketTopic)
+                .ticketTopic(ticketTopicService.getTopicById(ticketCategoryRequest.getTicketTopic()))
                 .build();
 //      To know about this concept
 //        TicketCategory ticketCategory = objectMapper.convertValue(ticketCategoryRequest, TicketCategory.class);
 //        ticketCategory.setTicketTopic(ticketTopic);
         ticketCategoryRepository.save(ticketCategory);
+    }
+
+    @Override
+    @Transactional
+    public TicketCategory updateTicketCategory(TicketCategoryRequest ticketCategoryRequest, int id) {
+        TicketCategory existingTicketCategory = getCategoryById(id);
+        TicketCategory updatedTicketCategory = TicketCategory
+                .builder()
+                .id(existingTicketCategory.getId())
+                .category(ticketCategoryRequest.getCategory())
+                .ticketTopic(ticketTopicService.getTopicById(ticketCategoryRequest.getTicketTopic()))
+                .build();
+        return ticketCategoryRepository.save(updatedTicketCategory);
     }
 
     @Override

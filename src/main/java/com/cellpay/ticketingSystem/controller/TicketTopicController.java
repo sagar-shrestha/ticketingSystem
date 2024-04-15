@@ -28,9 +28,9 @@ public class TicketTopicController {
                 .build());
     }
 
-    @PutMapping("/saveTopic")
+    @PutMapping("/saveTopic/{id}")
     public ResponseEntity<GlobalApiResponse> updateTicketTopic(@RequestBody TicketTopicRequest ticketTopicRequest,
-                                                               int id) {
+                                                              @PathVariable int id) {
         return ResponseEntity.ok(GlobalApiResponse.builder()
                 .code(HttpStatus.OK.value())
                 .data(ticketTopicService.updateTicketTopic(ticketTopicRequest, id))
