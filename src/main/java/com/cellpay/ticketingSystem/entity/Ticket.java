@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Ticket {
+public class  Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,5 +23,5 @@ public class Ticket {
     private TicketCategory ticketCategory;
     private String description;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
-//    private List<TicketPhoto> photo;
+//    private List<TicketImage> photo;
 }

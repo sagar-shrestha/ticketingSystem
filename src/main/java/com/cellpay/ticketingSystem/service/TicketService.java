@@ -10,5 +10,7 @@ public interface TicketService {
 
     void saveTicket(TicketRequest ticketRequestPojo) throws Exception;
 
+    TicketResponse updateTicket(TicketRequest ticketRequestPojo, Long id) throws Exception;
+
     TicketResponse getTicketById(Long id) throws MalformedURLException;
 }

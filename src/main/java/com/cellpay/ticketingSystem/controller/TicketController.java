@@ -18,6 +18,8 @@ import java.net.MalformedURLException;
 public class TicketController {
 
     private final TicketService ticketService;
+    private final TicketRepository ticketRepository;
+
 
     @PostMapping(value = "saveTicket", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     private ResponseEntity<GlobalApiResponse> saveTicket(@ModelAttribute TicketRequest ticketRequestPojo) throws Exception {
@@ -30,9 +32,11 @@ public class TicketController {
                 .build());
     }
 
-    @PutMapping("saveTicket")
-    public String updateTicket() {
-        return "Ticket Successfully Updated.";
+    @PutMapping("saveTicket/{id}")
+    public ResponseEntity<GlobalApiResponse> updateTicket(@RequestBody TicketRequest ticketRequestPojo, @PathVariable Long id) throws Exception {
+        return ResponseEntity.ok(GlobalApiResponse
+                .builder()
+                .build());
     }
 
     @GetMapping("getTicketById/{id}")
@@ -45,7 +49,6 @@ public class TicketController {
                 .build());
     }
 
-    private final TicketRepository ticketRepository;
     @GetMapping("get/{id}")
     public ResponseEntity<GlobalApiResponse> get(@PathVariable Long id) throws MalformedURLException {
         return ResponseEntity.ok(GlobalApiResponse
@@ -53,5 +56,6 @@ public class TicketController {
                 .code(HttpStatus.OK.value())
                 .data(ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Not Found.")))
                 .build());
+
     }
 }

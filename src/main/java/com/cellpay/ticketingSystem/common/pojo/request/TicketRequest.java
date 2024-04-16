@@ -1,6 +1,5 @@
 package com.cellpay.ticketingSystem.common.pojo.request;
 
-import com.cellpay.ticketingSystem.entity.TicketTopic;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,5 +18,5 @@ public class TicketRequest {
 
     private int ticketCategory;
     private String description;
-    private List<MultipartFile> photos;
+    private List<MultipartFile> images;
 }

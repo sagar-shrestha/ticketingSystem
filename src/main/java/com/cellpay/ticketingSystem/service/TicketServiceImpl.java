@@ -4,9 +4,9 @@ import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.TicketResponse;
 import com.cellpay.ticketingSystem.common.util.GenericFileUtil;
 import com.cellpay.ticketingSystem.entity.Ticket;
-import com.cellpay.ticketingSystem.entity.TicketPhoto;
+import com.cellpay.ticketingSystem.entity.TicketImage;
 import com.cellpay.ticketingSystem.helper.TicketHelper;
-import com.cellpay.ticketingSystem.repository.TicketPhotoRepository;
+import com.cellpay.ticketingSystem.repository.TicketImageRepository;
 import com.cellpay.ticketingSystem.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +21,7 @@ public class TicketServiceImpl implements TicketService {
 
     private final GenericFileUtil genericFileUtil;
     private final TicketRepository ticketRepository;
-    private final TicketPhotoRepository ticketPhotoRepository;
+    private final TicketImageRepository ticketImageRepository;
     private final TicketCategoryService ticketCategoryService;
     private final TicketHelper ticketHelper;
 
@@ -35,15 +33,23 @@ public class TicketServiceImpl implements TicketService {
                 .ticketCategory(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory()))
                 .description(ticketRequestPojo.getDescription())
                 .build());
-        for (MultipartFile photo : ticketRequestPojo.getPhotos()) {
-            String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getPhotos().get(ticketRequestPojo.getPhotos().indexOf(photo)));
-            TicketPhoto ticketPhoto = TicketPhoto
+        for (MultipartFile image : ticketRequestPojo.getImages()) {
+            String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getImages().get(ticketRequestPojo.getImages().indexOf(image)));
+            TicketImage ticketImage = TicketImage
                     .builder()
-                    .photo(imagePath)
+                    .image(imagePath)
                     .ticket(ticket)
                     .build();
-            ticketPhotoRepository.save(ticketPhoto);
+            ticketImageRepository.save(ticketImage);
         }
+    }
+
+    @Override
+    @Transactional
+    public TicketResponse updateTicket(TicketRequest ticketRequest, Long id) throws Exception {
+        TicketResponse ticketResponse = ticketRepository.getTicketById(id);
+
+        return null;
     }
 
     @Override

@@ -4,18 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "ticket_photo")
+@Table(name = "ticket_image")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TicketPhoto {
+public class TicketImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String photo;
+    private String image;
     @ManyToOne
     @JoinColumn
     private Ticket ticket;
