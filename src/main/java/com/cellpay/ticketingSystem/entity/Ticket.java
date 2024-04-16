@@ -23,5 +23,5 @@ public class Ticket {
     private TicketCategory ticketCategory;
     private String description;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
-//    private List<TicketPhoto> photo;
+//    private List<TicketImage> photo;
 }

@@ -1,5 +1,6 @@
 package com.cellpay.ticketingSystem.common.util;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
@@ -15,12 +16,14 @@ import java.util.UUID;
 @Component
 public class GenericFileUtil {
 
-    public String saveFile(MultipartFile photo) throws Exception {
-        if (photo.isEmpty()) {
-            throw new RuntimeException("Photo not found.");
+    private Path foundFile;
+
+    public String saveFile(MultipartFile image) throws Exception {
+        if (image.isEmpty()) {
+            throw new RuntimeException("Image not found.");
         }
 
-        String originalFileName = photo.getOriginalFilename();
+        String originalFileName = image.getOriginalFilename();
         String location = System.getProperty("user.dir") + File.separator + "images" + File.separator;
         File file = new File(location);
         if (!file.exists()) {
@@ -28,13 +31,18 @@ public class GenericFileUtil {
         }
 
         String fileName = UUID.randomUUID() + originalFileName;
-        photo.transferTo(new File(location + fileName));
+        image.transferTo(new File(location + fileName));
         return location + fileName;
     }
 
-    public Resource getFile(String existingPhoto) throws MalformedURLException {
-        String location = System.getProperty("user.dir") + File.separator + "image" + File.separator;
-        Path filePath = Paths.get(location).resolve(existingPhoto).normalize();
-        return new UrlResource(filePath.toUri());
+    public void getFile(String existingImage, HttpServletResponse httpServletResponse) throws MalformedURLException {
+        File file = new File(existingImage);
+        httpServletResponse.setContentType("image/" + file.toPath());
+        httpServletResponse.setHeader("Content-Disposition", "inline; filename=" + file);
+    }
+
+    public Resource getFileAsResource(String existingImage) throws IOException {
+        Path dirPath = Paths.get(existingImage);
+        return new UrlResource(dirPath.toUri());
     }
 }

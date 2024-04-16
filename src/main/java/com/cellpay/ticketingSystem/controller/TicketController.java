@@ -53,5 +53,6 @@ public class TicketController {
                 .code(HttpStatus.OK.value())
                 .data(ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Not Found.")))
                 .build());
+
     }
 }
