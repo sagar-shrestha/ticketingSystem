@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Ticket {
+public class  Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
