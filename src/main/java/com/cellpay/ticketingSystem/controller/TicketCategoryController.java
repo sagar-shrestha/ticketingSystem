@@ -53,11 +53,12 @@ public class TicketCategoryController {
     }
 
     @GetMapping("getAllCategory")
-    public ResponseEntity<GlobalApiResponse> getAllCategory() {
+    public ResponseEntity<GlobalApiResponse> getAllCategory(@RequestParam("pageNo") int pageNo,
+                                                            @RequestParam("pageSize") int pageSize) {
         return ResponseEntity.ok(GlobalApiResponse
                 .builder()
                 .code(HttpStatus.OK.value())
-                .data(ticketCategoryService.getAllCategory())
+                .data(ticketCategoryService.getAllCategory(pageNo, pageSize))
                 .message("Ticket Category Found Successfully.")
                 .status(true)
                 .build());

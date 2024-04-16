@@ -22,6 +22,6 @@ public class Ticket {
             referencedColumnName = "id")
     private TicketCategory ticketCategory;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
-    private List<TicketPhoto> photo;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
+//    private List<TicketPhoto> photo;
 }

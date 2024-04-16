@@ -5,6 +5,7 @@ import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
 import com.cellpay.ticketingSystem.service.TicketTopicService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,11 +52,12 @@ public class TicketTopicController {
     }
 
     @GetMapping("getAllTopic")
-    public ResponseEntity<GlobalApiResponse> getAllTopic() {
+    public ResponseEntity<GlobalApiResponse> getAllTopic(@RequestParam("pageNo") int pageNo,
+                                                         @RequestParam("pageSize") int pageSize) {
         return ResponseEntity.ok(GlobalApiResponse
                 .builder()
                 .code(HttpStatus.OK.value())
-                .data(ticketTopicService.getAllTopic())
+                .data(ticketTopicService.getAllTopic(pageNo, pageSize))
                 .message("Topic Found Successfully.")
                 .status(true)
                 .build());

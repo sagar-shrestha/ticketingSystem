@@ -5,8 +5,13 @@ import com.cellpay.ticketingSystem.entity.TicketTopic;
 import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +46,8 @@ public class TicketTopicServiceImpl implements TicketTopicService {
     }
 
     @Override
-    public List<TicketTopic> getAllTopic() {
-        return ticketTopicRepository.findAll();
+    public Page<TicketTopic> getAllTopic(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("topic"));
+        return ticketTopicRepository.findAll(pageable);
     }
 }

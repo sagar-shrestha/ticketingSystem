@@ -6,6 +6,10 @@ import com.cellpay.ticketingSystem.repository.TicketCategoryRepository;
 import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,9 +65,8 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     }
 
     @Override
-    public List<TicketCategory> getAllCategory() {
-        return ticketCategoryRepository.findAll();
+    public Page<TicketCategory> getAllCategory(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("category").ascending());
+        return ticketCategoryRepository.findAll(pageable);
     }
-
-
 }

@@ -25,11 +25,11 @@ public class TicketHelper {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Not Found."));
         List<Resource> resourceList = new ArrayList<>();
         List<Integer> photoIds = new ArrayList<>();
-        for (TicketPhoto ticketPhoto : ticket.getPhoto()) {
-            Resource photo = genericFileUtil.getFile(ticketPhoto.getPhoto());
-            resourceList.add(photo);
-            photoIds.add(ticketPhoto.getId());
-        }
+//        for (TicketPhoto ticketPhoto : ticket.getPhoto()) {
+//            Resource photo = genericFileUtil.getFile(ticketPhoto.getPhoto());
+//            resourceList.add(photo);
+//            photoIds.add(ticketPhoto.getId());
+//        }
 
         return TicketResponse.builder()
                 .id(ticket.getId())

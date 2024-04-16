@@ -2,6 +2,7 @@ package com.cellpay.ticketingSystem.controller;
 
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
+import com.cellpay.ticketingSystem.repository.TicketRepository;
 import com.cellpay.ticketingSystem.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,16 @@ public class TicketController {
                 .code(HttpStatus.OK.value())
                 .data(ticketService.getTicketById(id))
                 .message("Ticket Found Successfully.")
+                .build());
+    }
+
+    private final TicketRepository ticketRepository;
+    @GetMapping("get/{id}")
+    public ResponseEntity<GlobalApiResponse> get(@PathVariable Long id) throws MalformedURLException {
+        return ResponseEntity.ok(GlobalApiResponse
+                .builder()
+                .code(HttpStatus.OK.value())
+                .data(ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Not Found.")))
                 .build());
     }
 }
