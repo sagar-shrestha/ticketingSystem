@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class TicketImageServiceImpl implements TicketImageService {
     }
 
     @Override
-    public void getTicketImageById(int imageId, HttpServletResponse httpServletResponse) throws MalformedURLException {
+    public void getTicketImageById(int imageId, HttpServletResponse httpServletResponse) throws IOException {
         ticketImageHelper.getTicketImageById(imageId, httpServletResponse);
     }
 }

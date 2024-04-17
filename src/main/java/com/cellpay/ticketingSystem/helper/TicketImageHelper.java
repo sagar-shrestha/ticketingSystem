@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 @Component
@@ -16,8 +17,9 @@ public class TicketImageHelper {
     private final TicketImageRepository ticketImageRepository;
     private final GenericFileUtil genericFileUtil;
 
-    public void getTicketImageById(int imageId, HttpServletResponse httpServletResponse) throws MalformedURLException {
-        TicketImage ticketImage = ticketImageRepository.findById(imageId).orElseThrow(() -> new MalformedURLException("Image not found"));
-        genericFileUtil.getFile(ticketImage.getImage(), httpServletResponse);
+    public void getTicketImageById(int imageId, HttpServletResponse httpServletResponse) throws IOException {
+        TicketImage ticketImage = ticketImageRepository.findById(imageId)
+                .orElseThrow(() -> new MalformedURLException("Image not found"));
+        genericFileUtil.getFileAsResource(ticketImage.getImage(), httpServletResponse);
     }
 }

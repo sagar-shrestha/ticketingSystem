@@ -18,8 +18,6 @@ import java.net.MalformedURLException;
 public class TicketController {
 
     private final TicketService ticketService;
-    private final TicketRepository ticketRepository;
-
 
     @PostMapping(value = "saveTicket", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     private ResponseEntity<GlobalApiResponse> saveTicket(@ModelAttribute TicketRequest ticketRequestPojo) throws Exception {
@@ -29,13 +27,19 @@ public class TicketController {
                 .code(HttpStatus.CREATED.value())
                 .data(null)
                 .message("Ticket Saved Successfully.")
+                .status(true)
                 .build());
     }
 
     @PutMapping("saveTicket/{id}")
-    public ResponseEntity<GlobalApiResponse> updateTicket(@RequestBody TicketRequest ticketRequestPojo, @PathVariable Long id) throws Exception {
+    public ResponseEntity<GlobalApiResponse> updateTicket(@ModelAttribute TicketRequest ticketRequestPojo, @PathVariable Long id) throws Exception {
+        ticketService.updateTicket(ticketRequestPojo, id);
         return ResponseEntity.ok(GlobalApiResponse
                 .builder()
+                .code(HttpStatus.OK.value())
+                .data(null)
+                .message("Ticket Updated Successfully.")
+                .status(true)
                 .build());
     }
 
@@ -46,16 +50,7 @@ public class TicketController {
                 .code(HttpStatus.OK.value())
                 .data(ticketService.getTicketById(id))
                 .message("Ticket Found Successfully.")
+                .status(true)
                 .build());
-    }
-
-    @GetMapping("get/{id}")
-    public ResponseEntity<GlobalApiResponse> get(@PathVariable Long id) throws MalformedURLException {
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.OK.value())
-                .data(ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Not Found.")))
-                .build());
-
     }
 }

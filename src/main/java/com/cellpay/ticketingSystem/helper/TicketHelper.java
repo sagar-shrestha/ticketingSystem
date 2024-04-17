@@ -16,17 +16,25 @@ public class TicketHelper {
 
 
     public TicketResponse getTicketById(Long id) {
-        Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Not Found."));
+        //TicketResponse ticketResponse = ticketRepository.getTicketById(id);
 //        for (TicketImage ticketPhoto : ticket.getImage()) {
 //            Resource photo = genericFileUtil.getFile(ticketPhoto.getImage());
 //            resourceList.add(photo);
 //            photoIds.add(ticketPhoto.getId());
 //        }
 
+//        return TicketResponse.builder()
+//                .id(ticketResponse.getId())
+//                .ticketCategory(ticketResponse.getTicketCategory())
+//                .description(ticketResponse.getDescription())
+//                .build();
+//        return ticketRepository.getTicketById(id);
+        Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Not Found."));
         return TicketResponse.builder()
-                .id(ticket.getId())
+                .id(id)
                 .ticketCategory(ticket.getTicketCategory())
                 .description(ticket.getDescription())
+                .imageId(ticketRepository.getTicketById(id))
                 .build();
     }
 }

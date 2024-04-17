@@ -8,12 +8,15 @@ import com.cellpay.ticketingSystem.entity.TicketImage;
 import com.cellpay.ticketingSystem.helper.TicketHelper;
 import com.cellpay.ticketingSystem.repository.TicketImageRepository;
 import com.cellpay.ticketingSystem.repository.TicketRepository;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class TicketServiceImpl implements TicketService {
     private final TicketImageRepository ticketImageRepository;
     private final TicketCategoryService ticketCategoryService;
     private final TicketHelper ticketHelper;
+    private final TicketImageService ticketImageService;
 
     @Transactional
     @Override
@@ -44,13 +48,53 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
-//    @Override
-//    @Transactional
-//    public TicketResponse updateTicket(TicketRequest ticketRequest, Long id) throws Exception {
-//        TicketResponse ticketResponse = ticketRepository.getTicketById(id);
-//
-//        return null;
-//    }
+    @Override
+    @Transactional
+    public void updateTicket(TicketRequest ticketRequest, Long id) throws Exception {
+        TicketImage existingTicketImage = null;
+        try {
+            TicketResponse existingTicket = this.getTicketById(id);
+            Ticket updatedTicket = Ticket.builder()
+                    .id(id)
+                    .description(ticketRequest.getDescription())
+                    .ticketCategory(ticketCategoryService.getCategoryById(ticketRequest.getTicketCategory()))
+                    .build();
+            if (!(ticketRequest.getImages() == null)) {
+//            for (int i = 0; i < ticketRequest.getImages().size(); i++) {
+//                TicketImage updatedTicketImage = null;
+//                for (int j = i; j < existingTicket.getImageId().size(); j++) {
+//                    Integer imageId = existingTicket.getImageId().get(j);
+//                    TicketImage existingTicketImage = ticketImageRepository.findById(imageId).orElseThrow(() -> new RuntimeException("Ticket Image Not Found"));
+//                    String imagePath = genericFileUtil.updateFile(ticketRequest.getImages().get(i), existingTicketImage.getImage());
+//                    updatedTicketImage = TicketImage.builder()
+//                            .id(imageId)
+//                            .image(imagePath)
+//                            .ticket(ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("d")))
+//                            .build();
+//                    ticketImageRepository.save(updatedTicketImage);
+//                    break;
+//                }
+//            }
+
+                for (int i = 0; i < ticketRequest.getImages().size(); i++) {
+                    Integer imageId = existingTicket.getImageId().get(i);
+                    existingTicketImage = ticketImageRepository.findById(imageId)
+                            .orElseThrow(() -> new RuntimeException("Ticket Image Not Found"));
+                    String imagePath = genericFileUtil.updateFile(ticketRequest.getImages().get(i), existingTicketImage.getImage());
+                    TicketImage updatedTicketImage = TicketImage.builder()
+                            .id(imageId)
+                            .image(imagePath)
+                            .ticket(ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("d")))
+                            .build();
+                    ticketImageRepository.save(updatedTicketImage);
+                }
+
+            }
+            ticketRepository.save(updatedTicket);
+        } catch (Exception e) {
+            genericFileUtil.reSaveFile(existingTicketImage.getImage());
+        }
+    }
 
     @Override
     public TicketResponse getTicketById(Long id) throws MalformedURLException {
