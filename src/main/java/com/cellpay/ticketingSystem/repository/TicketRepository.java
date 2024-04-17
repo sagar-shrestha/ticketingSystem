@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
-    @Query("SELECT * FROM ticketing_system.ticket_image tp \n" +
-            "INNER JOIN ticketing_system.ticket t ON tp.ticket_id = t.id ")
-    TicketResponse getTicketById(Long id);
+//    @Query("SELECT * FROM ticketing_system.ticket_image tp \n" +
+//            "INNER JOIN ticketing_system.ticket t ON tp.ticket_id = t.id ")
+//    TicketResponse getTicketById(Long id);
 }

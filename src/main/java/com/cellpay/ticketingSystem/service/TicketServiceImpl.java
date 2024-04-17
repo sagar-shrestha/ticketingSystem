@@ -44,13 +44,13 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
-    @Override
-    @Transactional
-    public TicketResponse updateTicket(TicketRequest ticketRequest, Long id) throws Exception {
-        TicketResponse ticketResponse = ticketRepository.getTicketById(id);
-
-        return null;
-    }
+//    @Override
+//    @Transactional
+//    public TicketResponse updateTicket(TicketRequest ticketRequest, Long id) throws Exception {
+//        TicketResponse ticketResponse = ticketRepository.getTicketById(id);
+//
+//        return null;
+//    }
 
     @Override
     public TicketResponse getTicketById(Long id) throws MalformedURLException {
