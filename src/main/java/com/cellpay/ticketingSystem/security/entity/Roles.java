@@ -1,4 +1,4 @@
-package com.cellpay.ticketingSystem.entity;
+package com.cellpay.ticketingSystem.security.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Roles {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int role_id;
     private String role;
 }

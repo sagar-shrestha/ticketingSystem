@@ -4,10 +4,9 @@ import com.cellpay.ticketingSystem.common.pojo.request.TicketTopicRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
 import com.cellpay.ticketingSystem.service.TicketTopicService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +16,7 @@ public class TicketTopicController {
 
     private final TicketTopicService ticketTopicService;
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @PostMapping("/saveTopic")
     public ResponseEntity<GlobalApiResponse> saveTicketTopic(
             @RequestBody TicketTopicRequest ticketTopicRequest) {

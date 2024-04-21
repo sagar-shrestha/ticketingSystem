@@ -1,4 +1,4 @@
-package com.cellpay.ticketingSystem.entity;
+package com.cellpay.ticketingSystem.security.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Set;
 public class UserInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int user_id;
     private String username;
     private String password;
