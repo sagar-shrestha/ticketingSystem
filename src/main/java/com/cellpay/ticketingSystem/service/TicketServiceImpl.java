@@ -8,15 +8,12 @@ import com.cellpay.ticketingSystem.entity.TicketImage;
 import com.cellpay.ticketingSystem.helper.TicketHelper;
 import com.cellpay.ticketingSystem.repository.TicketImageRepository;
 import com.cellpay.ticketingSystem.repository.TicketRepository;
-import jakarta.persistence.criteria.CriteriaBuilder.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +24,9 @@ public class TicketServiceImpl implements TicketService {
     private final TicketImageRepository ticketImageRepository;
     private final TicketCategoryService ticketCategoryService;
     private final TicketHelper ticketHelper;
-    private final TicketImageService ticketImageService;
 
-    @Transactional
     @Override
+    @Transactional
     public void saveTicket(TicketRequest ticketRequestPojo) throws Exception {
         Ticket ticket = ticketRepository.save(Ticket
                 .builder()
@@ -38,7 +34,8 @@ public class TicketServiceImpl implements TicketService {
                 .description(ticketRequestPojo.getDescription())
                 .build());
         for (MultipartFile image : ticketRequestPojo.getImages()) {
-            String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getImages().get(ticketRequestPojo.getImages().indexOf(image)));
+            String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getImages()
+                    .get(ticketRequestPojo.getImages().indexOf(image)));
             TicketImage ticketImage = TicketImage
                     .builder()
                     .image(imagePath)

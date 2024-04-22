@@ -7,6 +7,7 @@ import com.cellpay.ticketingSystem.service.TicketCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,7 +17,8 @@ public class TicketCategoryController {
 
     private final TicketCategoryService ticketCategoryService;
 
-    @PostMapping("saveTicketCategory")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @PostMapping("/saveTicketCategory")
     public ResponseEntity<GlobalApiResponse> saveTicketCategory(@RequestBody TicketCategoryRequest
                                                                         ticketCategoryRequest) {
         ticketCategoryService.saveTicketCategory(ticketCategoryRequest);
@@ -29,6 +31,7 @@ public class TicketCategoryController {
                 .build());
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PutMapping("/saveTicketCategory/{id}")
     public ResponseEntity<GlobalApiResponse> updateTicketCategory(@RequestBody TicketCategoryRequest ticketCategoryRequest,
                                                                   @PathVariable int id) {
@@ -41,6 +44,7 @@ public class TicketCategoryController {
                 .build());
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("getCategoryById/{id}")
     public ResponseEntity<GlobalApiResponse> getCategoryById(@PathVariable int id) {
         return ResponseEntity.ok(GlobalApiResponse
@@ -52,6 +56,7 @@ public class TicketCategoryController {
                 .build());
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("getAllCategory")
     public ResponseEntity<GlobalApiResponse> getAllCategory(@RequestParam("pageNo") int pageNo,
                                                             @RequestParam("pageSize") int pageSize) {

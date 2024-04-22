@@ -29,6 +29,7 @@ public class TicketTopicController {
                 .build());
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PutMapping("/saveTopic/{id}")
     public ResponseEntity<GlobalApiResponse> updateTicketTopic(@RequestBody TicketTopicRequest ticketTopicRequest,
                                                               @PathVariable int id) {
@@ -40,6 +41,7 @@ public class TicketTopicController {
                 .build());
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/getTopicById/{id}")
     public ResponseEntity<GlobalApiResponse> getTopicById(@PathVariable int id) {
         return ResponseEntity.ok(GlobalApiResponse
@@ -51,6 +53,7 @@ public class TicketTopicController {
                 .build());
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("getAllTopic")
     public ResponseEntity<GlobalApiResponse> getAllTopic(@RequestParam("pageNo") int pageNo,
                                                          @RequestParam("pageSize") int pageSize) {

@@ -27,21 +27,11 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     @Override
     @Transactional
     public void saveTicketCategory(TicketCategoryRequest ticketCategoryRequest) {
-        //TicketTopic ticketTopic = ticketTopicService.getTopicById(ticketCategoryRequest.getTicketTopic());
-//        TicketTopicResponse ticketTopicResponse = ticketTopicService
-//                .getTopicById(ticketCategoryRequest.getTicketTopic());
-//        TicketTopic ticketTopic = TicketTopic.builder()
-//                .id(ticketTopicResponse.getId())
-//                .topic(ticketTopicResponse.getTopic())
-//                .build();
         TicketCategory ticketCategory = TicketCategory
                 .builder()
                 .category(ticketCategoryRequest.getCategory())
                 .ticketTopic(ticketTopicService.getTopicById(ticketCategoryRequest.getTicketTopic()))
                 .build();
-//      To know about this concept
-//        TicketCategory ticketCategory = objectMapper.convertValue(ticketCategoryRequest, TicketCategory.class);
-//        ticketCategory.setTicketTopic(ticketTopic);
         ticketCategoryRepository.save(ticketCategory);
     }
 
