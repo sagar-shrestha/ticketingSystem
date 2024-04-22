@@ -1,6 +1,5 @@
 package com.cellpay.ticketingSystem.security.service;
 
-import com.cellpay.ticketingSystem.security.entity.CustomUserDetails;
 import com.cellpay.ticketingSystem.security.entity.Roles;
 import com.cellpay.ticketingSystem.security.entity.UserInfo;
 import com.cellpay.ticketingSystem.security.repository.UserInfoRepository;
@@ -12,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +25,7 @@ public class CustomUserDetailService implements UserDetailsService {
         UserInfo userInfo = userInfoRepository.findByUsername(username);
         Set<Roles> roles = userInfo.getRoles();
         List<? extends SimpleGrantedAuthority> mylist = roles.stream()
-                .map(data -> new SimpleGrantedAuthority("ROLE_" + data.getRole())).toList();
+                .map(data -> new SimpleGrantedAuthority(data.getRole())).toList();
         return User.withUsername(userInfo.getUsername()).password(userInfo.getPassword())
                 .authorities(mylist).build();
 
