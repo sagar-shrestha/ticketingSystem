@@ -16,7 +16,7 @@ public class TicketTopicController {
 
     private final TicketTopicService ticketTopicService;
 
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PostMapping("/saveTopic")
     public ResponseEntity<GlobalApiResponse> saveTicketTopic(
             @RequestBody TicketTopicRequest ticketTopicRequest) {

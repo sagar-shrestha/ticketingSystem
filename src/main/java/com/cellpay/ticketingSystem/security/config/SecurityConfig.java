@@ -63,7 +63,8 @@ public class SecurityConfig {
 //        return http.build();
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> {
-                    request.requestMatchers("/rest/**");
+                    request.requestMatchers("/super").permitAll();
+                    request.requestMatchers("/rest/**").hasAnyRole("SUPER_ADMIN");
                     request.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults()).build();
