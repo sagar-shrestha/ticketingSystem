@@ -45,7 +45,14 @@ public class SecurityConfig {
                     request.requestMatchers("/rest/**").hasAnyRole("SUPER_ADMIN", "ADMIN");
                     request.anyRequest().authenticated();
                 })
-                .httpBasic(Customizer.withDefaults()).build();
+//                .httpBasic(httpSecurityHttpBasicConfigurer -> {
+//                    httpSecurityHttpBasicConfigurer.
+//                })
+                .formLogin(httpSecurityFormLoginConfigurer -> {
+                    httpSecurityFormLoginConfigurer.loginPage("/login")
+                            .loginProcessingUrl("/userLogin").permitAll();
+                })
+                .build();
     }
 
     @Bean
