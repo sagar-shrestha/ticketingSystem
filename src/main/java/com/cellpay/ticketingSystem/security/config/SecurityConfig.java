@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
-@EnableMethodSecurity()
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final CustomUserDetailService customUserDetailService;
@@ -41,16 +41,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> {
+                    request.requestMatchers("/ticket/**").permitAll();
                     request.requestMatchers("/super").permitAll();
+                    request.requestMatchers("/assets/**").permitAll();
                     request.requestMatchers("/rest/**").hasAnyRole("SUPER_ADMIN", "ADMIN");
                     request.anyRequest().authenticated();
                 })
-//                .httpBasic(httpSecurityHttpBasicConfigurer -> {
-//                    httpSecurityHttpBasicConfigurer.
-//                })
                 .formLogin(httpSecurityFormLoginConfigurer -> {
-                    httpSecurityFormLoginConfigurer.loginPage("/login")
-                            .loginProcessingUrl("/userLogin").permitAll();
+                    httpSecurityFormLoginConfigurer
+                            .loginPage("/login")
+                            //      .loginProcessingUrl("userLogin")
+                            .permitAll();
                 })
                 .build();
     }
