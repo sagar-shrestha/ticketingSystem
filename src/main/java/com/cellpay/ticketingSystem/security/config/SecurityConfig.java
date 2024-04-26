@@ -44,13 +44,17 @@ public class SecurityConfig {
                     request.requestMatchers("/ticket/**").permitAll();
                     request.requestMatchers("/super").permitAll();
                     request.requestMatchers("/assets/**").permitAll();
-                    request.requestMatchers("/rest/**").hasAnyRole("SUPER_ADMIN", "ADMIN");
+                    request.requestMatchers("/layout_fragments/**").permitAll();
+                    request.requestMatchers("/error").permitAll();
+                    request.requestMatchers("/web/**").hasAnyRole("SUPER_ADMIN", "ADMIN");
+                  //  request.requestMatchers("/rest/**").hasAnyRole("SUPER_ADMIN", "ADMIN");
                     request.anyRequest().authenticated();
                 })
                 .formLogin(httpSecurityFormLoginConfigurer -> {
                     httpSecurityFormLoginConfigurer
                             .loginPage("/login")
-                            //      .loginProcessingUrl("userLogin")
+                            .loginProcessingUrl("/ticket/login")
+                           .defaultSuccessUrl("/web/home")
                             .permitAll();
                 })
                 .build();

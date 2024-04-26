@@ -25,7 +25,7 @@ public class CustomUserDetailService implements UserDetailsService {
         UserInfo userInfo = userInfoRepository.findByUsername(username);
         Set<Roles> roles = userInfo.getRoles();
         List<? extends SimpleGrantedAuthority> mylist = roles.stream()
-                .map(data -> new SimpleGrantedAuthority(data.getRole())).toList();
+                .map(data -> new SimpleGrantedAuthority("ROLE_" + data.getRole())).toList();
         return User.withUsername(userInfo.getUsername()).password(userInfo.getPassword())
                 .authorities(mylist).build();
 

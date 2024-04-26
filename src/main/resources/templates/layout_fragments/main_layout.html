@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" th:fragment="layout()" >
+<!--begin::Head-->
+
+<head>
+    <base href="">
+    <title>CellPay - CRM</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="CellPay - CRM" />
+    <meta name="keywords" content="CellPay, CRM" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="/assets/media/logos/favicon.ico" />
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Additional Links -->
+    <!-- <th:block th:replace="${links}" /> -->
+    <!--end::Additional Links -->
+    <!--begin::Global Style sheets Bundle(used by all pages)-->
+    <link th:href="@{/assets/plugins/global/plugins.bundle.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/style.bundle.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/custom.css}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.4/viewer.min.css">
+    <!--end::Global Style sheets Bundle-->
+
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed">
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+        <!--begin::Wrapper-->
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <!--begin::Header-->
+            <div th:replace="layout_fragments/navbar :: navbar"></div>
+            <!--end::Header-->
+            <!--begin::Content wrapper-->
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Aside-->
+                <div th:replace="layout_fragments/sidebar :: sidebar"></div>
+                <!--end::Aside-->
+                <!--begin::Container-->
+                <div class="d-flex flex-column flex-column-fluid container-fluid">
+                    <!--begin::Toolbar-->
+                    <div layout:fragment="toolbar">
+                    </div>
+                    <!--end::Toolbar-->
+                    <!--begin::Post-->
+                    <div class="content flex-column-fluid" id="kt_content">
+                        <!--begin::Content-->
+                        <div layout:fragment="contents">
+                        </div>
+                        <!--end::Content-->
+                    </div>
+                    <!--end::Post-->
+                    <!--begin::Footer-->
+                    <div th:replace="layout_fragments/footer :: footer"></div>
+                    <!--end::Footer-->
+                </div>
+                <!--end::Container-->
+            </div>
+            <!--end::Content wrapper-->
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+</div>
+<!--end::Root-->
+<!--end::Main-->
+
+<div id="spinner" class="fixed-top w-100 h-100 bg-dark bg-opacity-75">
+    <div class="position-absolute top-50 start-50 translate-middle"><span class="loader">Load&nbsp;ng</span></div>
+</div>
+
+<!--begin::Toast-->
+<!--<div th:replace="layout_fragments/toast :: toast(webResponse=${webResponse})"></div>  -->
+<!-- <div th:replace="${webResponse} ? ~{layout_fragments/toast :: toast(webResponse=${webResponse})} : ~{}"></div> -->
+<!--end::Toast-->
+
+<!--begin::Javascript-->
+<!--begin::Global Javascript Bundle(used by all pages)-->
+<script th:src="@{/assets/plugins/global/plugins.bundle.js}"></script>
+<script th:src="@{/assets/js/scripts.bundle.js}"></script>
+<!--end::Global Javascript Bundle-->
+
+<!--begin::Page Custom Javascript(used by this page)-->
+<script th:src="@{/assets/js/widgets.bundle.js}"></script>
+<!-- <script th:src="@{/assets/js/custom/toast.js}"></script> -->
+
+<script th:inline="javascript">
+    $(window).on('load', function () {
+        $('#spinner').hide(500);
+    })
+
+    /// GET USER SYMBOL
+    const userSymbol = /*[[${#authentication.details.name}]]*/'';
+
+
+
+
+    const splitData = userSymbol.toUpperCase().trim().split(" ")
+
+    let symbolFinal = "";
+
+    for (i = 0; i < splitData.length; i++) {
+        symbolFinal = symbolFinal + splitData[i][0]
+    }
+    document.getElementById('userFinalSymbol').innerHTML = symbolFinal;
+    document.getElementById('userFinalSymbol2').innerHTML = symbolFinal;
+    // END USER SYMBOL
+
+    let webResponse = /*[[${webResponse}]]*/'';
+    if(webResponse){
+        webResponse = JSON.parse(JSON.stringify(webResponse));
+        let status = webResponse.status ? "success" : "error";
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": false,
+            "positionClass": "toastr-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        toastr[status](webResponse.message);
+
+    }
+
+    let alertResponse = /*[[${alertResponse}]]*/'';
+    if(alertResponse){
+        alertResponse = JSON.parse(JSON.stringify(alertResponse));
+        let status = alertResponse.status ? "SUCCESS" : "ERROR";
+
+        Swal.fire({
+            text: alertResponse.message,
+            icon: status.toLowerCase(),
+            title: status,
+            reverseButtons: true,
+            buttonsStyling: false,
+            showCancelButton: false,
+
+            cancelButtonText: 'Cancel',
+            confirmButtonText: "Ok",
+            customClass: {
+                confirmButton: "btn btn-primary",
+                cancelButton: 'btn btn-light-primary'
+            }
+        });
+
+    }
+
+</script>
+
+
+
+
+<div layout:fragment="content-scripts">
+    <script th:src="@{/assets/js/custom.js}"></script>
+
+
+</div>
+<!--end::Page Custom Javascript-->
+<!--end::Javascript-->
+</body>
+<!--end::Body-->
+
+</html>
