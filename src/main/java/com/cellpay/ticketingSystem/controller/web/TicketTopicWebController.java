@@ -65,4 +65,10 @@ public class TicketTopicWebController {
                 .status(true)
                 .build());
     }
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @GetMapping("/user-management")
+    public String userManagement() {
+        return "user-management";
+    }
 }

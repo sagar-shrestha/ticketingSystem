@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html LANG="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-      layout:decorate="~{layout_fragments/main_layout}">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <!-- <head th:replace="base :: baseHeader(~{::title},~{::link})"> -->
 <!-- <head> -->
@@ -17,29 +16,30 @@
             display: none;
         }
     </style>
+    <title>Dashboard</title>
 </head>
 
 <body>
-
-<div layout:fragment="contents">
-    <!--begin::Row-->
+<div th:insert="~{layout_fragments/main_layout}"></div>
+<!--<div layout:fragment="contents">
+    &lt;!&ndash;begin::Row&ndash;&gt;
     <div class="row g-5 g-lg-10">
-        <!--begin::Col-->
+        &lt;!&ndash;begin::Col&ndash;&gt;
         <div class="col-xl-4 mb-xl-10">
-            <!--begin::Mixed Widget 18-->
+            &lt;!&ndash;begin::Mixed Widget 18&ndash;&gt;
             <div class="card h-md-100">
-                <!--begin::Beader-->
+                &lt;!&ndash;begin::Beader&ndash;&gt;
                 <div class="card-header border-0 py-5 bg-primary">
                     <h3 class="card-title align-items-start flex-column">
                         <span class="card-label fw-bolder fs-3 mb-1 text-white">CellPay Report</span>
                     </h3>
                 </div>
-                <!--end::Header-->
-                <!--begin::Body-->
+                &lt;!&ndash;end::Header&ndash;&gt;
+                &lt;!&ndash;begin::Body&ndash;&gt;
                 <div class="card-body p-0 d-flex flex-column">
                     <h1>Hello dashboard</h1>
-                    <!--begin::Items-->
-                   <!-- <div class="card-px pt-5 pb-10 flex-grow-1">
+                    &lt;!&ndash;begin::Items&ndash;&gt;
+                   &lt;!&ndash; <div class="card-px pt-5 pb-10 flex-grow-1">
                         &lt;!&ndash;begin::Item&ndash;&gt;
                         <div class="d-flex align-items-sm-center mb-4" sec:authorize="hasAnyRole('SUPER_ADMIN','VIEW_BANKS')">
                             &lt;!&ndash;begin::Symbol&ndash;&gt;
@@ -134,16 +134,16 @@
                             &lt;!&ndash;end::Section&ndash;&gt;
                         </div>
                         &lt;!&ndash;end::Item&ndash;&gt;
-                    </div>-->
-                    <!--end::Items-->
+                    </div>&ndash;&gt;
+                    &lt;!&ndash;end::Items&ndash;&gt;
                 </div>
-                <!--end::Body-->
+                &lt;!&ndash;end::Body&ndash;&gt;
             </div>
-            <!--end::Mixed Widget 18-->
+            &lt;!&ndash;end::Mixed Widget 18&ndash;&gt;
         </div>
-        <!--end::Col-->
-        <!--begin::Col-->
-       <!-- <div class="col-xl-4 mb-xl-10">
+        &lt;!&ndash;end::Col&ndash;&gt;
+        &lt;!&ndash;begin::Col&ndash;&gt;
+       &lt;!&ndash; <div class="col-xl-4 mb-xl-10">
             &lt;!&ndash;begin::Mixed Widget 18&ndash;&gt;
             <div class="card h-md-100">
                 &lt;!&ndash;begin::Beader&ndash;&gt;
@@ -258,12 +258,12 @@
                 &lt;!&ndash;end::Body&ndash;&gt;
             </div>
             &lt;!&ndash;end::Mixed Widget 18&ndash;&gt;
-        </div>-->
-        <!--end::Col-->
+        </div>&ndash;&gt;
+        &lt;!&ndash;end::Col&ndash;&gt;
     </div>
-    <!--end::Row-->
+    &lt;!&ndash;end::Row&ndash;&gt;
 
-</div>
+</div>-->
 
 <div layout:fragment="content-scripts">
 </div>

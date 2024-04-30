@@ -3,18 +3,18 @@
 <head>
     <base href="">
     <title>CellPay - Ticketing System</title>
-    <meta charset="utf-8" />
-    <meta name="description" content="CellPay - CRM" />
-    <meta name="keywords" content="CellPay, CRM" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" th:href="@{/assets/media/logos/favicon.ico}" />
+    <meta charset="utf-8"/>
+    <meta name="description" content="CellPay - CRM"/>
+    <meta name="keywords" content="CellPay, CRM"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" th:href="@{/assets/media/logos/favicon.ico}"/>
     <!--begin::Fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
     <!--end::Fonts-->
     <!--begin::Global Style sheets Bundle(used by all pages)-->
-    <link th:href="@{/assets/plugins/global/plugins.bundle.css}" rel="stylesheet" type="text/css" />
-    <link th:href="@{/assets/css/style.bundle.css}" rel="stylesheet" type="text/css" />
-    <link th:href="@{/assets/css/custom.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/plugins/global/plugins.bundle.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/css/style.bundle.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/assets/css/custom.css}" rel="stylesheet" type="text/css"/>
     <!--end::Global Style sheets Bundle-->
 </head>
 <!--end::Head-->
@@ -31,7 +31,7 @@
         <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
             <!--begin::Logo-->
             <a href="#" class="mb-12">
-                <img alt="Logo" th:src="@{/assets/media/CellPay.svg}" class="h-85px" />
+                <img alt="Logo" th:src="@{/assets/media/CellPay.svg}" class="h-85px"/>
             </a>
             <!--end::Logo-->
             <!--begin::Wrapper-->
@@ -51,8 +51,7 @@
                         <label class="form-label fs-6 fw-bolder text-dark">Email</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input class="form-control form-control-lg form-control-solid" type="text" name="username"
-                        />
+                        <input class="form-control form-control-lg form-control-solid" type="text" name="username"/>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
@@ -64,14 +63,14 @@
                             <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
                             <!--end::Label-->
                             <!--begin::Link-->
-                            <a th:href="@{/crm/forget/password}"
+                            <a th:href="@{/ticket/forget/password}"
                                class="link-primary fs-6 fw-bolder">Forgot Password ?</a>
                             <!--end::Link-->
                         </div>
                         <!--end::Wrapper-->
                         <!--begin::Input-->
                         <input class="form-control form-control-lg form-control-solid" type="password"
-                               name="password" />
+                               name="password"/>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->

@@ -42,7 +42,8 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers("/ticket/**").permitAll();
-                    request.requestMatchers("/super").permitAll();
+                    request.requestMatchers("/super/**").permitAll();
+                    request.requestMatchers("/rest/super").permitAll();
                     request.requestMatchers("/assets/**").permitAll();
                     request.requestMatchers("/layout_fragments/**").permitAll();
                     request.requestMatchers("/error").permitAll();
@@ -54,14 +55,14 @@ public class SecurityConfig {
                     httpSecurityFormLoginConfigurer
                             .loginPage("/login")
                             .loginProcessingUrl("/ticket/login")
-                           .defaultSuccessUrl("/web/home")
+                         //  .defaultSuccessUrl("/web/home")
                             .permitAll();
                 })
                 .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

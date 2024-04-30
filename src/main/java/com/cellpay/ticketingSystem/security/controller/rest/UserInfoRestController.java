@@ -1,29 +1,28 @@
-package com.cellpay.ticketingSystem.security.controller;
+package com.cellpay.ticketingSystem.security.controller.rest;
 
+import com.cellpay.ticketingSystem.common.annotations.CustomRestController;
 import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
 import com.cellpay.ticketingSystem.security.entity.UserInfo;
 import com.cellpay.ticketingSystem.security.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@CustomRestController
 @RequestMapping("/super")
 @RequiredArgsConstructor
-public class UserInfoController {
+public class UserInfoRestController {
 
     private final UserInfoService userInfoService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   //  @PreAuthorize("hasAuthority('SUPER_SUPER')")
     @PostMapping
-    public ResponseEntity<GlobalApiResponse> saveUserInfo(@RequestBody UserInfo userInfo) {
+    public ResponseEntity<GlobalApiResponse> saveRestUserInfo(@RequestBody UserInfo userInfo) {
         String password = userInfo.getPassword();
         userInfo.setPassword(bCryptPasswordEncoder.encode(password));
         userInfoService.saveUserInfo(userInfo);

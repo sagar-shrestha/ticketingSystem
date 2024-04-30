@@ -1,5 +1,5 @@
 <!--begin::Header-->
-<div id="kt_header" class="header bg-dark" th:fragment="layout(navbar)" xmlns:th="http://www.thymeleaf.org"
+<div id="kt_header" class="header bg-dark" th:fragment="navbar" xmlns:th="http://www.thymeleaf.org"
     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <!--begin::Container-->
     <div class="container-fluid d-flex flex-stack">
@@ -31,7 +31,7 @@
             <!--begin::Search-->
             <div id="kt_docs_search_handler_responsive" class="d-flex align-items-center w-lg-300px me-4" >
                 <!--begin::Form-->
-                <form th:action="@{/crm/memberDetails}" method="post" class="d-none d-lg-block w-100 position-relative mb-5 mb-lg-0" autocomplete="off">
+                <!--<form th:action="@{/crm/memberDetails}" method="post" class="d-none d-lg-block w-100 position-relative mb-5 mb-lg-0" autocomplete="off">
                     <span class="svg-icon svg-icon-2 svg-icon-lg-1 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-5">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor"></rect>
@@ -40,10 +40,10 @@
                     </span>
 
 
-                    <!--begin::Input-->
+                    &lt;!&ndash;begin::Input&ndash;&gt;
                     <input type="text" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 13' class="form-control bg-white border-0 ps-14" name="mobile" maxlength="10" placeholder="Enter Mobile Number" autocomplete="off"/>
-                    <!--end::Input-->
-                </form>
+                    &lt;!&ndash;end::Input&ndash;&gt;
+                </form>-->
                 <!--end::Form-->
             </div>
             <!--end::Search-->
@@ -104,7 +104,7 @@
                     <!--begin::Menu item-->
                     <!--  -->
                     <div class="menu-item px-5 my-1" sec:authorize="hasAnyAuthority('SUPER_ADMIN','CHANGE_PERSONAL_PASSWORD')">
-                        <a th:href="@{/crm/personal/changePassword}" class="menu-link px-5"><span class="mx-2 "><i class="fas fa-unlock-alt"></i></span> Change Password</a>
+                        <a th:href="@{/ticket/personal/changePassword}" class="menu-link px-5"><span class="mx-2 "><i class="fas fa-unlock-alt"></i></span> Change Password</a>
                     </div>
                     <!--end::Menu item-->
                     <!--begin::Menu separator-->
@@ -113,7 +113,7 @@
 
                     <!--begin::Menu item-->
                     <div class="menu-item px-5">
-                        <a th:href="@{/crm/logout}" class="menu-link px-5"><span class="mx-2"><i class="fas fa-sign-out-alt"></i></span> Sign Out</a>
+                        <a th:href="@{/ticket/logout}" class="menu-link px-5"><span class="mx-2"><i class="fas fa-sign-out-alt"></i></span> Sign Out</a>
                     </div>
                     <!--end::Menu item-->
                     <!--begin::Menu separator-->
@@ -126,7 +126,7 @@
         </div>
 
         </div>
-        <!--end::Topbar-->
+        <!--end::Top bar-->
     </div>
     <!--end::Container-->
 </div>

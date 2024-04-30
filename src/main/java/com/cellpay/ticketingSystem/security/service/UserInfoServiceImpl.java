@@ -3,6 +3,7 @@ package com.cellpay.ticketingSystem.security.service;
 import com.cellpay.ticketingSystem.security.entity.UserInfo;
 import com.cellpay.ticketingSystem.security.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +12,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 
 
     private final UserInfoRepository userInfoRepository;
-   //  private final BCryptPasswordEncoder bCryptPasswordEncoder;
+     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public void saveUserInfo(UserInfo userInfo) {

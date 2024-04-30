@@ -5,8 +5,8 @@
      data-kt-drawer-overlay="true"
      data-kt-drawer-width="{default:'200px', '300px': '250px'}"
      data-kt-drawer-direction="start"
-     data-kt-drawer-toggle="#kt_aside_toggle" th:fragment="layout(sidebar)"
-     xmlns:th="http://www.thymeleaf.org"
+     data-kt-drawer-toggle="#kt_aside_toggle" th:fragment="sidebar"
+     xmlns:th="http://www.w3.org/1999/xhtml"
      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <!--begin::Aside menu-->
     <div class="aside-menu flex-column-fluid px-5">
@@ -24,14 +24,14 @@
 
                 <div class="menu-item">
                     <div class="menu-content pt-8 pb-2">
-                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">CRM</span>
+                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Ticketing System</span>
                     </div>
                 </div>
                 <div data-kt-menu-trigger="click"
                      class="menu-item menu-accordion mb-1"
-                     sec:authorize="hasAnyRole('SUPER_ADMIN','VIEW_USER','VIEW_GROUP','VIEW_PERMISSION')"
-                     th:classappend="${#httpServletRequest.getRequestURI().startsWith('/crm/user-management') ? 'show':''}">
-					<span class="menu-link"> <span class="menu-icon"> <!--begin::Svg Icon | path: icons/duotune/general/gen051.svg-->
+                     th:href="@{/super/user-management}">
+                    <span class="menu-link">
+                     <span class="menu-icon"> <!--begin::Svg Icon | path: icons/duotune/general/gen051.svg-->
 							<span class="svg-icon svg-icon-2"> <svg
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none">
@@ -46,38 +46,21 @@
 					</span> <span class="menu-title">User Management</span> <span
                             class="menu-arrow"></span>
 					</span>
+
                     <div class="menu-sub menu-sub-accordion">
                         <div class="menu-item"
-                             sec:authorize="hasAnyRole('SUPER_ADMIN','VIEW_USER')">
+                             sec:authorize="hasAnyAuthority('SUPER_ADMIN','VIEW_USER')">
                             <a class="menu-link"
-                               th:href="@{/crm/user-management/searchUsers}"
-                               th:classappend="${#httpServletRequest.getRequestURI().startsWith('/crm/user-management/searchUsers') ? 'active':''}">
+                               th:href="@{/super/user-managements}">
 								<span class="menu-bullet"> <span
                                         class="bullet bullet-dot"></span>
 							</span> <span class="menu-title">Users</span>
                             </a>
                         </div>
-                        <div class="menu-item"
-                             sec:authorize="hasAnyRole('SUPER_ADMIN','VIEW_GROUP')">
-                            <a class="menu-link" th:href="@{/crm/user-management/listGroups}"
-                               th:classappend="${#httpServletRequest.getRequestURI().startsWith('/crm/user-management/listGroups') ? 'active':''}">
-								<span class="menu-bullet"> <span
-                                        class="bullet bullet-dot"></span>
-							</span> <span class="menu-title">Groups</span>
-                            </a>
-                        </div>
-                        <div class="menu-item"
-                             sec:authorize="hasAnyRole('SUPER_ADMIN','VIEW_PERMISSION')">
-                            <a class="menu-link"
-                               th:href="@{/crm/user-management/listPermissions}"
-                               th:classappend="${#httpServletRequest.getRequestURI().startsWith('/crm/user-management/listPermissions') ? 'active':''}">
-								<span class="menu-bullet"> <span
-                                        class="bullet bullet-dot"></span>
-							</span> <span class="menu-title">Permissions</span>
-                            </a>
-                        </div>
-                    </div>
+
                 </div>
+
+
                 <div class="menu-item">
                     <div class="menu-content">
                         <div class="separator mx-1 my-4"></div>
