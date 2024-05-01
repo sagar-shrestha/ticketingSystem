@@ -23,6 +23,7 @@
     <!--end::Global Style sheets Bundle-->
 </head>
 <body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed">
+<h1>Hello</h1>
 <!--begin::Main-->
 <!--begin::Root-->
 <div class="d-flex flex-column flex-root">
@@ -36,7 +37,7 @@
             <!--begin::Content wrapper-->
             <div class="d-flex flex-column-fluid">
                 <!--begin::Aside-->
-                <div th:insert="~{layout_fragments/sidebar :: sidebar}"></div>
+                <div th:replace="~{layout_fragments/sidebar :: sidebar}"></div>
                 <!--end::Aside-->
                 <!--begin::Container-->
                 <div class="d-flex flex-column flex-column-fluid container-fluid">
@@ -47,7 +48,7 @@
                     <!--begin::Post-->
                     <div class="content flex-column-fluid" id="kt_content">
                         <!--begin::Content-->
-                        <div layout:fragment="contents">
+                        <div th:replace="contents">
                         </div>
                         <!--end::Content-->
                     </div>

@@ -5,9 +5,11 @@ import com.cellpay.ticketingSystem.common.pojo.request.TicketTopicRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
 import com.cellpay.ticketingSystem.service.TicketTopicService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner.Mode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @CustomWebController
@@ -67,8 +69,16 @@ public class TicketTopicWebController {
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("/user-management")
-    public String userManagement() {
-        return "user-management";
+    @GetMapping("/ticket-management")
+    public String ticketManagement() {
+        return "ticket-topic";
+    }
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @GetMapping("/ticketTopic")
+    public String ticketTopic(Model model) {
+        String hello = "Hello World!";
+        model.addAttribute("hello", hello);
+        return "ticket-topic";
     }
 }
