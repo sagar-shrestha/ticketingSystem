@@ -1,23 +1,30 @@
-<!DOCTYPE HTML>
-<html LANG="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" >
-
-<!-- </head> -->
+<!DOCTYPE html>
+<html lang="en" th:replace="layout_fragments/base::layout(~{::body})">
 <head>
-    <style>
-        .accordion-button::after{
-            display: none;
-        }
-    </style>
-    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <title>Ticket Topic</title>
 </head>
+<body>
+<h1>Ticket Topic</h1>
+<section>
 
-<body th:replace="~{layout_fragments/main_layout}">
-<h1 th:fragment="contents">Hello</h1>
-
-<div layout:fragment="content-scripts">
-</div>
+    <form>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</section>
 
 </body>
-
 </html>

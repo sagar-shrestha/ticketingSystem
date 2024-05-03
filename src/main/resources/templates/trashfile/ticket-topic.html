@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html LANG="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" >
+
+<!-- </head> -->
+<head>
+    <style>
+        .accordion-button::after{
+            display: none;
+        }
+    </style>
+    <title>Dashboard</title>
+</head>
+
+<body th:replace="~{layout_fragments/main_layout}">
+<h1 th:fragment="contents">Hello</h1>
+
+<div layout:fragment="content-scripts">
+</div>
+
+</body>
+
+</html>
