@@ -9,13 +9,15 @@ import java.util.List;
 
 public interface TicketTopicService {
 
-void saveTicketTopic(TicketTopicRequest ticketTopicRequest);
+boolean saveTicketTopic(TicketTopicRequest ticketTopicRequest);
 
 TicketTopic updateTicketTopic(TicketTopicRequest ticketTopicRequest, int id);
 
 TicketTopic getTopicById(int id);
 
 Page<TicketTopic> getAllTopic(int pageNo, int pageSize);
+
+void removeSessionMessage();
 
 
 }
