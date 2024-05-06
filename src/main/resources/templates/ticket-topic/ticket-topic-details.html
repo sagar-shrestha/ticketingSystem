@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout_fragments/base::layout(~{::body})">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Topic Details</title>
+</head>
+<body>
+<h1>Ticket Topic Details</h1>
+<div>
+    <p><strong>Id:</strong> <span th:text="${ticketTopic.id}"></span></p>
+    <p><strong>Ticket Topic:</strong> <span th:text="${ticketTopic.topic}"></span></p>
+    <a class="btn btn-danger" th:href="@{/web/saveTopic/{id}(id=${ticketTopic.id})}">Update</a>
+</div>
+</body>
+</html>

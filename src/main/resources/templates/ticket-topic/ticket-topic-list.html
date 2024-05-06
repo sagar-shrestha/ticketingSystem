@@ -24,7 +24,8 @@
                         <td th:text="${i.count}"></td>
                         <td th:text="${data.topic}"></td>
                         <td>
-                            <a th:href="@{}"
+                            <a class="btn btn-primary" th:href="@{/web/getTopicById/{id}(id=${data.id})}">View</a>
+                            <a class="btn btn-danger" th:href="@{/web/saveTopic/{id}(id=${data.id})}">Update</a>
                         </td>
                     </tr>
                     </tbody>
@@ -32,6 +33,63 @@
             </div>
         </div>
     </div>
+
+    <div>
+        <ul class="pagination">
+            <li class="page-item" th:if="${pageNumber > 0}">
+                <a class="page-link" th:href="@{${'/web/getAllTopic?page='}+${pageNumber - 1}}">Previous</a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, totalPages - 1)}" class="page-item">
+                <a class="page-link" th:href="@{${'/web/getAllTopic?page='}+${page}}">[[${page}]]</a>
+            </li>
+            <li class="page-item" th:if="${pageNumber < (totalPages - 1)}">
+                <a class="page-link" th:href="@{${'/web/getAllTopic?page='}+${pageNumber + 1}}">Next</a>
+            </li>
+        </ul>
+    </div>
+
+<!--    <div>-->
+<!--        <ul class="pagination">-->
+<!--            <li th:if="${ticketTopics.hasPrevious()}" class="page-item">-->
+<!--                <a class="page-link" th:href="@{/?pageNo=${ticketTopics.getNumber() - 1}&pageSize=${ticketTopics.getSize()}}">Previous</a>-->
+<!--            </li>-->
+<!--            <li th:each="page : ${#numbers.sequence(0, ticketTopics.getTotalPages() - 1)}" class="page-item">-->
+<!--                <a class="page-link" th:href="@{/?pageNo=${page}&pageSize=${ticketTopics.getSize()}}">[[${page}]]</a>-->
+<!--            </li>-->
+<!--            <li th:if="${ticketTopics.hasNext()}" class="page-item">-->
+<!--                <a class="page-link" th:href="@{/?pageNo=${ticketTopics.getNumber() + 1}&pageSize=${ticketTopics.getSize()}}">Next</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+
+    <!--<nav aria-label="Pagination" th:if="${ticketTopics.getTotalPages() > 0}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${ticketTopics.getNumber() == 1} ? 'disabled'">
+                <a th:replace="/layout_fragments/paging :: paging(1, '<<', 'First Page')"></a>
+            </li>
+            <li class="page-item font-monospace" th:classappend="${ticketTopics.getNumber() == 1} ? 'disabled'">
+                <a th:replace="/layout_fragments/paging :: paging(${ticketTopics.getNumber() -1}, 'Prev', 'Previous Page')"></a>
+            </li>
+            <li class="page-item disabled" th:if="${ticketTopics.getNumber() - 2 > 1}">
+                <a class="page-link" href="#"></a>
+            </li>
+&lt;!&ndash;            <li class="page-item" th:classappend="${pageNo == ticketTopics.getNumber()} ? 'active'"&ndash;&gt;
+&lt;!&ndash;                th:each="page : ${#numbers.sequence(ticketTopics.getNumber() > 2 ? ticketTopics.getNumber() - 2 : 1,&ndash;&gt;
+&lt;!&ndash;                 ticketTopics.getNumber() + 2 < ticketTopics.getTotalPages() ? ticketTopics.getNumber() + 2 : ticketTopics.getTotalPages())}">&ndash;&gt;
+&lt;!&ndash;                <a th&ndash;&gt;
+&lt;!&ndash;            </li>&ndash;&gt;
+            <li class="page-item disabled" th:if="${ticketTopics.getNumber() + 2 < totalPages}">
+                <a class="page-link" href="#">...</a>
+            </li>
+            <li class="page-item font-weight-bold" th:classappend="${ticketTopics.getNumber() == ticketTopics.getTotalPages()} ? 'disabled'">
+                <a th:replace="layout_fragments/paging :: paging(${ticketTopics.getNumber() + 1},'Next', 'Next Page')"></a>
+            </li>
+            <li class="page-item" th:classappend="${ticketTopics.getNumber() == ticketTopics.getTotalPages()} ? 'disabled'">
+                <a th:replace="layout_fragments/paging :: paging(${ticketTopics.getTotalPages()}, '>>', 'Last Page')"></a>
+            </li>
+        </ul>
+
+    </nav>-->
 </section>
 </body>
 </html>
