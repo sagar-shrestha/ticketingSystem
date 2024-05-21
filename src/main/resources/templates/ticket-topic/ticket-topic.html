@@ -5,8 +5,8 @@
     <title>Ticket Topic</title>
 </head>
 <body>
-<section class="flex w-full justify-center">
-    <div class="flex w-9/12	shadow-lg mt-10 mb-10 p-4 border-2 rounded-md flex-col">
+<section class="container">
+    <div class="row">
                     <h1 class="w-full text-sky-700 text-center text-3xl font-semibold">Ticket Topic</h1>
 
 
@@ -16,27 +16,15 @@
 
                     </th:block>
 
-                    <div class="mt-4">
+        <div class="col">
+                    <div class="container-fluid">
                         <form action="/web/saveTopic" method="post">
                             <div class="mb-3">
-                                <input type="text" name="topic"
-                                                            class="w-full py-2 pl-10 pr-4 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500">
+                                <label for="exampleInputEmail1" class="form-label">Ticket Topic</label>
+                                <input type="text" class="form-control" id="ticket-topic" aria-describedby="ticket" >
+<!--                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
                             </div>
-                            <!--                            <div class="mb-3">-->
-                            <!--                                <label>Enter Email</label> <input type="text" name="email"-->
-                            <!--                                                                  class="form-control">-->
-                            <!--                            </div>-->
-
-                            <!--                            <div class="mb-3">-->
-                            <!--                                <label>Enter Mobile Number</label> <input type="number"-->
-                            <!--                                                                          name="mobileNo" class="form-control">-->
-                            <!--                            </div>-->
-
-                            <!--                            <div class="mb-3">-->
-                            <!--                                <label>Enter Password</label> <input type="text"-->
-                            <!--                                                                     name="password" class="form-control">-->
-                            <!--                            </div>-->
-                            <button class="w-full bg-sky-700 rounded-md text-white text-2xl py-2 hover:bg-sky-500 ease-in duration-300">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                 </div>
