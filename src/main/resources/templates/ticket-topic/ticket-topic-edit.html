@@ -7,11 +7,11 @@
 </head>
 <body>
 <h1>Edit Ticket Topic</h1>
-<form th:action="@{/web/saveTopic/{id}(id=${ticketTopic.id})}" method="post">
+<form th:action="@{/web/updateTopic}" method="post">
     <label>Id: </label>[[${ticketTopic.id}]]
     <div>
         <label for="topic">Topic:</label>
-        <input type="text" id="topic" th:field="*{name}"/>
+        <input type="text" id="topic" th:value="${ticketTopic.getTopic()}"/>
     </div>
     <div>
         <button type="submit">Update</button>

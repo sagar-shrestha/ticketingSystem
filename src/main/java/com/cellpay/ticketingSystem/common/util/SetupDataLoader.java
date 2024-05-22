@@ -8,7 +8,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private boolean alreadySetup = false;
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void onApplicationEvent(final ContextRefreshedEvent event) {
+
+        if (alreadySetup) {
+            return;
+        }
+
+
 
     }
 }

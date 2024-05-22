@@ -54,16 +54,22 @@ public class TicketTopicWebController {
 //    }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @PutMapping("/saveTopic/{id}")
-    public String updateTicketTopic(@ModelAttribute TicketTopicRequest ticketTopicRequest,
-                                                               @PathVariable int id, Model model) {
+    @PutMapping("/updateTopic")
+    public String updateTicketTopic(@RequestParam int id, @ModelAttribute TicketTopicRequest ticketTopicRequest,
+                                    Model model) {
         TicketTopic ticketTopic = ticketTopicService.updateTicketTopic(ticketTopicRequest, id);
         model.addAttribute("ticketTopic", ticketTopic);
         model.addAttribute("message", "Topic Updated Successfully.");
 //        return "redirect:/web/getTopicById/" + id;
+        return "/ticket-topic/ticket-topic-list";
+    }
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @GetMapping("/updateTopicById/{id}")
+    public String updateTopicById(@PathVariable int id, Model model) {
+        TicketTopic ticketTopic = ticketTopicService.getTopicById(id);
+        model.addAttribute("ticketTopic", ticketTopic);
         return "/ticket-topic/ticket-topic-edit";
-
-
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")

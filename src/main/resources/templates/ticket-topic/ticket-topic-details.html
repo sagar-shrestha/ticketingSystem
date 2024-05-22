@@ -10,7 +10,7 @@
 <div>
     <p><strong>Id:</strong> <span th:text="${ticketTopic.id}"></span></p>
     <p><strong>Ticket Topic:</strong> <span th:text="${ticketTopic.topic}"></span></p>
-    <a class="btn btn-danger" th:href="@{/web/saveTopic/{id}(id=${ticketTopic.id})}">Update</a>
+    <a class="btn btn-danger" th:href="@{/web/updateTopicById/{id}(id=${ticketTopic.id})}">Update</a>
 </div>
 </body>
 </html>
