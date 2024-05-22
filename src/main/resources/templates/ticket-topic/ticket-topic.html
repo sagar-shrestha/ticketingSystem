@@ -5,31 +5,32 @@
     <title>Ticket Topic</title>
 </head>
 <body>
-<section class="container">
-    <div class="row">
-                    <h1 class="w-full text-sky-700 text-center text-3xl font-semibold">Ticket Topic</h1>
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h1 class="card-title mb-4">Ticket Topic</h1>
 
 
-                    <th:block th:if="${session.sessionMessage}">
-                        <p class="text-center text-success fs-4">[[${session.sessionMessage}]]</p>
-                                                <th:block th:text="${@ticketTopicServiceImpl.removeSessionMessage()}"></th:block>
+            <th:block th:if="${session.sessionMessage}">
+                <p class="text-center text-success fs-4">[[${session.sessionMessage}]]</p>
+                <th:block th:text="${@ticketTopicServiceImpl.removeSessionMessage()}"></th:block>
 
-                    </th:block>
+            </th:block>
 
-        <div class="col">
-                    <div class="container-fluid">
-                        <form action="/web/saveTopic" method="post">
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Ticket Topic</label>
-                                <input type="text" class="form-control" id="ticket-topic" aria-describedby="ticket" >
-<!--                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
+
+                    <form action="/web/saveTopic" method="post">
+                        <div class="mb-3">
+                            <label for="ticket-topic" class="form-label">Ticket Topic</label>
+                            <input type="text" class="form-control" id="ticket-topic" aria-describedby="ticket" >
+                            <!--                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+
+        </div>
+
     </div>
-</section>
+</div>
 
 </body>
 </html>

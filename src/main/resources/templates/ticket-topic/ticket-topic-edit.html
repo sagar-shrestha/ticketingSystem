@@ -6,16 +6,25 @@
     <title>Ticket Topic Edit</title>
 </head>
 <body>
-<h1>Edit Ticket Topic</h1>
-<form th:action="@{/web/updateTopic}" method="post">
-    <label>Id: </label>[[${ticketTopic.id}]]
-    <div>
-        <label for="topic">Topic:</label>
-        <input type="text" id="topic" th:value="${ticketTopic.getTopic()}"/>
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h1 class="card-title mb-4">Edit Ticket Topic</h1>
+            <form th:action="@{/web/updateTopic}" method="post">
+                <div class="mb-3">
+                    <label for="id" class="form-label">Id:</label>
+                    <input type="text" id="id" class="form-control" readonly th:value="${ticketTopic.id}"/>
+                </div>
+                <div class="mb-3">
+                    <label for="topic" class="form-label">Topic:</label>
+                    <input type="text" id="topic" class="form-control" th:value="${ticketTopic.getTopic()}"/>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-danger">Update</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <button type="submit">Update</button>
-    </div>
-</form>
+</div>
 </body>
 </html>
