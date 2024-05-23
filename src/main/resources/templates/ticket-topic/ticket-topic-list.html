@@ -15,38 +15,74 @@
                 <thead>
                 <tr>
                     <th scope="col">S.NO.</th>
-                    <th scope="col">Ticket Topic</th>
+<!--                    <th scope="col">Ticket Topic</th>-->
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="data, i : ${ticketTopics}">
                     <th scope="row" th:text="${i.count}"></th>
+<!--                    <td scope="row" th:text="${data.getId()}"></td>-->
                     <td th:text="${data.getTopic()}"></td>
                     <td>
                         <a class="btn btn-primary" th:href="@{/web/getTopicById/{id}(id=${data.getId()})}">View</a>
-                        <a class="btn btn-danger" th:href="@{/web/updateTopicById/{id}(id=${data.getId()})}">Update</a>
+                        <a class="btn btn-outline-primary" th:href="@{/web/updateTopicById/{id}(id=${data.getId()})}">Edit</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-end">
-                <li class="page-item" th:if="${pageNumber > 0}">
-                    <a class="page-link"
-                       th:href="@{${'/web/getAllTopic?pageNumber='}+${pageNumber}+${'&pageSize='}+${pageSize}}">Previous</a>
-                </li>
-                <li th:each="page: ${#numbers.sequence(1, totalPages)}" class="page-item">
-                    <a class="page-link"
-                       th:href="@{${'/web/getAllTopic?pageNumber='}+${page}+${'&pageSize='}+${pageSize}}">[[${page}]]</a>
-                </li>
-                <li class="page-item" th:if="${pageNumber < (totalPages - 1)}">
-                    <a class="page-link"
-                       th:href="@{${'/web/getAllTopic?pageNumber='}+${pageNumber + 1}+${'&pageSize='}+${pageSize}}">Next</a>
-                </li>
-            </ul>
-        </nav>
+<!--        <div class="row mb-5">-->
+<!--            <div class="col-2">-->
+<!--                <form th:action="@{${'/web/getAllTopic?pageNumber='}+${pageNumber}+${'&pageSize='}+${pageSize}}">-->
+<!--                    <label class="form-label">Page:</label>-->
+<!--                    <select class="form-select" aria-label="Default select example">-->
+<!--                        <option value="10" selected>10</option>-->
+<!--                        <option value="20">20</option>-->
+<!--                        <option value="30">30</option>-->
+<!--                    </select>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="row mb-5">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-auto">
+                        <form th:action="@{${'/web/getAllTopic?pageNumber='}+${pageNumber}+${'&pageSize='}}" method="get">
+                            <div class="input-group">
+                                <span class="input-group-text">Page No:</span>
+                                <select class="form-select" aria-label="Page Size Select" name="pageSize">
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary">Go</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item" th:if="${pageNumber > 0}">
+                            <a class="page-link"
+                               th:href="@{${'/web/getAllTopic?pageNumber='}+${pageNumber}+${'&pageSize='}+${pageSize}}">Previous</a>
+                        </li>
+                        <li th:each="page: ${#numbers.sequence(1, totalPages)}" class="page-item">
+                            <a class="page-link"
+                               th:href="@{${'/web/getAllTopic?pageNumber='}+${page}+${'&pageSize='}+${pageSize}}">[[${page}]]</a>
+                        </li>
+                        <li class="page-item" th:if="${pageNumber < (totalPages - 1)}">
+                            <a class="page-link"
+                               th:href="@{${'/web/getAllTopic?pageNumber='}+${pageNumber + 1}+${'&pageSize='}+${pageSize}}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
     </div>
 </div>
 
