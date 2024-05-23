@@ -15,7 +15,7 @@ TicketTopic updateTicketTopic(TicketTopicRequest ticketTopicRequest, int id);
 
 TicketTopic getTopicById(int id);
 
-Page<TicketTopic> getAllTopic(int pageNo, int pageSize);
+Page<TicketTopic> getAllTopic(int pageNumber, int pageSize);
 
 void removeSessionMessage();
 

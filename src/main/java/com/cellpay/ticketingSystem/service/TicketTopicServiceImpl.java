@@ -47,8 +47,8 @@ public class TicketTopicServiceImpl implements TicketTopicService {
     }
 
     @Override
-    public Page<TicketTopic> getAllTopic(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("topic"));
+    public Page<TicketTopic> getAllTopic(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of((pageNumber - 1), pageSize, Sort.by("topic"));
         return ticketTopicRepository.findAll(pageable);
     }
 

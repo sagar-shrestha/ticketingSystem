@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="layout_fragments/base::layout(~{::body})">
+<html th:replace="layout_fragments/base::layout(~{::body})" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Ticket Topic</title>
@@ -18,15 +18,13 @@
             </th:block>
 
 
-                    <form action="/web/saveTopic" method="post">
-                        <div class="mb-3">
-                            <label for="ticket-topic" class="form-label">Ticket Topic</label>
-                            <input type="text" class="form-control" id="ticket-topic" aria-describedby="ticket" >
-                            <!--                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-
+            <form action="/web/saveTopic" method="post">
+                <div class="mb-3">
+                    <label for="ticket-topic" class="form-label">Ticket Topic</label>
+                    <input type="text" class="form-control" name="topic" id="ticket-topic" aria-describedby="ticket">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
 
     </div>

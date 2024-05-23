@@ -6,15 +6,11 @@
     <title>Ticket Topic Details</title>
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="mb-4">Ticket Topic Details</h1>
-    <div class="card">
-        <div class="card-body">
-            <p class="card-text"><strong>Id:</strong> <span th:text="${ticketTopic.id}"></span></p>
-            <p class="card-text"><strong>Ticket Topic:</strong> <span th:text="${ticketTopic.topic}"></span></p>
-            <a class="btn btn-primary" th:href="@{/web/updateTopicById/{id}(id=${ticketTopic.id})}">Edit</a>
-        </div>
-    </div>
+<h1>Ticket Topic Details</h1>
+<div>
+    <p><strong>Id:</strong> <span th:text="${ticketTopic.getId()}"></span></p>
+    <p><strong>Ticket Topic:</strong> <span th:text="${ticketTopic.getTopic()}"></span></p>
+    <a class="btn btn-danger" th:href="@{/web/updateTopicById/{id}(id=${ticketTopic.getId()})}">Update</a>
 </div>
 </body>
 </html>
