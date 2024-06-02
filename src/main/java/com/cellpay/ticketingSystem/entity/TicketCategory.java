@@ -17,8 +17,8 @@ public class TicketCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String category;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ticket_topic", foreignKey = @ForeignKey(name = "fk_ticket_topic_id"),
-    referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "ticket_topic", foreignKey = @ForeignKey(name = "fk_ticket_topic_id"))
     private TicketTopic ticketTopic;
+
 }

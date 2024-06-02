@@ -2,69 +2,51 @@ package com.cellpay.ticketingSystem.controller.web;
 
 import com.cellpay.ticketingSystem.common.annotations.CustomWebController;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketCategoryRequest;
-import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
+import com.cellpay.ticketingSystem.entity.TicketCategory;
+import com.cellpay.ticketingSystem.entity.TicketTopic;
 import com.cellpay.ticketingSystem.service.TicketCategoryService;
+import com.cellpay.ticketingSystem.service.TicketTopicService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CustomWebController
 @RequiredArgsConstructor
 public class TicketCategoryWebController {
-
     private final TicketCategoryService ticketCategoryService;
+    private final TicketTopicService ticketTopicService;
+
+
+    @GetMapping("/CategoriesForm")
+    public String showTicketCategoryForm(Model model) {
+        List<TicketTopic> ticketTopics = ticketTopicService.getAllTicketTopics();
+        model.addAttribute("ticketTopics", ticketTopics);
+        model.addAttribute("ticketCategoryRequest", new TicketCategoryRequest());
+        return "/Category_file/Categories_ticketing";
+    }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PostMapping("/saveTicketCategory")
-    public ResponseEntity<GlobalApiResponse> saveTicketCategory(@RequestBody TicketCategoryRequest
-                                                                        ticketCategoryRequest) {
-        ticketCategoryService.saveTicketCategory(ticketCategoryRequest);
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.CREATED.value())
-                .data(null)
-                .message("TicketCategory saved successfully")
-                .status(true)
-                .build());
+    public String saveTicketCategory(@ModelAttribute TicketCategoryRequest ticketCategoryRequest, Model model, HttpSession session) {
+        if (ticketCategoryService.saveTicketCategory(ticketCategoryRequest)){
+            session.setAttribute("Message","Successfuly saved Category");
+        }
+        else {
+            session.setAttribute("Message", "Something went Wrong");
+        }
+        return "/Category_file/Categories_ticketing";
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @PutMapping("/saveTicketCategory/{id}")
-    public ResponseEntity<GlobalApiResponse> updateTicketCategory(@RequestBody TicketCategoryRequest ticketCategoryRequest,
-                                                                  @PathVariable int id) {
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.OK.value())
-                .data(ticketCategoryService.updateTicketCategory(ticketCategoryRequest, id))
-                .message("TicketCategory updated successfully")
-                .status(true)
-                .build());
+    @GetMapping("/categories")
+    public String listCategories(@RequestParam(defaultValue = "0") int page, Model model) {
+        Page<TicketCategory> categories = ticketCategoryService.getAllCategory(page, 10);
+        model.addAttribute("categories", categories);
+        return "/Category_file/Categories_list";
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("getCategoryById/{id}")
-    public ResponseEntity<GlobalApiResponse> getCategoryById(@PathVariable int id) {
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.OK.value())
-                .data(ticketCategoryService.getCategoryById(id))
-                .message("Ticket Category Found Successfully.")
-                .status(true)
-                .build());
-    }
-
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("getAllCategory")
-    public ResponseEntity<GlobalApiResponse> getAllCategory(@RequestParam("pageNo") int pageNo,
-                                                            @RequestParam("pageSize") int pageSize) {
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.OK.value())
-                .data(ticketCategoryService.getAllCategory(pageNo, pageSize))
-                .message("Ticket Category Found Successfully.")
-                .status(true)
-                .build());
-    }
 }

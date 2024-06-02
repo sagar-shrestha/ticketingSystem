@@ -10,6 +10,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketTopicRequest implements Serializable {
-
     private String topic;
 }

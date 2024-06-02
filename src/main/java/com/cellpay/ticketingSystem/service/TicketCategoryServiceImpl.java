@@ -1,10 +1,12 @@
 package com.cellpay.ticketingSystem.service;
 
 import com.cellpay.ticketingSystem.common.pojo.request.TicketCategoryRequest;
+import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.entity.TicketCategory;
 import com.cellpay.ticketingSystem.repository.TicketCategoryRepository;
 import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,8 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
 
-import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -24,15 +27,22 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     private final ObjectMapper objectMapper;
     private final TicketTopicService ticketTopicService;
 
+
+    @Override
+    public boolean saveTicketCategory(TicketRequest ticketCategoryRequest) {
+        return false;
+    }
+
     @Override
     @Transactional
-    public void saveTicketCategory(TicketCategoryRequest ticketCategoryRequest) {
+    public boolean saveTicketCategory(TicketCategoryRequest ticketCategoryRequest) {
         TicketCategory ticketCategory = TicketCategory
                 .builder()
                 .category(ticketCategoryRequest.getCategory())
                 .ticketTopic(ticketTopicService.getTopicById(ticketCategoryRequest.getTicketTopic()))
                 .build();
         ticketCategoryRepository.save(ticketCategory);
+        return false;
     }
 
     @Override
@@ -59,4 +69,15 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("category").ascending());
         return ticketCategoryRepository.findAll(pageable);
     }
+
+
+
+
+
+    public void removeSessionMessage() {
+        HttpSession httpSession = (HttpSession) ((Objects.requireNonNull(RequestContextHolder.getRequestAttributes())))
+                .getSessionMutex();
+        httpSession.removeAttribute("sessionMessage");
+    }
+
 }

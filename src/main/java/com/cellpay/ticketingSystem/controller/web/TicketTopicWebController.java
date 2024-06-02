@@ -1,8 +1,10 @@
 package com.cellpay.ticketingSystem.controller.web;
 
 import com.cellpay.ticketingSystem.common.annotations.CustomWebController;
+import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketTopicRequest;
 import com.cellpay.ticketingSystem.entity.TicketTopic;
+import com.cellpay.ticketingSystem.service.TicketCategoryService;
 import com.cellpay.ticketingSystem.service.TicketTopicService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +42,7 @@ public class TicketTopicWebController {
         return "redirect:/web/getAllTopic";
     }
 
+
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/updateTopicById/{id}")
     public String updateTopicById(@PathVariable int id, Model model) {
@@ -71,9 +74,15 @@ public class TicketTopicWebController {
         return "/ticket-topic/ticket-topic-list";
     }
 
+
+
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/ticketTopic")
     public String ticketManagement() {
         return "/ticket-topic/ticket-topic";
     }
+
+
+
+
 }

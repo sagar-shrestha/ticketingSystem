@@ -19,4 +19,5 @@ public class TicketRequest {
     private int ticketCategory;
     private String description;
     private List<MultipartFile> images;
+    private TicketTopicRequest ticketTopicRequest;
 }
