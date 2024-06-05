@@ -2,58 +2,66 @@ package com.cellpay.ticketingSystem.controller.web;
 
 import com.cellpay.ticketingSystem.common.annotations.CustomWebController;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
-import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
+import com.cellpay.ticketingSystem.common.pojo.response.TicketResponse;
+import com.cellpay.ticketingSystem.entity.Ticket;
+import com.cellpay.ticketingSystem.entity.TicketCategory;
+import com.cellpay.ticketingSystem.entity.TicketTopic;
+import com.cellpay.ticketingSystem.service.TicketCategoryService;
 import com.cellpay.ticketingSystem.service.TicketService;
+import com.cellpay.ticketingSystem.service.TicketTopicService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.MalformedURLException;
+import java.util.List;
 
 @CustomWebController
 @RequiredArgsConstructor
 public class TicketWebController {
 
     private final TicketService ticketService;
+    private final TicketTopicService ticketTopicService;
+    private  final TicketCategoryService ticketCategoryService;
+
+
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @PostMapping(value = "/saveTicket", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<GlobalApiResponse> saveTicket(@ModelAttribute TicketRequest ticketRequestPojo) throws Exception {
-        ticketService.saveTicket(ticketRequestPojo);
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.CREATED.value())
-                .data(null)
-                .message("Ticket Saved Successfully.")
-                .status(true)
-                .build());
+    @GetMapping("/AddTicketing")
+    public String ticketing(Model model) {
+        List<TicketTopic> ticketTopics = ticketTopicService.getAllTicketTopics();
+        List<TicketCategory> ticketCategories = ticketCategoryService.getAllCategory();
+        model.addAttribute("ticketRequestPojo", new TicketRequest());
+        model.addAttribute("ticketTopics", ticketTopics);
+        model.addAttribute("ticketCategories", ticketCategories);
+
+        return "/Ticket/ticketing";
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @PutMapping("saveTicket/{id}")
-    public ResponseEntity<GlobalApiResponse> updateTicket(@ModelAttribute TicketRequest ticketRequestPojo, @PathVariable Long id) throws Exception {
-        ticketService.updateTicket(ticketRequestPojo, id);
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.OK.value())
-                .data(null)
-                .message("Ticket Updated Successfully.")
-                .status(true)
-                .build());
+    @PostMapping("/saveTicketing")
+    public String saveTicket(@ModelAttribute TicketRequest ticketRequestPojo, Model model, HttpSession session) throws Exception {
+        try {
+            ticketService.saveTicket(ticketRequestPojo);
+            session.setAttribute("sessionMessage", "Ticket saved successfully.");
+        } catch (Exception e) {
+            session.setAttribute("sessionMessage", "Cannot save ticket.");
+            e.printStackTrace(); // Log the exception stack trace
+        }
+        model.addAttribute("ticketRequestPojo", ticketRequestPojo);
+        return "Ticket/ticketing";
     }
 
+
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("getTicketById/{id}")
-    public ResponseEntity<GlobalApiResponse> getTicketById(@PathVariable Long id) throws MalformedURLException {
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.OK.value())
-                .data(ticketService.getTicketById(id))
-                .message("Ticket Found Successfully.")
-                .status(true)
-                .build());
+    @GetMapping("/ListTicketing")
+    public String getTickets(Model model) {
+        List<TicketResponse> tickets = ticketService.getAllTickets();
+        model.addAttribute("tickets", tickets);
+        return "Ticket/ticketing-list";
     }
+
 }

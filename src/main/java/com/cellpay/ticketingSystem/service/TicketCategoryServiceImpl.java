@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -71,8 +72,10 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     }
 
 
-
-
+    @Override
+    public List<TicketCategory> getAllCategory() {
+        return ticketCategoryRepository.findAll();
+    }
 
     public void removeSessionMessage() {
         HttpSession httpSession = (HttpSession) ((Objects.requireNonNull(RequestContextHolder.getRequestAttributes())))

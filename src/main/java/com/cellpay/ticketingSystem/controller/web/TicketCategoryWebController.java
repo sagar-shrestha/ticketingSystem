@@ -42,11 +42,11 @@ public class TicketCategoryWebController {
         return "/Category_file/Categories_ticketing";
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/categories")
     public String listCategories(@RequestParam(defaultValue = "0") int page, Model model) {
         Page<TicketCategory> categories = ticketCategoryService.getAllCategory(page, 10);
         model.addAttribute("categories", categories);
         return "/Category_file/Categories_list";
     }
-
 }

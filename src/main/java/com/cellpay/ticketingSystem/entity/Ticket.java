@@ -22,5 +22,7 @@ public class  Ticket {
             referencedColumnName = "id")
     private TicketCategory ticketCategory;
     private String description;
+//    @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<TicketImage> images;
 
 }
