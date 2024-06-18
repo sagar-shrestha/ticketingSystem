@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,4 +26,8 @@ public class TicketImageServiceImpl implements TicketImageService {
     public void getTicketImageById(int imageId, HttpServletResponse httpServletResponse) throws IOException {
         ticketImageHelper.getTicketImageById(imageId, httpServletResponse);
     }
+
+
+
+
 }
