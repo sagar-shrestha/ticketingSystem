@@ -19,4 +19,6 @@ public class TicketImage {
     @ManyToOne
     @JoinColumn
     private Ticket ticket;
+
+//
 }

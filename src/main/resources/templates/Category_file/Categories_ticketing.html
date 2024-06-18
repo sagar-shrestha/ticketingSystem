@@ -12,35 +12,40 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Create Category</h4>
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">Create Category</h4>
                 </div>
+                <div class="card-body">
 
-                <th:block th:if="${session.sessionMessage}">
-                    <p class="text-center text-success fs-4">[[${session.sessionMessage}]]</p>
-                    <th:block th:text="${@ticketCategoryServiceImpl.removeSessionMessage()}"></th:block>
-                </th:block>
+                    <th:block th:if="${session.sessionMessage}">
+                        <p class="text-center text-success fs-4">[[${session.sessionMessage}]]</p>
+                        <th:block th:text="${@ticketCategoryServiceImpl.removeSessionMessage()}"></th:block>
+                    </th:block>
 
-                <form th:action="@{/web/saveTicketCategory}" th:object="${ticketCategoryRequest}" method="post">
-                    <div>
-                        <label for="ticketTopic">Ticket Topic:</label>
-                        <select id="ticketTopic" th:field="*{ticketTopic}">
-                            <option th:each="topic : ${ticketTopics}" th:value="${topic.id}" th:text="${topic.getTopic()}"></option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="category">Category:</label>
-                        <input type="text" id="category" th:field="*{category}"/>
-                    </div>
-                    <div>
-                        <button type="submit">Save</button>
-                    </div>
-                </form>
-
-
+                    <form th:action="@{/web/saveTicketCategory}" th:object="${ticketCategoryRequest}" method="post">
+                        <div class="form-group">
+                            <label for="ticketTopic">Ticket Topic:</label>
+                            <select id="ticketTopic" th:field="*{ticketTopic}" class="form-control">
+                                <option th:each="topic : ${ticketTopics}" th:value="${topic.id}" th:text="${topic.topic}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category:</label>
+                            <input type="text" id="category" th:field="*{category}" class="form-control"/>
+                        </div>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

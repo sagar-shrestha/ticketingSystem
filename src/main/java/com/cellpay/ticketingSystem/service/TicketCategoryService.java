@@ -6,6 +6,8 @@ import com.cellpay.ticketingSystem.entity.TicketCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface TicketCategoryService {
     boolean saveTicketCategory(TicketRequest ticketCategoryRequest);
 
@@ -17,5 +19,5 @@ public interface TicketCategoryService {
     TicketCategory getCategoryById(int id);
 
     Page<TicketCategory> getAllCategory(int pageNo, int pageSize);
-
+    List<TicketCategory> getAllCategory();
 }

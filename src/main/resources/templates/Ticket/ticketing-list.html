@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout_fragments/base::layout(~{::body})}">
 <head>
     <meta charset="UTF-8">
-    <title>Ticket Category List</title>
+    <title>Ticket List</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -34,29 +34,40 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <h1 class="card-title mb-0">Categories List</h1>
+                        <h1 class="card-title mb-0">Ticket List</h1>
                     </div>
                     <div class="card-body p-0">
                         <table class="table table-striped table-bordered text-center custom-table">
                             <thead class="thead-dark">
                             <tr>
-                                <th>Category</th>
+                                <th>ID</th>
+                                <th>Ticket Category</th>
                                 <th>Ticket Topic</th>
+                                <th>Description</th>
+                                <th>Images</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="data, i : ${categories}">
-                                <td th:text="${data.category}"></td>
-                                <td th:text="${data.ticketTopic.topic}"></td>
+                            <tr th:each="ticket, i : ${tickets}">
+                                <td th:text="${ticket.getId()}"></td>
+                                <td th:text="${ticket.getTicketCategory().category}"></td>
+                                <td th:text="${ticket.getTicketCategory().getTicketTopic().topic}"></td>
+
+                                <td th:text="${ticket.getDescription()}"></td>
+                                <td>
+                                    <div th:each="image : ${ticket.imageId}">
+                                        <img th:src="@{${image}}" alt="Ticket Image" class="img-thumbnail" style="max-width: 70px; max-height: 70px;"/>
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <a th:href="@{/categories?page=${categories.number - 1}}" th:if="${categories.hasPrevious()}" class="btn btn-primary">Previous</a>
-                        <span>Page <span th:text="${categories.number + 1}"></span> of <span th:text="${categories.totalPages}"></span></span>
-                        <a th:href="@{/categories?page=${categories.number + 1}}" th:if="${categories.hasNext()}" class="btn btn-primary">Next</a>
-                    </div>
+<!--                    <div class="card-footer d-flex justify-content-between">-->
+<!--                        <a th:href="@{/tickets?page=${tickets.number - 1}}" th:if="${tickets.hasPrevious()}" class="btn btn-primary">Previous</a>-->
+<!--                        <span>Page <span th:text="${tickets.number + 1}"></span> of <span th:text="${tickets.totalPages}"></span></span>-->
+<!--                        <a th:href="@{/tickets?page=${tickets.number + 1}}" th:if="${tickets.hasNext()}" class="btn btn-primary">Next</a>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -65,7 +76,6 @@
 
 <!-- Bootstrap JS, Popper.js, and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

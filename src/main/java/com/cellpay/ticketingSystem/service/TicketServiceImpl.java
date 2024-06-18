@@ -9,11 +9,15 @@ import com.cellpay.ticketingSystem.helper.TicketHelper;
 import com.cellpay.ticketingSystem.repository.TicketImageRepository;
 import com.cellpay.ticketingSystem.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +31,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void saveTicket(TicketRequest ticketRequestPojo) throws Exception {
+    public boolean saveTicket(TicketRequest ticketRequestPojo) throws Exception {
         Ticket ticket = ticketRepository.save(Ticket
                 .builder()
                 .ticketCategory(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory()))
@@ -43,6 +47,7 @@ public class TicketServiceImpl implements TicketService {
                     .build();
             ticketImageRepository.save(ticketImage);
         }
+        return false;
     }
 
     @Override
@@ -96,6 +101,11 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public TicketResponse getTicketById(Long id) throws MalformedURLException {
         return ticketHelper.getTicketById(id);
+    }
+
+    @Override
+    public List<TicketResponse> getAllTickets() throws SpelEvaluationException {
+        return ticketHelper.getAllTickets();
     }
 
 }

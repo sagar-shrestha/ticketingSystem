@@ -21,4 +21,12 @@ public class TicketCategory {
     @JoinColumn(name = "ticket_topic", foreignKey = @ForeignKey(name = "fk_ticket_topic_id"))
     private TicketTopic ticketTopic;
 
+    @Override
+    public String toString() {
+        return "TicketCategory{" +
+                "id=" + id +
+                ", category='" + category + '\'' +
+                ", ticketTopic=" + ticketTopic +
+                '}';
+    }
 }
