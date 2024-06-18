@@ -55,8 +55,8 @@
 
                                 <td th:text="${ticket.getDescription()}"></td>
                                 <td>
-                                    <div th:each="image : ${ticket.imageId}">
-                                        <img th:src="@{${image}}" alt="Ticket Image" class="img-thumbnail" style="max-width: 70px; max-height: 70px;"/>
+                                    <div th:each="image : ${ticket.getImageId()}">
+                                        <img th:src="@{${image.BYTES}}" alt="Ticket Image" class="img-thumbnail" style="max-width: 70px; max-height: 70px;"/>
                                     </div>
                                 </td>
                             </tr>
