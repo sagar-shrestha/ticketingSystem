@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout_fragments/base::layout(~{::body})}" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Update Profile</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<section>
+    <div class="container mt-3">
+        <h1 class="text-center mb-4">Edit Profile</h1>
+        <form th:action="@{/super/updateProfile}" th:object="${principal}" method="POST" class="needs-validation">
+            <label for="validationCustom00" class="form-label">Id</label>
+            <input th:value="${user.user_id}" name="id" type="text" class="form-control" id="validationCustom00" placeholder="Enter id" required>
+
+            <label for="validationCustom01" class="form-label">Username</label>
+            <input th:value="${user.username}" name="username" type="text" class="form-control" id="validationCustom01" placeholder="Enter username" required>
+            <div class="invalid-feedback">
+                Please provide a username.
+            </div>
+
+            <div class="mb-3">
+                <label for="validationCustomEmail" class="form-label">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text">@</span>
+                    <input th:value="${user.email}" name="email" type="email" class="form-control" id="validationCustomEmail" placeholder="Enter email address" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid email address.
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg">SUBMIT</button>
+            </div>
+        </form>
+
+    </div>
+</section>
+</body>
+</html>

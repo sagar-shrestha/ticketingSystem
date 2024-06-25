@@ -1,21 +1,90 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Ticketing System</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{/assets/css/custom.css}" rel="stylesheet" type="text/css"/>
+
+    <style>
+        .profile {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-right: 10px;
+        }
+
+        .user {
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #fff;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .profile .show {
+            display: block;
+        }
+
+        .home-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-header .content-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .home-header .search {
+            margin-right: 20px;
+        }
+
+        .home-header .search .input {
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
 <div class="sidebar ">
     <div class="logo-details">
         <i class='bx bxl-c-plus-plus'></i>
-        <a class="navbar-brand" >
-        <span class="logo_name">Cellpay</span>
+        <a class="navbar-brand">
+            <span class="logo_name">Cellpay</span>
         </a>
     </div>
     <ul class="nav-links">
@@ -25,21 +94,21 @@
                 <span class="link_name">Dashboard</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" th:href="@{/web/home}">Dashboard</a> </li>
+                <li><a class="link_name" th:href="@{/web/home}">Dashboard</a></li>
             </ul>
         </li>
         <li sec:authorize="hasAnyRole('SUPER_ADMIN','VIEW_BANKS')">
-          <div class="icon-link">
+            <div class="icon-link">
                 <a href="#">
                     <i class="bx bx-collection"></i>
                     <span class="link_name">Ticket</span>
                 </a>
-              <i class="bx bxs-chevron-right arrow"></i>
-          </div>
+                <i class="bx bxs-chevron-right arrow"></i>
+            </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Ticket</a> </li>
-                <li><a  th:href="@{/web/ticketTopic}">Add Ticket Topic</a> </li>
-                <li><a th:href="@{/web/getAllTopic}">View Tickets</a> </li>
+                <li><a class="link_name" href="#">Ticket</a></li>
+                <li><a th:href="@{/web/ticketTopic}">Add Ticket Topic</a></li>
+                <li><a th:href="@{/web/getAllTopic}">View Tickets</a></li>
             </ul>
         </li>
         <li>
@@ -51,13 +120,11 @@
                 <i class="bx bxs-chevron-right arrow"></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Category</a> </li>
-                <li><a th:href="@{/web/CategoriesForm}">Add Category</a> </li>
-                <li><a th:href="@{/web/categories}">View Category</a> </li>
-
+                <li><a class="link_name" href="#">Category</a></li>
+                <li><a th:href="@{/web/CategoriesForm}">Add Category</a></li>
+                <li><a th:href="@{/web/categories}">View Category</a></li>
             </ul>
         </li>
-
         <li>
             <div class="icon-link">
                 <a href="#">
@@ -67,45 +134,32 @@
                 <i class="bx bxs-chevron-right arrow"></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">ticketing</a> </li>
-                <li><a th:href="@{/web/AddTicketing}">Add Ticketing</a> </li>
-                <li><a th:href="@{/web/ListTicketing}">View Ticketing</a> </li>
+                <li><a class="link_name" href="#">ticketing</a></li>
+                <li><a th:href="@{/web/AddTicketing}">Add Ticketing</a></li>
+                <li><a th:href="@{/web/ListTicketing}">View Ticketing</a></li>
             </ul>
         </li>
-
-
-<!--        <li>-->
-<!--&lt;!&ndash;            <a th:href="@{/web/AddTicketing}">&ndash;&gt;-->
-<!--                <i class='bx bx-pie-chart-alt-2'></i>-->
-<!--                <span class="link_name">Ticketing</span>-->
-<!--            </a>-->
-<!--            <ul class="sub-menu blank">-->
-<!--                <li><a class="link_name" href="#">Ticketing</a> </li>-->
-<!--                <li><a class="link_name" th:href="@{/web/AddTicketing}">Add Ticketing</a></li>-->
-<!--            </ul>-->
-<!--        </li>-->
-
         <li>
             <a href="#">
                 <i class='bx bx-line-chart-down'></i>
                 <span class="link_name">Chart</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Post</a> </li>
+                <li><a class="link_name" href="#">Post</a></li>
             </ul>
         </li>
         <li>
             <div class="icon-link">
                 <a href="#">
-                    <i class='bx bx-plug' ></i>
+                    <i class='bx bx-plug'></i>
                     <span class="link_name">Plugins</span>
                 </a>
                 <i class="bx bxs-chevron-right arrow"></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Post</a> </li>
-                <li><a href="#">Car Design</a> </li>
-                <li><a href="#">Web Design</a> </li>
+                <li><a class="link_name" href="#">Post</a></li>
+                <li><a href="#">Car Design</a></li>
+                <li><a href="#">Web Design</a></li>
             </ul>
         </li>
         <li>
@@ -114,46 +168,78 @@
                 <span class="link_name">Chart</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Post</a> </li>
+                <li><a class="link_name" href="#">Post</a></li>
             </ul>
         </li>
     </ul>
+
+    <div class="logout-link">
+        <a th:href="@{/logout}" sec:authorize="isAuthenticated()">
+            <i class='bx bx-log-out'></i>
+            <span class="link_name">Logout</span>
+        </a>
+    </div>
 </div>
-    <section class="home-section">
-        <div class="home-header">
-            <i class='bx bx-menu' ></i>
-            <div class="content-right">
-                <form class="search">
-                    <input class="input" type="search" placeholder="Search" aria-label="Search">
-                </form>
-                <div class="profile">
-                    <div class="user-details">
-                        <span class="username">Administrator</span>
-                        <span class="email">administrator@cellcom.net.np</span>
-                    </div>
-                    <i class='bx bxs-user-circle user'></i>
+
+<section class="home-section">
+    <div class="home-header">
+        <i class='bx bx-menu'></i>
+        <div class="content-right">
+            <form class="search">
+                <input class="input" type="search" placeholder="Search" aria-label="Search">
+            </form>
+            <div class="profile">
+                <div class="user-details">
+                    <span class="username" th:text="${username}">Administrator</span>
+<!--                    <span class="email" th:text="${userInfo?.email}">administrator@cellcom.net.np</span>-->
+                </div>
+                <i class='bx bxs-user-circle user' onclick="toggleDropdown()"></i>
+                <div id="userDropdown" class="dropdown-content">
+                    <a th:href="@{/super/ChangePassword}">Change Password</a>
+                    <a th:href="@{/super/updateProfile}">Update Profile</a>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="home-content">
+        <div th:replace="${content}"></div>
+    </div>
+</section>
 
-        </div>
-        <div class="home-content">
-            <div th:replace="${content}"></div>
-        </div>
-    </section>
 <script>
-    let arrow = document.querySelectorAll(".arrow");
-    for(var i=0; i<arrow.length; i++){
-        arrow[i].addEventListener("click", (e) =>{
-          let arrowParent = e.target.parentElement.parentElement;
-          arrowParent.classList.toggle("showMenu");
-        })
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let arrow = document.querySelectorAll(".arrow");
+        for(let i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e) => {
+                let arrowParent = e.target.parentElement.parentElement;
+                arrowParent.classList.toggle("showMenu");
+            });
+        }
+
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.user')) {
+                let dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        };
+    });
+
+    function toggleDropdown() {
+        document.getElementById("userDropdown").classList.toggle("show");
     }
-    let sidebar = document.querySelector(".sidebar");
-    let sidebarBtn = document.querySelector(".bx-menu");
-    sidebarBtn.addEventListener("click", () =>{
-        sidebar.classList.toggle("close");
-    })
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
