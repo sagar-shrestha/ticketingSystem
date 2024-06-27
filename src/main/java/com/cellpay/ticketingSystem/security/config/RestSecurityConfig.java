@@ -1,12 +1,15 @@
 package com.cellpay.ticketingSystem.security.config;
 
+import com.cellpay.ticketingSystem.security.repository.UserInfoRepository;
 import com.cellpay.ticketingSystem.security.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -22,44 +26,42 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class RestSecurityConfig {
 
-    @Autowired
-    private final CustomUserDetailService customUserDetailService;
-
-    @Autowired
-    private final AuthEntryPointJwt unauthorizedHandler;
+    private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return customUserDetailService;
+    public UserDetailsService userDetailsService(UserInfoRepository userInfoRepository) {
+        return new CustomUserDetailService(userInfoRepository);
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserInfoRepository userInfoRepository) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService(userInfoRepository));
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, UserInfoRepository userInfoRepository) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> {
-                //    request.requestMatchers("/ticket/**").permitAll();
-                    request.requestMatchers("/super/**").permitAll();
-                    request.requestMatchers("/rest/super").permitAll();
+                    request.requestMatchers("/super/authenticate").permitAll();
                     request.requestMatchers("/rest/**").hasAnyRole("SUPER_ADMIN", "ADMIN");
                     request.anyRequest().authenticated();
                 })
-                .httpBasic(httpSecurityFormLoginConfigurer -> {
-                })
-                .build();
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider(userInfoRepository))
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
