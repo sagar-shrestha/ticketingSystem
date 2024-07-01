@@ -19,7 +19,7 @@ public class TicketImageServiceImpl implements TicketImageService {
 
     @Override
     public void saveTicketImage(TicketImage ticketImage) {
-         ticketImageRepository.save(ticketImage);
+        ticketImageRepository.save(ticketImage);
     }
 
     @Override

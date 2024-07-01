@@ -17,10 +17,10 @@ public class  Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_category", foreignKey = @ForeignKey(name = "fk_ticket_category_id"),
             referencedColumnName = "id")
-    private TicketCategory ticketCategory;
+    private List<TicketCategory> ticketCategory;
     private String description;
 //    @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    private List<TicketImage> images;

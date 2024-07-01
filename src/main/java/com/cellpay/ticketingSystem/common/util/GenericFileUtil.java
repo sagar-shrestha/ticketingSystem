@@ -61,4 +61,5 @@ public class GenericFileUtil {
         httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + existingImage);
         FileCopyUtils.copy(new FileInputStream(file), httpServletResponse.getOutputStream());
     }
+
 }

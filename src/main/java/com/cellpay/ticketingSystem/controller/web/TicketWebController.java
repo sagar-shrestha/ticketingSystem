@@ -11,6 +11,7 @@ import com.cellpay.ticketingSystem.service.TicketCategoryService;
 import com.cellpay.ticketingSystem.service.TicketImageService;
 import com.cellpay.ticketingSystem.service.TicketService;
 import com.cellpay.ticketingSystem.service.TicketTopicService;
+import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class TicketWebController {
     private  final TicketCategoryService ticketCategoryService;
     private final TicketImageService ticketImageService;
     private final HttpServletResponse httpServletResponse;
+    private final ServletRequest httpServletRequest;
 
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
@@ -43,8 +46,10 @@ public class TicketWebController {
         model.addAttribute("ticketTopics", ticketTopics);
         model.addAttribute("ticketCategories", ticketCategories);
 
-        return "/Ticket/ticketing";
+        return "/ticket/ticketing";
     }
+
+
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PostMapping("/saveTicketing")
@@ -57,16 +62,18 @@ public class TicketWebController {
             e.printStackTrace(); // Log the exception stack trace
         }
         model.addAttribute("ticketRequestPojo", ticketRequestPojo);
-        return "Ticket/ticketing";
+        return "ticket/ticketing";
     }
 
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/ListTicketing")
-    public String getTickets(Model model, @ModelAttribute TicketImage ticketImage) {
+    public String getTickets(Model model) {
         List<TicketResponse> tickets = ticketService.getAllTickets();
         model.addAttribute("tickets", tickets);
-        return "Ticket/ticketing-list";
+        return "ticket/ticketing-list";
     }
+
+
 
 }
