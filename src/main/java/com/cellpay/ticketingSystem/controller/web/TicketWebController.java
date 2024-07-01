@@ -32,9 +32,7 @@ public class TicketWebController {
     private final TicketService ticketService;
     private final TicketTopicService ticketTopicService;
     private  final TicketCategoryService ticketCategoryService;
-    private final TicketImageService ticketImageService;
-    private final HttpServletResponse httpServletResponse;
-    private final ServletRequest httpServletRequest;
+
 
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
@@ -46,7 +44,7 @@ public class TicketWebController {
         model.addAttribute("ticketTopics", ticketTopics);
         model.addAttribute("ticketCategories", ticketCategories);
 
-        return "/ticket/ticketing";
+        return "/Ticket/ticketing";
     }
 
 
@@ -62,7 +60,7 @@ public class TicketWebController {
             e.printStackTrace(); // Log the exception stack trace
         }
         model.addAttribute("ticketRequestPojo", ticketRequestPojo);
-        return "ticket/ticketing";
+        return "Ticket/ticketing";
     }
 
 
@@ -71,7 +69,7 @@ public class TicketWebController {
     public String getTickets(Model model) {
         List<TicketResponse> tickets = ticketService.getAllTickets();
         model.addAttribute("tickets", tickets);
-        return "ticket/ticketing-list";
+        return "Ticket/ticketing-list";
     }
 
 
