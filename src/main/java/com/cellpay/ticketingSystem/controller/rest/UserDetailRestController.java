@@ -18,6 +18,7 @@ import java.security.Principal;
 @CustomWebController
 @RequiredArgsConstructor
 public class UserDetailRestController {
+
     private final UserInfoRepository userInfoRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -28,13 +29,16 @@ public class UserDetailRestController {
         String userName = principal.getName();
         UserInfo user = this.userInfoRepository.findByUsername(userName);
         if (passwordChangeRequest.getOldPassword() == null || passwordChangeRequest.getOldPassword().isEmpty()) {
-            return ResponseEntity.badRequest().body(new Message("Old password cannot be empty!", "danger"));
+            return ResponseEntity.
+                    badRequest().
+                    body(new Message("Old password cannot be empty!", "danger"));
         }
 
         if (this.bCryptPasswordEncoder.matches(passwordChangeRequest.getOldPassword(), user.getPassword())) {
             user.setPassword(this.bCryptPasswordEncoder.encode(passwordChangeRequest.getNewPassword()));
             this.userInfoRepository.save(user);
-            return ResponseEntity.ok(new Message("Change Successful!", "success"));
+            return
+                    ResponseEntity.ok(new Message("Change Successful!", "success"));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Message("Wrong Old Password!", "danger"));
         }

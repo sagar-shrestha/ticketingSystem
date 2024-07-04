@@ -21,10 +21,11 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
-    @Value("======================ticketingSystem===========================....")
+
+    @Value("======================ticketingSystem===========================")
     private String SECRET;
 
-    @Value("864000000")
+    @Value("86400000")
     private int jwtExpirationMs;
 
     public String extractUsername(String token) {
@@ -40,39 +41,40 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setAllowedClockSkewSeconds(60000000)
+                .setAllowedClockSkewSeconds(300)
                 .setSigningKey(getSignKey())
                 .build()
-                .parseClaimsJws(token).getBody();
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        Claims claims = extractAllClaims(token);
-        String username = claims.getSubject();
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        String username = extractUsername(token);
+        boolean isValid = username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        logger.info("Validating token for user: {}. Is token valid? {}", username, isValid);
+        return isValid;
     }
 
     private boolean isTokenExpired(String token) {
-        Claims claims = extractAllClaims(token);
-        return claims.getExpiration().before(new Date());
+        return extractExpiration(token).before(new Date());
     }
 
     public String generateToken(String username) {
-        logger.info("Generating a new token");
+        logger.info("Generating a new token for username: {}", username);
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, username);
     }
 
     private String createToken(Map<String, Object> claims, String username) {
-        logger.info("Creating a new token");
+        logger.info("Creating a new token with claims for username: {}", username);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(this.getSignKey(), SignatureAlgorithm.HS256)
+                .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
