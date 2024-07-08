@@ -1,6 +1,5 @@
 package com.cellpay.ticketingSystem.security.config;
 
-
 import com.cellpay.ticketingSystem.security.service.CustomUserDetailService;
 import com.cellpay.ticketingSystem.security.service.JwtService;
 import jakarta.servlet.FilterChain;
@@ -31,20 +30,29 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
+            logger.info("Token extracted: {}");
             username = jwtService.extractUsername(token);
+            logger.info("Username extracted from token: {}" + username);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
             if (jwtService.validateToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
-                        userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                logger.info("User authenticated: {}");
+            } else {
+                logger.warn("Invalid JWT token for user: {}");
             }
+        } else {
+            logger.info("Username is null or user is already authenticated");
         }
+
         filterChain.doFilter(request, response);
     }
 }
