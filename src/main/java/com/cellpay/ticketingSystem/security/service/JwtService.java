@@ -24,7 +24,7 @@ public class JwtService {
     @Value("======================ticketingSystem===========================....")
     private String SECRET;
 
-    @Value("1800000")
+    @Value("864000000")
     private int jwtExpirationMs;
 
     public String extractUsername(String token) {
@@ -42,18 +42,21 @@ public class JwtService {
 
     public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
+                .setAllowedClockSkewSeconds(60000000)
                 .setSigningKey(getSignKey())
                 .build()
                 .parseClaimsJws(token).getBody();
     }
 
-    public Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+    public boolean validateToken(String token, UserDetails userDetails) {
+        Claims claims = extractAllClaims(token);
+        String username = claims.getSubject();
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = this.extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    private boolean isTokenExpired(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.getExpiration().before(new Date());
     }
 
     public String generateToken(String username) {

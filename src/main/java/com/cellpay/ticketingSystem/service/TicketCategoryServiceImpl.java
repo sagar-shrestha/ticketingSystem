@@ -4,8 +4,6 @@ import com.cellpay.ticketingSystem.common.pojo.request.TicketCategoryRequest;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.entity.TicketCategory;
 import com.cellpay.ticketingSystem.repository.TicketCategoryRepository;
-import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,10 +22,7 @@ import java.util.Objects;
 public class TicketCategoryServiceImpl implements TicketCategoryService {
 
     private final TicketCategoryRepository ticketCategoryRepository;
-    private final TicketTopicRepository ticketTopicRepository;
-    private final ObjectMapper objectMapper;
     private final TicketTopicService ticketTopicService;
-
 
     @Override
     public boolean saveTicketCategory(TicketRequest ticketCategoryRequest) {
@@ -60,9 +55,9 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     }
 
     @Override
-    public TicketCategory getCategoryById(int id) {
-        return ticketCategoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ticket Category not found."));
+    public TicketCategory getCategoryById(int categoryId) {
+        return ticketCategoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
     }
 
     @Override
@@ -70,7 +65,6 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("category").ascending());
         return ticketCategoryRepository.findAll(pageable);
     }
-
 
     @Override
     public List<TicketCategory> getAllCategory() {
@@ -82,5 +76,4 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
                 .getSessionMutex();
         httpSession.removeAttribute("sessionMessage");
     }
-
 }
