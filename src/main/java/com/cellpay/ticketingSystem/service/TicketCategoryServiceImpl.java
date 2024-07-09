@@ -2,8 +2,12 @@ package com.cellpay.ticketingSystem.service;
 
 import com.cellpay.ticketingSystem.common.pojo.request.TicketCategoryRequest;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
+import com.cellpay.ticketingSystem.entity.Ticket;
 import com.cellpay.ticketingSystem.entity.TicketCategory;
+import com.cellpay.ticketingSystem.entity.TicketTopic;
 import com.cellpay.ticketingSystem.repository.TicketCategoryRepository;
+import com.cellpay.ticketingSystem.repository.TicketRepository;
+import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +27,8 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
 
     private final TicketCategoryRepository ticketCategoryRepository;
     private final TicketTopicService ticketTopicService;
+    private final TicketRepository ticketRepository;
+    private final TicketTopicRepository ticketTopicRepository;
 
     @Override
     public boolean saveTicketCategory(TicketRequest ticketCategoryRequest) {
@@ -54,6 +60,8 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
         return ticketCategoryRepository.save(updatedTicketCategory);
     }
 
+
+
     @Override
     public TicketCategory getCategoryById(int categoryId) {
         return ticketCategoryRepository.findById(categoryId)
@@ -76,4 +84,6 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
                 .getSessionMutex();
         httpSession.removeAttribute("sessionMessage");
     }
+
+
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -90,5 +91,19 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<TicketResponse> getAllTickets() throws SpelEvaluationException {
         return ticketHelper.getAllTickets();
+    }
+
+    @Override
+    public TicketResponse getDeleteById(Long id) throws MalformedURLException {
+        TicketResponse ticketResponse = this.getTicketById(id);
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ticket not found with id: " + id));
+        List<TicketImage> ticketImages = ticketImageRepository.findAllByTicket(ticket);
+        for (TicketImage ticketImage : ticketImages) {
+            genericFileUtil.deleteFile(new File(ticketImage.getImage()));
+            ticketImageRepository.delete(ticketImage);
+        }
+        ticketRepository.delete(ticket);
+        return ticketResponse;
     }
 }

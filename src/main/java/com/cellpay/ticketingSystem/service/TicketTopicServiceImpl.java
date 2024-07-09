@@ -1,7 +1,9 @@
 package com.cellpay.ticketingSystem.service;
 
 import com.cellpay.ticketingSystem.common.pojo.request.TicketTopicRequest;
+import com.cellpay.ticketingSystem.entity.TicketCategory;
 import com.cellpay.ticketingSystem.entity.TicketTopic;
+import com.cellpay.ticketingSystem.repository.TicketCategoryRepository;
 import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +26,7 @@ public class TicketTopicServiceImpl implements TicketTopicService {
 
     private final TicketTopicRepository ticketTopicRepository;
     private final ObjectMapper objectMapper;
+    private final TicketCategoryRepository ticketCategoryRepository;
 
     @Override
     public boolean saveTicketTopic(TicketTopicRequest ticketTopicRequest) {
@@ -55,6 +58,18 @@ public class TicketTopicServiceImpl implements TicketTopicService {
     @Override
     public List<TicketTopic> getAllTicketTopics() {
         return ticketTopicRepository.findAll();
+    }
+
+
+    @Override
+    public TicketTopic getDeleteById(int id) {
+        TicketTopic ticketTopic = this.getTopicById(id);
+        List<TicketCategory> relatedCategories=ticketCategoryRepository.findByTicketTopic(ticketTopic);
+        for (TicketCategory category : relatedCategories) {
+            ticketCategoryRepository.delete(category);
+        }
+        ticketTopicRepository.delete(ticketTopic);
+        return ticketTopic;
     }
 
 

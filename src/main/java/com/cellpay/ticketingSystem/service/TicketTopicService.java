@@ -21,4 +21,6 @@ Page<TicketTopic> getAllTopic(int pageNumber, int pageSize);
 void removeSessionMessage();
 
 List<TicketTopic> getAllTicketTopics();
+
+   TicketTopic getDeleteById (int id);
 }

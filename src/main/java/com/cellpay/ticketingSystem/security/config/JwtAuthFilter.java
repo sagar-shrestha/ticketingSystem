@@ -45,7 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-                logger.info("User authenticated: {}");
+                logger.info("User authenticated" + username);
             } else {
                 logger.warn("Invalid JWT token for user: {}");
             }
