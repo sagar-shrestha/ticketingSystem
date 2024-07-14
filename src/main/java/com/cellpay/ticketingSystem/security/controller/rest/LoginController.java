@@ -4,6 +4,7 @@ import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
 import com.cellpay.ticketingSystem.security.Exception.AuthenticationException;
 import com.cellpay.ticketingSystem.security.entity.AuthRequest;
 import com.cellpay.ticketingSystem.security.service.JwtService;
+import com.cellpay.ticketingSystem.security.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,30 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/super")
 @RequiredArgsConstructor
 public class LoginController {
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private final LoginService loginService;
 
     @PostMapping("/authenticate")
     public ResponseEntity<GlobalApiResponse> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-        try {
-            Authentication authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
-                            authRequest.getPassword()));
-
-            if (authentication.isAuthenticated()) {
-                String token = jwtService.generateToken(authRequest.getUsername());
-                return ResponseEntity.ok(GlobalApiResponse
-                        .builder()
-                        .code(HttpStatus.OK.value())
-                        .aceessToken(token)
-                        .message("Authentication successful")
-                        .status(true)
-                        .build());
-            } else {
-                throw new AuthenticationException("Bad credentials");
-            }
-        } catch (BadCredentialsException e) {
-            throw new AuthenticationException("Username or Password Invallid " + e.getMessage());
-        }
+        String token = loginService.authenticate(authRequest);
+        return ResponseEntity.ok(GlobalApiResponse
+                .builder()
+                .code(HttpStatus.OK.value())
+                .aceessToken(token)
+                .message("Authentication successful")
+                .status(true)
+                .build());
     }
 }

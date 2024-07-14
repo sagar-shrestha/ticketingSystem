@@ -1,5 +1,6 @@
 package com.cellpay.ticketingSystem.service;
 
+import com.cellpay.ticketingSystem.Exception.ExceptionHandel;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.TicketResponse;
 import com.cellpay.ticketingSystem.common.util.GenericFileUtil;
@@ -34,6 +35,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional
     public boolean saveTicket(TicketRequest ticketRequestPojo) throws Exception {
+        try{
         Ticket ticket = ticketRepository.save(Ticket
                 .builder()
                 .ticketCategory(List.of(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory())))
@@ -51,6 +53,10 @@ public class TicketServiceImpl implements TicketService {
         }
         return false;
     }
+        catch (Exception e){
+            throw new Exception("unable to save ticket");
+        }
+    }
 
     @Override
     @Transactional
@@ -67,7 +73,7 @@ public class TicketServiceImpl implements TicketService {
                 for (int i = 0; i < ticketRequest.getImages().size(); i++) {
                     Integer imageId = existingTicket.getImageId().get(i);
                     existingTicketImage = ticketImageRepository.findById(imageId)
-                            .orElseThrow(() -> new RuntimeException("Ticket Image Not Found"));
+                            .orElseThrow(() -> new ExceptionHandel("Ticket Image Not Found"));
                     String imagePath = genericFileUtil.updateFile(ticketRequest.getImages().get(i), existingTicketImage.getImage());
                     TicketImage updatedTicketImage = TicketImage.builder()
                             .id(imageId)
@@ -97,7 +103,7 @@ public class TicketServiceImpl implements TicketService {
     public TicketResponse getDeleteById(Long id) throws MalformedURLException {
         TicketResponse ticketResponse = this.getTicketById(id);
         Ticket ticket = ticketRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ticket not found with id: " + id));
+                .orElseThrow(() -> new ExceptionHandel("Ticket not found with id: " + id));
         List<TicketImage> ticketImages = ticketImageRepository.findAllByTicket(ticket);
         for (TicketImage ticketImage : ticketImages) {
             genericFileUtil.deleteFile(new File(ticketImage.getImage()));

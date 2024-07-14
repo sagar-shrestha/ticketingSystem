@@ -1,5 +1,6 @@
 package com.cellpay.ticketingSystem.service;
 
+import com.cellpay.ticketingSystem.Exception.ExceptionHandel;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketCategoryRequest;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.entity.Ticket;
@@ -8,6 +9,7 @@ import com.cellpay.ticketingSystem.entity.TicketTopic;
 import com.cellpay.ticketingSystem.repository.TicketCategoryRepository;
 import com.cellpay.ticketingSystem.repository.TicketRepository;
 import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
+import com.cellpay.ticketingSystem.security.Exception.AuthenticationException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,6 +40,7 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     @Override
     @Transactional
     public boolean saveTicketCategory(TicketCategoryRequest ticketCategoryRequest) {
+        try{
         TicketCategory ticketCategory = TicketCategory
                 .builder()
                 .category(ticketCategoryRequest.getCategory())
@@ -45,6 +48,10 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
                 .build();
         ticketCategoryRepository.save(ticketCategory);
         return false;
+    }
+        catch(Exception e){
+        throw new ExceptionHandel("unable to save ticket category");
+        }
     }
 
     @Override
@@ -64,8 +71,13 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
 
     @Override
     public TicketCategory getCategoryById(int categoryId) {
+        try{
         return ticketCategoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
+    }
+        catch (RuntimeException e){
+        throw new ExceptionHandel("Category not found" +categoryId);
+        }
     }
 
     @Override
