@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>ticketingSystem</name>
     <description>Ticketing System</description>
+    <packaging>jar</packaging>
     <properties>
         <java.version>21</java.version>
     </properties>
@@ -80,6 +81,7 @@
     </dependencies>
 
     <build>
+        <finalName>ticketingsystem</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -100,6 +102,7 @@
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 
