@@ -45,6 +45,8 @@ public class RestSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, UserInfoRepository userInfoRepository) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> {
+                    request.requestMatchers("/super/saveUserInfo").permitAll();
+                    request.requestMatchers("/rest/super").permitAll();
                     request.requestMatchers("/super/authenticate").permitAll();
                     request.requestMatchers("/rest/**").hasAnyRole("SUPER_ADMIN", "ADMIN");
                     request.anyRequest().authenticated();

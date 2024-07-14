@@ -56,4 +56,18 @@ public class TicketController {
                 .status(true)
                 .build());
     }
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @DeleteMapping("getDeleteById/{id}")
+    public ResponseEntity<GlobalApiResponse> getDeleteById(@PathVariable Long id) throws MalformedURLException {
+        return ResponseEntity.ok(GlobalApiResponse
+                .builder()
+                .code(HttpStatus.OK.value())
+                .data(ticketService.getDeleteById(id))
+                .message("Ticket Delete Successfully.")
+                .status(true)
+                .build());
+    }
+
+
 }

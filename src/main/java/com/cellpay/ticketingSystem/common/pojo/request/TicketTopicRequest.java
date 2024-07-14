@@ -9,6 +9,6 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TicketTopicRequest implements Serializable {
+public class TicketTopicRequest{
     private String topic;
 }

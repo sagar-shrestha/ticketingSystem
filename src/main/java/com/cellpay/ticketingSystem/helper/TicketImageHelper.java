@@ -18,8 +18,10 @@ public class TicketImageHelper {
     private final GenericFileUtil genericFileUtil;
 
     public void getTicketImageById(int imageId, HttpServletResponse httpServletResponse) throws IOException {
+        System.out.println("Fetching image with ID: " + imageId);
         TicketImage ticketImage = ticketImageRepository.findById(imageId)
                 .orElseThrow(() -> new MalformedURLException("Image not found"));
+        System.out.println("Image found: " + ticketImage.getImage());
         genericFileUtil.getFileAsResource(ticketImage.getImage(), httpServletResponse);
     }
 }

@@ -18,17 +18,17 @@ public class TicketCategoryController {
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PostMapping("/saveTicketCategory")
-    public ResponseEntity<GlobalApiResponse> saveTicketCategory(@RequestBody TicketCategoryRequest
-                                                                        ticketCategoryRequest) {
-        ticketCategoryService.saveTicketCategory(ticketCategoryRequest);
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.CREATED.value())
-                .data(null)
-                .message("TicketCategory saved successfully")
-                .status(true)
-                .build());
+    public ResponseEntity<GlobalApiResponse> saveTicketCategory(@RequestBody TicketCategoryRequest ticketCategoryRequest) {
+            ticketCategoryService.saveTicketCategory(ticketCategoryRequest);
+            return ResponseEntity.ok(GlobalApiResponse
+                    .builder()
+                    .code(HttpStatus.CREATED.value())
+                    .data(null)
+                    .message("TicketCategory saved successfully")
+                    .status(true)
+                    .build());
     }
+
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PutMapping("/saveTicketCategory/{id}")
@@ -67,4 +67,5 @@ public class TicketCategoryController {
                 .status(true)
                 .build());
     }
+
 }

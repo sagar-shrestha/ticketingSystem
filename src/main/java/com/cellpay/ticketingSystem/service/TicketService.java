@@ -19,4 +19,7 @@ public interface TicketService {
     TicketResponse getTicketById(Long id) throws MalformedURLException;
 
     List<TicketResponse> getAllTickets();
+
+    TicketResponse getDeleteById(Long id) throws MalformedURLException;
+
 }

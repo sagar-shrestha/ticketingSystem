@@ -30,8 +30,8 @@
             display: none;
             position: absolute;
             right: 0;
-            background-color: #fff;
-            min-width: 200px;
+            background-color: #f5f2f2;
+            min-width: 400px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             z-index: 1;
             border-radius: 8px;
@@ -42,12 +42,12 @@
             color: #333;
             padding: 12px 16px;
             text-decoration: none;
-            display: block;
+            display: list-item;
             transition: background-color 0.3s ease;
         }
 
         .dropdown-content a:hover {
-            background-color: #f1f1f1;
+            background-color: #b7b58e;
         }
 
         .profile .show {
@@ -139,38 +139,38 @@
                 <li><a th:href="@{/web/ListTicketing}">View Ticketing</a></li>
             </ul>
         </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-line-chart-down'></i>
-                <span class="link_name">Chart</span>
-            </a>
-            <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Post</a></li>
-            </ul>
-        </li>
-        <li>
-            <div class="icon-link">
-                <a href="#">
-                    <i class='bx bx-plug'></i>
-                    <span class="link_name">Plugins</span>
-                </a>
-                <i class="bx bxs-chevron-right arrow"></i>
-            </div>
-            <ul class="sub-menu">
-                <li><a class="link_name" href="#">Post</a></li>
-                <li><a href="#">Car Design</a></li>
-                <li><a href="#">Web Design</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-line-chart-down'></i>
-                <span class="link_name">Chart</span>
-            </a>
-            <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Post</a></li>
-            </ul>
-        </li>
+<!--        <li>-->
+<!--            <a href="#">-->
+<!--                <i class='bx bx-line-chart-down'></i>-->
+<!--                <span class="link_name">Chart</span>-->
+<!--            </a>-->
+<!--            <ul class="sub-menu blank">-->
+<!--                <li><a class="link_name" href="#">Post</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <div class="icon-link">-->
+<!--                <a href="#">-->
+<!--                    <i class='bx bx-plug'></i>-->
+<!--                    <span class="link_name">Plugins</span>-->
+<!--                </a>-->
+<!--                <i class="bx bxs-chevron-right arrow"></i>-->
+<!--            </div>-->
+<!--            <ul class="sub-menu">-->
+<!--                <li><a class="link_name" href="#">Post</a></li>-->
+<!--                <li><a href="#">Car Design</a></li>-->
+<!--                <li><a href="#">Web Design</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <a href="#">-->
+<!--                <i class='bx bx-line-chart-down'></i>-->
+<!--                <span class="link_name">Chart</span>-->
+<!--            </a>-->
+<!--            <ul class="sub-menu blank">-->
+<!--                <li><a class="link_name" href="#">Post</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
     </ul>
 
     <div class="logout-link">
@@ -190,13 +190,14 @@
             </form>
             <div class="profile">
                 <div class="user-details">
-                    <span class="username" th:text="${username}">Administrator</span>
+                    <span class="username" th:text="${userInfo?.getRoles()}">Administrator</span>
 <!--                    <span class="email" th:text="${userInfo?.email}">administrator@cellcom.net.np</span>-->
                 </div>
                 <i class='bx bxs-user-circle user' onclick="toggleDropdown()"></i>
                 <div id="userDropdown" class="dropdown-content">
-                    <a th:href="@{/super/ChangePassword}">Change Password</a>
-                    <a th:href="@{/super/updateProfile}">Update Profile</a>
+                    <a th:href="@{/web/ChangePassword}">Change Password</a>
+                    <a th:href="@{/web/updateProfile}">Update Profile</a>
+                    <a th:href="@{/logout}" sec:authorize="isAuthenticated()"> Log Out</a>
                 </div>
             </div>
         </div>

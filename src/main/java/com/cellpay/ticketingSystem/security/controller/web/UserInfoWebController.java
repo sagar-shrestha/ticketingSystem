@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,79 +70,75 @@ public class UserInfoWebController {
 //        model.addAttribute("userInfo", userInfo);
 //        return "/layout_fragments/base";
 //    }
-
-    @GetMapping("/home")
-    public String home(@AuthenticationPrincipal UserInfo user, Model model) {
-        model.addAttribute("username", user.getUsername());
-        return "/layout_fragments/base";
-    }
-
-
-
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("/ChangePassword")
-    public String showChangePasswordPage(Model model, HttpSession session) {
-        // Retrieve and remove the message from the session to ensure it's displayed only once
-        Message message = (Message) session.getAttribute("message");
-        if (message != null) {
-            model.addAttribute("message", message);
-            session.removeAttribute("message");
-        }
-        return "User_details/Change_Password";
-    }
-
-
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-//    @PostMapping(value = "/PasswordChange")
-    @RequestMapping(value = "/PasswordChange", method = {RequestMethod.GET, RequestMethod.POST})
-    public String changePassword(String oldPassword, String newPassword, Principal principal, HttpSession session) {
-        String userName = principal.getName();
-        UserInfo user = this.userInfoRepository.findByUsername(userName);
-
-        if (oldPassword == null || oldPassword.isEmpty()) {
-            session.setAttribute("message", new Message("Old password cannot be empty!", "danger"));
-            return "User_details/Change_Password";
-        }
-
-        if (this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
-            user.setPassword(this.bCryptPasswordEncoder.encode(newPassword));
-            this.userInfoRepository.save(user);
-            session.setAttribute("message", new Message("Change Successful!", "success"));
-        } else {
-            session.setAttribute("message", new Message("Wrong Old Password!", "danger"));
-        }
-        return "User_details/Change_Password";
-    }
-
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("/updateProfile")
-    public String showUpdateProfilePage(Model model, HttpSession session) {
-        Message message = (Message) session.getAttribute("message");
-        if (message != null) {
-            model.addAttribute("message", message);
-            session.removeAttribute("message");
-        }
-        return "User_details/Update_Profile";
-    }
-
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+//
+//
+//
+//
+//
+//    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+//    @GetMapping("/ChangePassword")
+//    public String showChangePasswordPage(Model model, HttpSession session) {
+//        // Retrieve and remove the message from the session to ensure it's displayed only once
+//        Message message = (Message) session.getAttribute("message");
+//        if (message != null) {
+//            model.addAttribute("message", message);
+//            session.removeAttribute("message");
+//        }
+//        return "User_details/Change_Password";
+//    }
+//
+//
+//    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+////    @PostMapping(value = "/PasswordChange")
+//    @RequestMapping(value = "/PasswordChange", method = {RequestMethod.GET, RequestMethod.POST})
+//    public String changePassword(String oldPassword, String newPassword, Principal principal, HttpSession session) {
+//        String userName = principal.getName();
+//        UserInfo user = this.userInfoRepository.findByUsername(userName);
+//
+//        if (oldPassword == null || oldPassword.isEmpty()) {
+//            session.setAttribute("message", new Message("Old password cannot be empty!", "danger"));
+//            return "User_details/Change_Password";
+//        }
+//
+//        if (this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
+//            user.setPassword(this.bCryptPasswordEncoder.encode(newPassword));
+//            this.userInfoRepository.save(user);
+//            session.setAttribute("message", new Message("Change Successful!", "success"));
+//        } else {
+//            session.setAttribute("message", new Message("Wrong Old Password!", "danger"));
+//        }
+//        return "User_details/Change_Password";
+//    }
+//
+//    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
 //    @GetMapping("/updateProfile")
-    @PostMapping("/updateProfile")
-    public String updateProfilePage(Model model, Principal principal, HttpSession session) {
-        try {
-            String userName = principal.getName();
-            UserInfo userInfo = userInfoRepository.findByUsername(userName);
-
-            if (userInfo == null) {
-                throw new RuntimeException("User not found for username: " + userName);
-            }
-
-            model.addAttribute("user", userInfo); // Add user to the model
-            return "User_details/Update_Profile";
-        } catch (Exception e) {
-            session.setAttribute("message", new Message(e.getMessage(), "danger"));
-            return "User_details/Update_Profile"; // Return to the same view with error message
-        }
-    }
+//    public String showUpdateProfilePage(Model model, HttpSession session) {
+//        Message message = (Message) session.getAttribute("message");
+//        if (message != null) {
+//            model.addAttribute("message", message);
+//            session.removeAttribute("message");
+//        }
+//        return "User_details/Update_Profile";
+//    }
+//
+//    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+////    @GetMapping("/updateProfile")
+//    @PostMapping("/updateProfile")
+//    public String updateProfilePage(Model model, Principal principal, HttpSession session) {
+//        try {
+//            String userName = principal.getName();
+//            UserInfo userInfo = userInfoRepository.findByUsername(userName);
+//
+//            if (userInfo == null) {
+//                throw new RuntimeException("User not found for username: " + userName);
+//            }
+//
+//            model.addAttribute("user", userInfo); // Add user to the model
+//            return "User_details/Update_Profile";
+//        } catch (Exception e) {
+//            session.setAttribute("message", new Message(e.getMessage(), "danger"));
+//            return "User_details/Update_Profile"; // Return to the same view with error message
+//        }
+//    }
 
 }

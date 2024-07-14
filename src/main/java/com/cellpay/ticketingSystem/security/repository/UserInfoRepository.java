@@ -7,6 +7,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
 
-    @Query("SELECT u FROM UserInfo u WHERE u.username = :username")
-    UserInfo findByUsername(@Param("username") String username);
+    UserInfo findByUsername(String username);
 }
