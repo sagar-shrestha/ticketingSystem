@@ -19,7 +19,6 @@ public class TicketController {
 
     private final TicketService ticketService;
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PostMapping(value = "/saveTicket", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<GlobalApiResponse> saveTicket(@ModelAttribute TicketRequest ticketRequestPojo) throws Exception {
         ticketService.saveTicket(ticketRequestPojo);
@@ -45,7 +44,6 @@ public class TicketController {
                 .build());
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("getTicketById/{id}")
     public ResponseEntity<GlobalApiResponse> getTicketById(@PathVariable Long id) throws MalformedURLException {
         return ResponseEntity.ok(GlobalApiResponse

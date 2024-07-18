@@ -4,15 +4,19 @@ import com.cellpay.ticketingSystem.Exception.ExceptionHandel;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.TicketResponse;
 import com.cellpay.ticketingSystem.common.util.GenericFileUtil;
+import com.cellpay.ticketingSystem.entity.PaynetUserDetails;
 import com.cellpay.ticketingSystem.entity.Ticket;
 import com.cellpay.ticketingSystem.entity.TicketCategory;
 import com.cellpay.ticketingSystem.entity.TicketImage;
 import com.cellpay.ticketingSystem.helper.TicketHelper;
+import com.cellpay.ticketingSystem.repository.PaynetUserDeatilsRepository;
 import com.cellpay.ticketingSystem.repository.TicketImageRepository;
 import com.cellpay.ticketingSystem.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,31 +33,39 @@ public class TicketServiceImpl implements TicketService {
     private final GenericFileUtil genericFileUtil;
     private final TicketRepository ticketRepository;
     private final TicketImageRepository ticketImageRepository;
+    private final PaynetUserDeatilsRepository paynetUserDeatilsRepository;
     private final TicketCategoryService ticketCategoryService;
     private final TicketHelper ticketHelper;
 
     @Override
     @Transactional
     public boolean saveTicket(TicketRequest ticketRequestPojo) throws Exception {
-        try{
-        Ticket ticket = ticketRepository.save(Ticket
-                .builder()
-                .ticketCategory(List.of(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory())))
-                .description(ticketRequestPojo.getDescription())
-                .build());
-        for (MultipartFile image : ticketRequestPojo.getImages()) {
-            String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getImages()
-                    .get(ticketRequestPojo.getImages().indexOf(image)));
-            TicketImage ticketImage = TicketImage
+        try {
+            PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.save(PaynetUserDetails
                     .builder()
-                    .image(imagePath)
-                    .ticket(ticket)
-                    .build();
-            ticketImageRepository.save(ticketImage);
-        }
-        return false;
-    }
-        catch (Exception e){
+                    .memberId(ticketRequestPojo.getPaynetUserDetailsRequest().getMemberId())
+                    .memberType(ticketRequestPojo.getPaynetUserDetailsRequest().getMemberType())
+                    .memberName(ticketRequestPojo.getPaynetUserDetailsRequest().getMemberName())
+                    .username(ticketRequestPojo.getPaynetUserDetailsRequest().getUsername())
+                    .build());
+            Ticket ticket = ticketRepository.save(Ticket
+                    .builder()
+                    .ticketCategory(List.of(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory())))
+                    .description(ticketRequestPojo.getDescription())
+                    .paynetUserDetails(paynetUserDetails)
+                    .build());
+            for (MultipartFile image : ticketRequestPojo.getImages()) {
+                String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getImages()
+                        .get(ticketRequestPojo.getImages().indexOf(image)));
+                TicketImage ticketImage = TicketImage
+                        .builder()
+                        .image(imagePath)
+                        .ticket(ticket)
+                        .build();
+                ticketImageRepository.save(ticketImage);
+            }
+            return false;
+        } catch (Exception e) {
             throw new Exception("unable to save ticket");
         }
     }
@@ -97,6 +109,13 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<TicketResponse> getAllTickets() throws SpelEvaluationException {
         return ticketHelper.getAllTickets();
+    }
+
+
+    @Override
+    public Page<TicketResponse> getAllTicketsByUsername(String username, Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of((pageNumber - 1), pageSize, Sort.by("id"));
+        return ticketHelper.getAllTicketsByUsername(username, pageable);
     }
 
     @Override

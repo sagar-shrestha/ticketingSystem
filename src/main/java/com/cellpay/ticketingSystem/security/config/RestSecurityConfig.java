@@ -1,5 +1,6 @@
 package com.cellpay.ticketingSystem.security.config;
 
+import com.cellpay.ticketingSystem.security.filter.ClientAuthenticationFilter;
 import com.cellpay.ticketingSystem.security.repository.UserInfoRepository;
 import com.cellpay.ticketingSystem.security.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class RestSecurityConfig {
 
-    private final JwtAuthFilter jwtAuthFilter;
+    //private final JwtAuthFilter jwtAuthFilter;
+    private final ClientAuthenticationFilter clientAuthenticationFilter;
 
     @Bean
     public UserDetailsService userDetailsService(UserInfoRepository userInfoRepository) {
@@ -45,15 +47,14 @@ public class RestSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, UserInfoRepository userInfoRepository) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> {
-                    request.requestMatchers("/super/saveUserInfo").permitAll();
-                    request.requestMatchers("/rest/super").permitAll();
-                    request.requestMatchers("/super/authenticate").permitAll();
-                    request.requestMatchers("/rest/**").hasAnyRole("SUPER_ADMIN", "ADMIN");
+                    request.requestMatchers("/rest/**").authenticated();
                     request.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider(userInfoRepository))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
+                //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(clientAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean

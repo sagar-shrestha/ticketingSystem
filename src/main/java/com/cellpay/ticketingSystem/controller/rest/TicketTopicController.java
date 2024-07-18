@@ -58,7 +58,6 @@ public class TicketTopicController {
                 .build());
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("getAllTopic")
     public ResponseEntity<GlobalApiResponse> getAllTopic(@RequestParam("pageNo") int pageNo,
                                                          @RequestParam("pageSize") int pageSize) {

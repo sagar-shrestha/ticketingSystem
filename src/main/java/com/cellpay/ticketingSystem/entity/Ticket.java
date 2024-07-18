@@ -22,7 +22,8 @@ public class  Ticket {
             referencedColumnName = "id")
     private List<TicketCategory> ticketCategory;
     private String description;
-//    @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<TicketImage> images;
+    @ManyToOne
+    @JoinColumn(name = "paynet_user_details", foreignKey = @ForeignKey(name = "fk_paynet_user_details"))
+    private PaynetUserDetails paynetUserDetails;
 
 }

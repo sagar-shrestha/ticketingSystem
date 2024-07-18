@@ -20,7 +20,6 @@ public class TicketImageController {
 
     private final TicketImageService ticketImageService;
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping(value = "getImageById/{id}", produces = MediaType.MULTIPART_MIXED_VALUE)
     public ResponseEntity<?> getTicketImageById(@PathVariable("id") int imageId,
                                                 HttpServletResponse httpServletResponse) throws IOException {

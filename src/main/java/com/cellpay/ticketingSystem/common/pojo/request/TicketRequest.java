@@ -20,4 +20,5 @@ public class TicketRequest {
     private String description;
     private List<MultipartFile> images;
     private TicketTopicRequest ticketTopicRequest;
+    private PaynetUserDetailsRequest paynetUserDetailsRequest;
 }
