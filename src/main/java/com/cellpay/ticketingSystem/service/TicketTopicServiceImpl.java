@@ -1,10 +1,8 @@
 package com.cellpay.ticketingSystem.service;
 
-import com.cellpay.ticketingSystem.Exception.ExceptionHandel;
+import com.cellpay.ticketingSystem.Exception.DataNotFoundException;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketTopicRequest;
-import com.cellpay.ticketingSystem.entity.TicketCategory;
 import com.cellpay.ticketingSystem.entity.TicketTopic;
-import com.cellpay.ticketingSystem.repository.TicketCategoryRepository;
 import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
@@ -15,9 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +23,6 @@ public class TicketTopicServiceImpl implements TicketTopicService {
 
     private final TicketTopicRepository ticketTopicRepository;
     private final ObjectMapper objectMapper;
-    private final TicketCategoryRepository ticketCategoryRepository;
 
     @Override
     public boolean saveTicketTopic(TicketTopicRequest ticketTopicRequest) {
@@ -50,38 +45,27 @@ public class TicketTopicServiceImpl implements TicketTopicService {
         return ticketTopicRepository.save(updatedTicketTopic);
     }
         catch (RuntimeException e) {
-        throw new ExceptionHandel("Something went Wrong.");
+        throw new DataNotFoundException("Something went Wrong.");
         }
     }
 
     @Override
     public TicketTopic getTopicById(int id) {
         return ticketTopicRepository.findById(id)
-                .orElseThrow(() -> new ExceptionHandel("Ticket Topic not found"));
+                .orElseThrow(() -> new DataNotFoundException("Ticket Topic not found"));
     }
 
     @Override
-    public Page<TicketTopic> getAllTopic(int pageNumber, int pageSize) {
+    public List<TicketTopic> getAllTopicWithoutPagination() {
+        return ticketTopicRepository.findAll();
+    }
+
+    @Override
+    public Page<TicketTopic> getAllTopicWithPagination(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of((pageNumber - 1), pageSize,Sort.by("topic"));
         return ticketTopicRepository.findAll(pageable);
     }
 
-    @Override
-    public List<TicketTopic> getAllTicketTopics() {
-        return ticketTopicRepository.findAll();
-    }
-
-
-    @Override
-    public TicketTopic getDeleteById(int id) {
-        TicketTopic ticketTopic = this.getTopicById(id);
-        List<TicketCategory> relatedCategories=ticketCategoryRepository.findByTicketTopic(ticketTopic);
-        for (TicketCategory category : relatedCategories) {
-            ticketCategoryRepository.delete(category);
-        }
-        ticketTopicRepository.delete(ticketTopic);
-        return ticketTopic;
-    }
 
     @Override
     public void removeSessionMessage() {

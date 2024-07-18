@@ -27,7 +27,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class RestSecurityConfig {
 
-    //private final JwtAuthFilter jwtAuthFilter;
     private final ClientAuthenticationFilter clientAuthenticationFilter;
 
     @Bean
@@ -52,7 +51,6 @@ public class RestSecurityConfig {
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider(userInfoRepository))
-                //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(clientAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

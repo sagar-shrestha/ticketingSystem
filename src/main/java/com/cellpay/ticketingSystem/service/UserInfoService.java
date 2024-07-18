@@ -1,4 +1,4 @@
-package com.cellpay.ticketingSystem.security.service;
+package com.cellpay.ticketingSystem.service;
 
 import com.cellpay.ticketingSystem.security.entity.UserInfo;
 

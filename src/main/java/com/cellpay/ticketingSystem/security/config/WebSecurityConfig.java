@@ -26,22 +26,6 @@
 //@EnableMethodSecurity
 //public class WebSecurityConfig {
 //
-//    private final CustomUserDetailService customUserDetailService;
-//    private final JwtAuthFilter jwtAuthFilter;
-//
-//    @Bean
-//    public UserDetailsService userDetailsService(UserInfoRepository userInfoRepository) {
-//        return new CustomUserDetailService(userInfoRepository);
-//    }
-//
-//    @Bean
-//    public AuthenticationProvider authenticationProvider(UserInfoRepository userInfoRepository) {
-//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setUserDetailsService(userDetailsService(userInfoRepository));
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-//        return daoAuthenticationProvider;
-//    }
-//
 //    @Bean
 //    @Order(1)
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

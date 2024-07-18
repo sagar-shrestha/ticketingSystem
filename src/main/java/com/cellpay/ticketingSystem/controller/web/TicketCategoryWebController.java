@@ -24,7 +24,7 @@ public class TicketCategoryWebController {
 
     @GetMapping("/CategoriesForm")
     public String showTicketCategoryForm(Model model) {
-        List<TicketTopic> ticketTopics = ticketTopicService.getAllTicketTopics();
+        List<TicketTopic> ticketTopics = ticketTopicService.getAllTopicWithoutPagination();
         model.addAttribute("ticketTopics", ticketTopics);
         model.addAttribute("ticketCategoryRequest", new TicketCategoryRequest());
         return "/Category_file/Categories_ticketing";
@@ -45,7 +45,7 @@ public class TicketCategoryWebController {
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/categories")
     public String listCategories(@RequestParam(defaultValue = "0") int page, Model model) {
-        Page<TicketCategory> categories = ticketCategoryService.getAllCategory(page, 10);
+        Page<TicketCategory> categories = ticketCategoryService.getAllCategoryWithPagination(page, 10);
         model.addAttribute("categories", categories);
         return "/Category_file/Categories_list";
     }

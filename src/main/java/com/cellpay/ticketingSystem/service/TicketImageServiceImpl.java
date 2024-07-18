@@ -1,7 +1,7 @@
 package com.cellpay.ticketingSystem.service;
 
 
-import com.cellpay.ticketingSystem.Exception.ExceptionHandel;
+import com.cellpay.ticketingSystem.Exception.DataNotFoundException;
 import com.cellpay.ticketingSystem.entity.TicketImage;
 import com.cellpay.ticketingSystem.helper.TicketImageHelper;
 import com.cellpay.ticketingSystem.repository.TicketImageRepository;
@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.security.sasl.AuthenticationException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -27,7 +26,7 @@ public class TicketImageServiceImpl implements TicketImageService {
             ticketImageRepository.save(ticketImage);
         }
         catch (Exception e) {
-            throw new ExceptionHandel("Ticket image save failed");
+            throw new DataNotFoundException("Ticket image save failed");
         }
     }
 
@@ -37,7 +36,7 @@ public class TicketImageServiceImpl implements TicketImageService {
         ticketImageHelper.getTicketImageById(imageId, httpServletResponse);
     }
         catch(MalformedURLException e){
-            throw new ExceptionHandel("Image not found.");
+            throw new DataNotFoundException("Image not found.");
         }
     }
 

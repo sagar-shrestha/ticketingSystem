@@ -63,7 +63,7 @@ public class TicketTopicWebController {
     @GetMapping("getAllTopic")
     public String getAllTopic(@RequestParam(defaultValue = "1") int pageNumber,
                               @RequestParam(defaultValue = "10") int pageSize, Model model) {
-        Page<TicketTopic> ticketTopics = ticketTopicService.getAllTopic(pageNumber, pageSize);
+        Page<TicketTopic> ticketTopics = ticketTopicService.getAllTopicWithPagination(pageNumber, pageSize);
         pageNumber = ticketTopics.getNumber();
         pageSize = ticketTopics.getSize();
         int totalPages = ticketTopics.getTotalPages();

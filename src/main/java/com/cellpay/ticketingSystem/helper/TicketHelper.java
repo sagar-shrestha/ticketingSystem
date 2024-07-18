@@ -4,7 +4,6 @@ import com.cellpay.ticketingSystem.common.pojo.response.TicketResponse;
 import com.cellpay.ticketingSystem.entity.PaynetUserDetails;
 import com.cellpay.ticketingSystem.entity.Ticket;
 import com.cellpay.ticketingSystem.repository.PaynetUserDeatilsRepository;
-import com.cellpay.ticketingSystem.repository.TicketImageRepository;
 import com.cellpay.ticketingSystem.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,7 +43,7 @@ public class TicketHelper {
                 .collect(Collectors.toList());
     }
 
-    public Page<TicketResponse> getAllTicketsByUsername(String username, Pageable pageable) {
+    public Page<TicketResponse> getAllTicketsByUsernameWithPagination(String username, Pageable pageable) {
         PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.getPaynetUserDetailsByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Paynet User Not Found."));
         List<Ticket> tickets = ticketRepository.getTicketsByPaynetUserDetails(paynetUserDetails);
@@ -59,4 +58,11 @@ public class TicketHelper {
                 .toList();
         return new PageImpl<>(ticketResponses, pageable, ticketResponses.size());
     }
+    public Page<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {
+        PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.getPaynetUserDetailsByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Paynet User Not Found."));
+        List<Ticket> tickets = ticketRepository.getTicketsByPaynetUserDetails(paynetUserDetails);
+        return null;
+    }
 }
+

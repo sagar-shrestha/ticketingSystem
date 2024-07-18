@@ -1,18 +1,18 @@
 package com.cellpay.ticketingSystem.service;
 
-import com.cellpay.ticketingSystem.Exception.ExceptionHandel;
+import com.cellpay.ticketingSystem.Exception.DataNotFoundException;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.TicketResponse;
 import com.cellpay.ticketingSystem.common.util.GenericFileUtil;
 import com.cellpay.ticketingSystem.entity.PaynetUserDetails;
 import com.cellpay.ticketingSystem.entity.Ticket;
-import com.cellpay.ticketingSystem.entity.TicketCategory;
 import com.cellpay.ticketingSystem.entity.TicketImage;
 import com.cellpay.ticketingSystem.helper.TicketHelper;
 import com.cellpay.ticketingSystem.repository.PaynetUserDeatilsRepository;
 import com.cellpay.ticketingSystem.repository.TicketImageRepository;
 import com.cellpay.ticketingSystem.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.engine.messageinterpolation.parser.MessageDescriptorFormatException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -52,7 +52,7 @@ public class TicketServiceImpl implements TicketService {
                     .builder()
                     .ticketCategory(List.of(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory())))
                     .description(ticketRequestPojo.getDescription())
-                    .paynetUserDetails(paynetUserDetails)
+//                    .paynetUserDetails(paynetUserDetails)
                     .build());
             for (MultipartFile image : ticketRequestPojo.getImages()) {
                 String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getImages()
@@ -66,7 +66,7 @@ public class TicketServiceImpl implements TicketService {
             }
             return false;
         } catch (Exception e) {
-            throw new Exception("unable to save ticket");
+            throw new MessageDescriptorFormatException("unable to save ticket");
         }
     }
 
@@ -85,7 +85,7 @@ public class TicketServiceImpl implements TicketService {
                 for (int i = 0; i < ticketRequest.getImages().size(); i++) {
                     Integer imageId = existingTicket.getImageId().get(i);
                     existingTicketImage = ticketImageRepository.findById(imageId)
-                            .orElseThrow(() -> new ExceptionHandel("Ticket Image Not Found"));
+                            .orElseThrow(() -> new DataNotFoundException("Ticket Image Not Found"));
                     String imagePath = genericFileUtil.updateFile(ticketRequest.getImages().get(i), existingTicketImage.getImage());
                     TicketImage updatedTicketImage = TicketImage.builder()
                             .id(imageId)
@@ -103,7 +103,13 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public TicketResponse getTicketById(Long id) throws MalformedURLException {
-        return ticketHelper.getTicketById(id);
+        try {
+            return ticketHelper.getTicketById(id);
+
+        }
+        catch (Exception e) {
+            throw new DataNotFoundException("unable to get ticket");
+        }
     }
 
     @Override
@@ -113,16 +119,16 @@ public class TicketServiceImpl implements TicketService {
 
 
     @Override
-    public Page<TicketResponse> getAllTicketsByUsername(String username, Integer pageNumber, Integer pageSize) {
+    public Page<TicketResponse> getAllTicketsByUsernameWithPagination(String username, Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of((pageNumber - 1), pageSize, Sort.by("id"));
-        return ticketHelper.getAllTicketsByUsername(username, pageable);
+        return ticketHelper.getAllTicketsByUsernameWithPagination(username, pageable);
     }
 
     @Override
     public TicketResponse getDeleteById(Long id) throws MalformedURLException {
         TicketResponse ticketResponse = this.getTicketById(id);
         Ticket ticket = ticketRepository.findById(id)
-                .orElseThrow(() -> new ExceptionHandel("Ticket not found with id: " + id));
+                .orElseThrow(() -> new DataNotFoundException("Ticket not found with id: " + id));
         List<TicketImage> ticketImages = ticketImageRepository.findAllByTicket(ticket);
         for (TicketImage ticketImage : ticketImages) {
             genericFileUtil.deleteFile(new File(ticketImage.getImage()));
@@ -130,5 +136,14 @@ public class TicketServiceImpl implements TicketService {
         }
         ticketRepository.delete(ticket);
         return ticketResponse;
+    }
+
+    public Page<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {
+        try {
+            return ticketHelper.getAllTicketsByUsernameWithoutPagination(username);
+        }
+        catch (Exception e) {
+            throw new DataNotFoundException("Paynet User Not Found.");
+        }
     }
 }

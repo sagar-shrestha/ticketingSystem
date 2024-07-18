@@ -38,8 +38,8 @@ public class TicketWebController {
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/AddTicketing")
     public String ticketing(Model model) {
-        List<TicketTopic> ticketTopics = ticketTopicService.getAllTicketTopics();
-        List<TicketCategory> ticketCategories = ticketCategoryService.getAllCategory();
+        List<TicketTopic> ticketTopics = ticketTopicService.getAllTopicWithoutPagination();
+        List<TicketCategory> ticketCategories = ticketCategoryService.getAllCategoryWithOutPagination();
         model.addAttribute("ticketRequestPojo", new TicketRequest());
         model.addAttribute("ticketTopics", ticketTopics);
         model.addAttribute("ticketCategories", ticketCategories);

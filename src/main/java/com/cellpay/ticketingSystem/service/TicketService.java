@@ -20,8 +20,9 @@ public interface TicketService {
 
     List<TicketResponse> getAllTickets();
 
-    Page<TicketResponse> getAllTicketsByUsername(String username, Integer pageNumber, Integer pageSize);
+    Page<TicketResponse> getAllTicketsByUsernameWithPagination(String username, Integer pageNumber, Integer pageSize);
 
     TicketResponse getDeleteById(Long id) throws MalformedURLException;
+    Page<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username);
 
 }

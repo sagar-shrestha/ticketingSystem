@@ -1,23 +1,15 @@
-package com.cellpay.ticketingSystem.security.controller.web;
+package com.cellpay.ticketingSystem.security.controller;
 
 import com.cellpay.ticketingSystem.common.pojo.response.GlobalApiResponse;
-import com.cellpay.ticketingSystem.helper.Message;
 import com.cellpay.ticketingSystem.security.entity.UserInfo;
-import com.cellpay.ticketingSystem.security.repository.UserInfoRepository;
-import com.cellpay.ticketingSystem.security.service.UserInfoService;
-import jakarta.servlet.http.HttpSession;
+import com.cellpay.ticketingSystem.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/super")
@@ -25,7 +17,6 @@ import java.security.Principal;
 public class UserInfoWebController {
 
     private final UserInfoService userInfoService;
-    private final UserInfoRepository userInfoRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     //  @PreAuthorize("hasAuthority('SUPER_SUPER')")
