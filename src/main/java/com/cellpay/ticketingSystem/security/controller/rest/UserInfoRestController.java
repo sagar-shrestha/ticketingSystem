@@ -21,7 +21,7 @@ public class UserInfoRestController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   //  @PreAuthorize("hasAuthority('SUPER_SUPER')")
-    @PostMapping
+    @PostMapping("saveUser")
     public ResponseEntity<GlobalApiResponse> saveRestUserInfo(@RequestBody UserInfo userInfo) {
         String password = userInfo.getPassword();
         userInfo.setPassword(bCryptPasswordEncoder.encode(password));

@@ -86,6 +86,7 @@ public class TicketServiceImpl implements TicketService {
             ticketRepository.save(updatedTicket);
         } catch (Exception e) {
             genericFileUtil.reSaveFile(existingTicketImage.getImage());
+            throw new ExceptionHandel("unable to update the ticket.");
         }
     }
 

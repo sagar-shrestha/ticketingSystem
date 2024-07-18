@@ -55,6 +55,7 @@ public class TicketCategoryController {
                 .build());
     }
 
+
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("getAllCategory")
     public ResponseEntity<GlobalApiResponse> getAllCategory(@RequestParam("pageNo") int pageNo,

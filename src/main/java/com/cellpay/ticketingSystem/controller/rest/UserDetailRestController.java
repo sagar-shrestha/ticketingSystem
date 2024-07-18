@@ -1,5 +1,6 @@
 package com.cellpay.ticketingSystem.controller.rest;
 
+import com.cellpay.ticketingSystem.common.annotations.CustomRestController;
 import com.cellpay.ticketingSystem.common.annotations.CustomWebController;
 import com.cellpay.ticketingSystem.common.pojo.request.PasswordChangeRequest;
 import com.cellpay.ticketingSystem.helper.Message;
@@ -18,9 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
-@CustomWebController
+@CustomRestController
 @RequiredArgsConstructor
-@RequestMapping("rest")
 public class UserDetailRestController {
 
     private final UserServices userServices;
