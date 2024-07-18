@@ -19,5 +19,6 @@ public interface TicketCategoryService {
     TicketCategory getCategoryById(int id);
 
     Page<TicketCategory> getAllCategoryWithPagination(int pageNo, int pageSize);
+
     List<TicketCategory> getAllCategoryWithOutPagination();
 }
