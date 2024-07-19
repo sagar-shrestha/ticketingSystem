@@ -3,8 +3,6 @@ package com.cellpay.ticketingSystem.service;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.TicketResponse;
 import org.springframework.data.domain.Page;
-
-
 import java.net.MalformedURLException;
 import java.util.List;
 

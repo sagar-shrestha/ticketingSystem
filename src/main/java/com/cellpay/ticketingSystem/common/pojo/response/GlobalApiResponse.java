@@ -2,6 +2,7 @@ package com.cellpay.ticketingSystem.common.pojo.response;
 
 import lombok.*;
 
+
 @Getter
 @Setter
 @AllArgsConstructor

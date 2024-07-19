@@ -58,6 +58,7 @@ public class TicketHelper {
                 .toList();
         return new PageImpl<>(ticketResponses, pageable, ticketResponses.size());
     }
+
     public Page<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {
         PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.getPaynetUserDetailsByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Paynet User Not Found."));
