@@ -29,11 +29,22 @@ public class ClientAuthenticationFilter extends OncePerRequestFilter {
 
             if (authentication != null) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                filterChain.doFilter(request, response);
+                return;
+            }
+            else{
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Invalid Client-Id or Client-Secret");
+                return;
             }
         }
-
-        filterChain.doFilter(request, response);
+        else{
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Client-Id and Client-Secret headers are required");
+            return;
+        }
     }
+
 
     private Authentication authenticate(String clientId, String clientSecret) {
         if (CLIENT_ID.equals(clientId) && CLIENT_SECRET.equals(clientSecret)) {
