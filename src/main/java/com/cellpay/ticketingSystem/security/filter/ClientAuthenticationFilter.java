@@ -27,10 +27,9 @@ public class ClientAuthenticationFilter extends OncePerRequestFilter {
         if (clientId != null && clientSecret != null) {
             Authentication authentication = authenticate(clientId, clientSecret);
 
+
             if (authentication != null) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                filterChain.doFilter(request, response);
-                return;
             }
             else{
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -38,11 +37,8 @@ public class ClientAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
         }
-        else{
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("Client-Id and Client-Secret headers are required");
-            return;
-        }
+
+        filterChain.doFilter(request, response);
     }
 
 
