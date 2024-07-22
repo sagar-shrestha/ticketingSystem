@@ -30,7 +30,9 @@ public class TicketTopicWebController {
         }
         model.addAttribute("message", "Topic Saved Successfully.");
         return "redirect:/web/getAllTopic";
+        
     }
+
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PostMapping("/updateTopic")
@@ -75,14 +77,11 @@ public class TicketTopicWebController {
     }
 
 
-
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/ticketTopic")
     public String ticketManagement() {
         return "/ticket-topic/ticket-topic";
     }
-
-
 
 
 }

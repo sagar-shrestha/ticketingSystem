@@ -55,15 +55,31 @@ public class TicketTopicServiceImpl implements TicketTopicService {
                 .orElseThrow(() -> new DataNotFoundException("Ticket Topic not found"));
     }
 
+
+
     @Override
     public List<TicketTopic> getAllTopicWithoutPagination() {
+        try{
         return ticketTopicRepository.findAll();
     }
+        catch (RuntimeException e) {
+
+        throw new DataNotFoundException("Something went Wrong.");
+        }
+    }
+
+
 
     @Override
     public Page<TicketTopic> getAllTopicWithPagination(int pageNumber, int pageSize) {
+        try{
+
         Pageable pageable = PageRequest.of((pageNumber - 1), pageSize,Sort.by("topic"));
         return ticketTopicRepository.findAll(pageable);
+    }
+        catch (RuntimeException e) {
+        throw new DataNotFoundException("Something went Wrong.");
+        }
     }
 
 

@@ -18,19 +18,6 @@ public class TicketTopicController {
 
     private final TicketTopicService ticketTopicService;
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @PostMapping("/saveTopic")
-    public ResponseEntity<GlobalApiResponse> saveTicketTopic(
-            @RequestBody TicketTopicRequest ticketTopicRequest) {
-        ticketTopicService.saveTicketTopic(ticketTopicRequest);
-        return ResponseEntity.ok(GlobalApiResponse.builder()
-                .code(HttpStatus.CREATED.value())
-                .data(null)
-                .status(true)
-                .message("Topic Saved Successfully.")
-                .build());
-    }
-
     @GetMapping("getAllTopic")
     public ResponseEntity<GlobalApiResponse> getAllTopicWithoutPagination() {
         return ResponseEntity.ok(GlobalApiResponse

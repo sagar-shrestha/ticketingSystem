@@ -120,12 +120,19 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Page<TicketResponse> getAllTicketsByUsernameWithPagination(String username, Integer pageNumber, Integer pageSize) {
+        try{
         Pageable pageable = PageRequest.of((pageNumber - 1), pageSize, Sort.by("id"));
         return ticketHelper.getAllTicketsByUsernameWithPagination(username, pageable);
+    }
+        catch (Exception e) {
+
+        throw new DataNotFoundException("unable to get tickets");
+        }
     }
 
     @Override
     public TicketResponse getDeleteById(Long id) throws MalformedURLException {
+        try{
         TicketResponse ticketResponse = this.getTicketById(id);
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Ticket not found with id: " + id));
@@ -136,6 +143,10 @@ public class TicketServiceImpl implements TicketService {
         }
         ticketRepository.delete(ticket);
         return ticketResponse;
+    }
+        catch (Exception e) {
+        throw new DataNotFoundException("unable to get ticket by id");
+        }
     }
 
     public Page<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {

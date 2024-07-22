@@ -50,6 +50,7 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     @Override
     @Transactional
     public TicketCategory updateTicketCategory(TicketCategoryRequest ticketCategoryRequest, int id) {
+        try{
         TicketCategory existingTicketCategory = getCategoryById(id);
         TicketCategory updatedTicketCategory = TicketCategory
                 .builder()
@@ -58,6 +59,10 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
                 .ticketTopic(ticketTopicService.getTopicById(ticketCategoryRequest.getTicketTopic()))
                 .build();
         return ticketCategoryRepository.save(updatedTicketCategory);
+    }
+        catch(Exception e){
+        throw new DataNotFoundException("unable to update ticket category");
+        }
     }
 
 
@@ -75,13 +80,22 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
 
     @Override
     public Page<TicketCategory> getAllCategoryWithPagination(int pageNo, int pageSize) {
+        try{
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("category").ascending());
         return ticketCategoryRepository.findAll(pageable);
+    }
+        catch (RuntimeException e){
+        throw new DataNotFoundException("unable to get all category");}
     }
 
     @Override
     public List<TicketCategory> getAllCategoryWithOutPagination() {
+        try{
         return ticketCategoryRepository.findAll();
+    }
+        catch (RuntimeException e){
+        throw new DataNotFoundException("unable to get all category");
+        }
     }
 
     public void removeSessionMessage() {
