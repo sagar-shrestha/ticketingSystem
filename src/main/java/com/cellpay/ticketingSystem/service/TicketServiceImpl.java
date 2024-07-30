@@ -52,7 +52,7 @@ public class TicketServiceImpl implements TicketService {
                     .builder()
                     .ticketCategory(List.of(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory())))
                     .description(ticketRequestPojo.getDescription())
-//                    .paynetUserDetails(paynetUserDetails)
+                   .paynetUserDetails(paynetUserDetails)
                     .build());
             for (MultipartFile image : ticketRequestPojo.getImages()) {
                 String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getImages()

@@ -20,7 +20,7 @@ public class  Ticket {
     @JoinColumn(name = "ticket_category", foreignKey = @ForeignKey(name = "fk_ticket_category_id"),
             referencedColumnName = "id")
     private List<TicketCategory> ticketCategory;
-    private String description;
+    private String description; 
     @ManyToOne
     @JoinColumn(name = "paynet_user_details", foreignKey = @ForeignKey(name = "fk_paynet_user_details"))
     private PaynetUserDetails paynetUserDetails;

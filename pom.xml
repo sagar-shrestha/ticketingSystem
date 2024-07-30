@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>ticketingSystem</name>
     <description>Ticketing System</description>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <properties>
         <java.version>21</java.version>
     </properties>
