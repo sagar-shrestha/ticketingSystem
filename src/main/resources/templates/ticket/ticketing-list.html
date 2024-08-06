@@ -48,28 +48,26 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="ticket : ${tickets}">
-                                <td th:text="${ticket.id}"></td>
-                                <td>
-                                    <ul>
-                                        <li th:each="category : ${ticket.ticketCategory}" th:text="${category.category}"></li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        <li th:each="category : ${ticket.ticketCategory}" th:text="${category.ticketTopic.getTopic()}"></li>
-                                    </ul>
-                                </td>
-                                <td th:text="${ticket.description}"></td>
+                            <tr th:each="ticket, i : ${tickets}">
+                                <td th:text="${ticket.getId()}"></td>
+                                <td th:text="${ticket.getTicketCategory().category}"></td>
+                                <td th:text="${ticket.getTicketCategory().getTicketTopic().topic}"></td>
+
+                                <td th:text="${ticket.getDescription()}"></td>
                                 <td>
                                     <div th:each="image : ${ticket.getImageId()}">
-                                        <img th:src="@{${image}}" alt="Ticket Image" class="img-thumbnail" style="max-width: 70px; max-height: 70px;"/>
+                                        <img th:src="@{${image.BYTES}}" alt="Ticket Image" class="img-thumbnail" style="max-width: 70px; max-height: 70px;"/>
                                     </div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
+<!--                    <div class="card-footer d-flex justify-content-between">-->
+<!--                        <a th:href="@{/tickets?page=${tickets.number - 1}}" th:if="${tickets.hasPrevious()}" class="btn btn-primary">Previous</a>-->
+<!--                        <span>Page <span th:text="${tickets.number + 1}"></span> of <span th:text="${tickets.totalPages}"></span></span>-->
+<!--                        <a th:href="@{/tickets?page=${tickets.number + 1}}" th:if="${tickets.hasNext()}" class="btn btn-primary">Next</a>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>
