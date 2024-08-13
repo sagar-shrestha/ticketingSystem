@@ -48,7 +48,7 @@ public class TicketTopicWebController {
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/updateTopicById/{id}")
     public String updateTopicById(@PathVariable int id, Model model) {
-        TicketTopic ticketTopic = ticketTopicService.getTopicById(id);
+        TicketTopic ticketTopic = (TicketTopic) ticketTopicService.getTopicById(id);
         model.addAttribute("ticketTopic", ticketTopic);
         return "/ticket-topic/ticket-topic-edit";
     }
@@ -56,7 +56,7 @@ public class TicketTopicWebController {
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/getTopicById/{id}")
     public String getTopicById(@PathVariable int id, Model model) {
-        TicketTopic ticketTopic = ticketTopicService.getTopicById(id);
+        TicketTopic ticketTopic = (TicketTopic) ticketTopicService.getTopicById(id);
         model.addAttribute("ticketTopic", ticketTopic);
         return "/ticket-topic/ticket-topic-details";
     }

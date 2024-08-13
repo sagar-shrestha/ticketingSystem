@@ -39,7 +39,7 @@ public class TicketTopicServiceImpl implements TicketTopicService {
     @Override
     public TicketTopic updateTicketTopic(TicketTopicRequest ticketTopicRequest, int id) {
         try{
-        TicketTopic existingTicketTopic = getTopicById(id);
+        TicketTopic existingTicketTopic = (TicketTopic) getTopicById(id);
         TicketTopic updatedTicketTopic = objectMapper.convertValue(ticketTopicRequest, TicketTopic.class);
         updatedTicketTopic.setId(existingTicketTopic.getId());
         return ticketTopicRepository.save(updatedTicketTopic);
@@ -50,8 +50,8 @@ public class TicketTopicServiceImpl implements TicketTopicService {
     }
 
     @Override
-    public TicketTopic getTopicById(int id) {
-        return ticketTopicRepository.findById(id)
+    public List<TicketTopic> getTopicById(int id) {
+        return (List<TicketTopic>) ticketTopicRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Ticket Topic not found"));
     }
 

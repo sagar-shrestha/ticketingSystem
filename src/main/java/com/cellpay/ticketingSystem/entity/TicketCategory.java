@@ -3,6 +3,8 @@ package com.cellpay.ticketingSystem.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "ticket_category")
 @Getter
@@ -16,9 +18,9 @@ public class TicketCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String category;
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "ticket_topic", foreignKey = @ForeignKey(name = "fk_ticket_topic_id"))
-    private TicketTopic ticketTopic;
+    private List<TicketTopic> ticketTopic;
 
     @Override
     public String toString() {
