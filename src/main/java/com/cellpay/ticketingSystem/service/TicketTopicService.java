@@ -3,8 +3,6 @@ package com.cellpay.ticketingSystem.service;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketTopicRequest;
 import com.cellpay.ticketingSystem.entity.TicketTopic;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,11 +12,12 @@ boolean saveTicketTopic(TicketTopicRequest ticketTopicRequest);
 
 TicketTopic updateTicketTopic(TicketTopicRequest ticketTopicRequest, int id);
 
-TicketTopic getTopicById(int id);
+List<TicketTopic> getTopicById(int id);
 
-Page<TicketTopic> getAllTopic(int pageNumber, int pageSize);
+List<TicketTopic> getAllTopicWithoutPagination();
+
+Page<TicketTopic> getAllTopicWithPagination(int pageNumber, int pageSize);
 
 void removeSessionMessage();
 
-List<TicketTopic> getAllTicketTopics();
 }

@@ -1,10 +1,8 @@
 package com.cellpay.ticketingSystem.controller.web;
 
 import com.cellpay.ticketingSystem.common.annotations.CustomWebController;
-import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketTopicRequest;
 import com.cellpay.ticketingSystem.entity.TicketTopic;
-import com.cellpay.ticketingSystem.service.TicketCategoryService;
 import com.cellpay.ticketingSystem.service.TicketTopicService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+
 
 @CustomWebController
 @RequiredArgsConstructor
@@ -30,7 +30,9 @@ public class TicketTopicWebController {
         }
         model.addAttribute("message", "Topic Saved Successfully.");
         return "redirect:/web/getAllTopic";
+        
     }
+
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PostMapping("/updateTopic")
@@ -46,7 +48,7 @@ public class TicketTopicWebController {
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/updateTopicById/{id}")
     public String updateTopicById(@PathVariable int id, Model model) {
-        TicketTopic ticketTopic = ticketTopicService.getTopicById(id);
+        TicketTopic ticketTopic = (TicketTopic) ticketTopicService.getTopicById(id);
         model.addAttribute("ticketTopic", ticketTopic);
         return "/ticket-topic/ticket-topic-edit";
     }
@@ -54,7 +56,7 @@ public class TicketTopicWebController {
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/getTopicById/{id}")
     public String getTopicById(@PathVariable int id, Model model) {
-        TicketTopic ticketTopic = ticketTopicService.getTopicById(id);
+        TicketTopic ticketTopic = (TicketTopic) ticketTopicService.getTopicById(id);
         model.addAttribute("ticketTopic", ticketTopic);
         return "/ticket-topic/ticket-topic-details";
     }
@@ -63,7 +65,7 @@ public class TicketTopicWebController {
     @GetMapping("getAllTopic")
     public String getAllTopic(@RequestParam(defaultValue = "1") int pageNumber,
                               @RequestParam(defaultValue = "10") int pageSize, Model model) {
-        Page<TicketTopic> ticketTopics = ticketTopicService.getAllTopic(pageNumber, pageSize);
+        Page<TicketTopic> ticketTopics = ticketTopicService.getAllTopicWithPagination(pageNumber, pageSize);
         pageNumber = ticketTopics.getNumber();
         pageSize = ticketTopics.getSize();
         int totalPages = ticketTopics.getTotalPages();
@@ -75,14 +77,11 @@ public class TicketTopicWebController {
     }
 
 
-
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/ticketTopic")
     public String ticketManagement() {
         return "/ticket-topic/ticket-topic";
     }
-
-
 
 
 }

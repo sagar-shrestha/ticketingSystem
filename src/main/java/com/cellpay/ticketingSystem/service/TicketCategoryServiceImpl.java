@@ -1,5 +1,6 @@
 package com.cellpay.ticketingSystem.service;
 
+import com.cellpay.ticketingSystem.Exception.DataNotFoundException;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketCategoryRequest;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.entity.TicketCategory;
@@ -32,6 +33,7 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     @Override
     @Transactional
     public boolean saveTicketCategory(TicketCategoryRequest ticketCategoryRequest) {
+        try{
         TicketCategory ticketCategory = TicketCategory
                 .builder()
                 .category(ticketCategoryRequest.getCategory())
@@ -40,10 +42,15 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
         ticketCategoryRepository.save(ticketCategory);
         return false;
     }
+        catch(Exception e){
+        throw new DataNotFoundException("unable to save ticket category");
+        }
+    }
 
     @Override
     @Transactional
     public TicketCategory updateTicketCategory(TicketCategoryRequest ticketCategoryRequest, int id) {
+        try{
         TicketCategory existingTicketCategory = getCategoryById(id);
         TicketCategory updatedTicketCategory = TicketCategory
                 .builder()
@@ -53,22 +60,42 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
                 .build();
         return ticketCategoryRepository.save(updatedTicketCategory);
     }
+        catch(Exception e){
+        throw new DataNotFoundException("unable to update ticket category");
+        }
+    }
+
+
 
     @Override
     public TicketCategory getCategoryById(int categoryId) {
+        try{
         return ticketCategoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
     }
-
-    @Override
-    public Page<TicketCategory> getAllCategory(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("category").ascending());
-        return ticketCategoryRepository.findAll(pageable);
+        catch (RuntimeException e){
+        throw new DataNotFoundException("Category not found" +categoryId);
+        }
     }
 
     @Override
-    public List<TicketCategory> getAllCategory() {
+    public Page<TicketCategory> getAllCategoryWithPagination(int pageNo, int pageSize) {
+        try{
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("category").ascending());
+        return ticketCategoryRepository.findAll(pageable);
+    }
+        catch (RuntimeException e){
+        throw new DataNotFoundException("unable to get all category");}
+    }
+
+    @Override
+    public List<TicketCategory> getAllCategoryWithOutPagination() {
+        try{
         return ticketCategoryRepository.findAll();
+    }
+        catch (RuntimeException e){
+        throw new DataNotFoundException("unable to get all category");
+        }
     }
 
     public void removeSessionMessage() {
@@ -76,4 +103,6 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
                 .getSessionMutex();
         httpSession.removeAttribute("sessionMessage");
     }
+
+
 }

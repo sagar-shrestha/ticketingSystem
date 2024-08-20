@@ -2,10 +2,8 @@ package com.cellpay.ticketingSystem.controller.web;
 
 import com.cellpay.ticketingSystem.common.annotations.CustomWebController;
 import com.cellpay.ticketingSystem.helper.Message;
-import com.cellpay.ticketingSystem.security.entity.AuthRequest;
 import com.cellpay.ticketingSystem.security.entity.UserInfo;
 import com.cellpay.ticketingSystem.security.repository.UserInfoRepository;
-import com.cellpay.ticketingSystem.security.service.UserInfoService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import java.security.Principal;
+
 
 @CustomWebController
 @RequiredArgsConstructor

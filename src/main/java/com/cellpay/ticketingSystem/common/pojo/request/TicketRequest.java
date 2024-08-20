@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+
+
 @Getter
 @Setter
 @Builder
@@ -20,4 +22,5 @@ public class TicketRequest {
     private String description;
     private List<MultipartFile> images;
     private TicketTopicRequest ticketTopicRequest;
+    private PaynetUserDetailsRequest paynetUserDetailsRequest;
 }

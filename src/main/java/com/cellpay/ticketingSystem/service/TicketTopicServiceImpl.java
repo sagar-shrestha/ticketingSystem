@@ -1,5 +1,6 @@
 package com.cellpay.ticketingSystem.service;
 
+import com.cellpay.ticketingSystem.Exception.DataNotFoundException;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketTopicRequest;
 import com.cellpay.ticketingSystem.entity.TicketTopic;
 import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
@@ -12,9 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,34 +26,60 @@ public class TicketTopicServiceImpl implements TicketTopicService {
 
     @Override
     public boolean saveTicketTopic(TicketTopicRequest ticketTopicRequest) {
-        TicketTopic ticketTopic = objectMapper.convertValue(ticketTopicRequest, TicketTopic.class);
-        ticketTopicRepository.save(ticketTopic);
-        return true;
+        try {
+            TicketTopic ticketTopic = objectMapper.convertValue(ticketTopicRequest, TicketTopic.class);
+            ticketTopicRepository.save(ticketTopic);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
+
 
     @Override
     public TicketTopic updateTicketTopic(TicketTopicRequest ticketTopicRequest, int id) {
-        TicketTopic existingTicketTopic = getTopicById(id);
+        try{
+        TicketTopic existingTicketTopic = (TicketTopic) getTopicById(id);
         TicketTopic updatedTicketTopic = objectMapper.convertValue(ticketTopicRequest, TicketTopic.class);
         updatedTicketTopic.setId(existingTicketTopic.getId());
         return ticketTopicRepository.save(updatedTicketTopic);
     }
-
-    @Override
-    public TicketTopic getTopicById(int id) {
-        return ticketTopicRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ticket Topic not found"));
+        catch (RuntimeException e) {
+        throw new DataNotFoundException("Something went Wrong.");
+        }
     }
 
     @Override
-    public Page<TicketTopic> getAllTopic(int pageNumber, int pageSize) {
+    public List<TicketTopic> getTopicById(int id) {
+        return (List<TicketTopic>) ticketTopicRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Ticket Topic not found"));
+    }
+
+
+
+    @Override
+    public List<TicketTopic> getAllTopicWithoutPagination() {
+        try{
+        return ticketTopicRepository.findAll();
+    }
+        catch (RuntimeException e) {
+
+        throw new DataNotFoundException("Something went Wrong.");
+        }
+    }
+
+
+
+    @Override
+    public Page<TicketTopic> getAllTopicWithPagination(int pageNumber, int pageSize) {
+        try{
+
         Pageable pageable = PageRequest.of((pageNumber - 1), pageSize,Sort.by("topic"));
         return ticketTopicRepository.findAll(pageable);
     }
-
-    @Override
-    public List<TicketTopic> getAllTicketTopics() {
-        return ticketTopicRepository.findAll();
+        catch (RuntimeException e) {
+        throw new DataNotFoundException("Something went Wrong.");
+        }
     }
 
 
