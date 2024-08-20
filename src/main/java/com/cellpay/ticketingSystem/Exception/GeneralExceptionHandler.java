@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GeneralExceptionHandler {
-    @ExceptionHandler(ExceptionHandel.class)
-    public ResponseEntity<GlobalApiResponse> handleException(ExceptionHandel ex) {
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<GlobalApiResponse> handleException(DataNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 GlobalApiResponse.builder()
                         .code(HttpStatus.UNAUTHORIZED.value())

@@ -6,7 +6,6 @@ import com.cellpay.ticketingSystem.repository.TicketImageRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 

@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.MalformedURLException;
+
+
 
 @CustomRestController
 @RequiredArgsConstructor
@@ -19,7 +19,6 @@ public class TicketController {
 
     private final TicketService ticketService;
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PostMapping(value = "/saveTicket", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<GlobalApiResponse> saveTicket(@ModelAttribute TicketRequest ticketRequestPojo) throws Exception {
         ticketService.saveTicket(ticketRequestPojo);
@@ -32,20 +31,19 @@ public class TicketController {
                 .build());
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @PutMapping("saveTicket/{id}")
-    public ResponseEntity<GlobalApiResponse> updateTicket(@ModelAttribute TicketRequest ticketRequestPojo, @PathVariable Long id) throws Exception {
-        ticketService.updateTicket(ticketRequestPojo, id);
+
+    @GetMapping(value = "/getTicketByUsername")
+    public ResponseEntity<GlobalApiResponse> getTicketByUsername(@RequestParam String username ) throws Exception {
         return ResponseEntity.ok(GlobalApiResponse
                 .builder()
                 .code(HttpStatus.OK.value())
-                .data(null)
-                .message("Ticket Updated Successfully.")
+                .data(ticketService.getAllTicketsByUsernameWithoutPagination(username))
+                .message("Topic Found Successfully.")
                 .status(true)
                 .build());
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+
     @GetMapping("getTicketById/{id}")
     public ResponseEntity<GlobalApiResponse> getTicketById(@PathVariable Long id) throws MalformedURLException {
         return ResponseEntity.ok(GlobalApiResponse
@@ -56,18 +54,5 @@ public class TicketController {
                 .status(true)
                 .build());
     }
-
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @DeleteMapping("getDeleteById/{id}")
-    public ResponseEntity<GlobalApiResponse> getDeleteById(@PathVariable Long id) throws MalformedURLException {
-        return ResponseEntity.ok(GlobalApiResponse
-                .builder()
-                .code(HttpStatus.OK.value())
-                .data(ticketService.getDeleteById(id))
-                .message("Ticket Delete Successfully.")
-                .status(true)
-                .build());
-    }
-
 
 }

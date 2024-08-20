@@ -1,11 +1,12 @@
 package com.cellpay.ticketingSystem.security.config;
 
+import com.cellpay.ticketingSystem.security.filter.ClientAuthenticationFilter;
 import com.cellpay.ticketingSystem.security.repository.UserInfoRepository;
 import com.cellpay.ticketingSystem.security.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -24,9 +25,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @EnableWebSecurity
 @EnableMethodSecurity
+@Order(1)
 public class RestSecurityConfig {
 
-    private final JwtAuthFilter jwtAuthFilter;
+    private final ClientAuthenticationFilter clientAuthenticationFilter;
 
     @Bean
     public UserDetailsService userDetailsService(UserInfoRepository userInfoRepository) {
@@ -42,18 +44,18 @@ public class RestSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, UserInfoRepository userInfoRepository) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> {
-                    request.requestMatchers("/super/saveUserInfo").permitAll();
-                    request.requestMatchers("/rest/super").permitAll();
-                    request.requestMatchers("/super/authenticate").permitAll();
-                    request.requestMatchers("/rest/**").hasAnyRole("SUPER_ADMIN", "ADMIN");
-                    request.anyRequest().authenticated();
-                })
+    public SecurityFilterChain restSecurityFilterChain(HttpSecurity http, UserInfoRepository userInfoRepository) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .securityMatcher("/rest/**")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/rest/**").authenticated()
+                        .anyRequest().authenticated()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider(userInfoRepository))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
+                .addFilterBefore(clientAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
     @Bean

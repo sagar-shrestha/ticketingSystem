@@ -1,15 +1,10 @@
 package com.cellpay.ticketingSystem.service;
 
-import com.cellpay.ticketingSystem.Exception.ExceptionHandel;
+import com.cellpay.ticketingSystem.Exception.DataNotFoundException;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketCategoryRequest;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
-import com.cellpay.ticketingSystem.entity.Ticket;
 import com.cellpay.ticketingSystem.entity.TicketCategory;
-import com.cellpay.ticketingSystem.entity.TicketTopic;
 import com.cellpay.ticketingSystem.repository.TicketCategoryRepository;
-import com.cellpay.ticketingSystem.repository.TicketRepository;
-import com.cellpay.ticketingSystem.repository.TicketTopicRepository;
-import com.cellpay.ticketingSystem.security.Exception.AuthenticationException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,8 +24,6 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
 
     private final TicketCategoryRepository ticketCategoryRepository;
     private final TicketTopicService ticketTopicService;
-    private final TicketRepository ticketRepository;
-    private final TicketTopicRepository ticketTopicRepository;
 
     @Override
     public boolean saveTicketCategory(TicketRequest ticketCategoryRequest) {
@@ -50,13 +43,14 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
         return false;
     }
         catch(Exception e){
-        throw new ExceptionHandel("unable to save ticket category");
+        throw new DataNotFoundException("unable to save ticket category");
         }
     }
 
     @Override
     @Transactional
     public TicketCategory updateTicketCategory(TicketCategoryRequest ticketCategoryRequest, int id) {
+        try{
         TicketCategory existingTicketCategory = getCategoryById(id);
         TicketCategory updatedTicketCategory = TicketCategory
                 .builder()
@@ -65,6 +59,10 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
                 .ticketTopic(ticketTopicService.getTopicById(ticketCategoryRequest.getTicketTopic()))
                 .build();
         return ticketCategoryRepository.save(updatedTicketCategory);
+    }
+        catch(Exception e){
+        throw new DataNotFoundException("unable to update ticket category");
+        }
     }
 
 
@@ -76,19 +74,28 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
                 .orElseThrow(() -> new RuntimeException("Category not found"));
     }
         catch (RuntimeException e){
-        throw new ExceptionHandel("Category not found" +categoryId);
+        throw new DataNotFoundException("Category not found" +categoryId);
         }
     }
 
     @Override
-    public Page<TicketCategory> getAllCategory(int pageNo, int pageSize) {
+    public Page<TicketCategory> getAllCategoryWithPagination(int pageNo, int pageSize) {
+        try{
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("category").ascending());
         return ticketCategoryRepository.findAll(pageable);
     }
+        catch (RuntimeException e){
+        throw new DataNotFoundException("unable to get all category");}
+    }
 
     @Override
-    public List<TicketCategory> getAllCategory() {
+    public List<TicketCategory> getAllCategoryWithOutPagination() {
+        try{
         return ticketCategoryRepository.findAll();
+    }
+        catch (RuntimeException e){
+        throw new DataNotFoundException("unable to get all category");
+        }
     }
 
     public void removeSessionMessage() {
