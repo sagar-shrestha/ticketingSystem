@@ -21,13 +21,13 @@ public class TicketCategoryWebController {
     private final TicketCategoryService ticketCategoryService;
     private final TicketTopicService ticketTopicService;
 
-
-    @GetMapping("/CategoriesForm")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @GetMapping("/saveTicketCategory")
     public String showTicketCategoryForm(Model model) {
         List<TicketTopic> ticketTopics = ticketTopicService.getAllTopicWithoutPagination();
         model.addAttribute("ticketTopics", ticketTopics);
         model.addAttribute("ticketCategoryRequest", new TicketCategoryRequest());
-        return "/Category_file/Categories_ticketing";
+        return "/ticket-category/ticket-category";
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
@@ -39,14 +39,14 @@ public class TicketCategoryWebController {
         else {
             session.setAttribute("Message", "Something went Wrong");
         }
-        return "/Category_file/Categories_ticketing";
+        return "/ticket-category/ticket-category";
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("/categories")
+    @GetMapping("/getAllTicketCategory")
     public String listCategories(@RequestParam(defaultValue = "0") int page, Model model) {
         Page<TicketCategory> categories = ticketCategoryService.getAllCategoryWithPagination(page, 10);
         model.addAttribute("categories", categories);
-        return "/Category_file/Categories_list";
+        return "/ticket-category/ticket-category-list";
     }
 }

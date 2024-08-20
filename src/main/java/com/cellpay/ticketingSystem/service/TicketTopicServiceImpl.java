@@ -50,8 +50,8 @@ public class TicketTopicServiceImpl implements TicketTopicService {
     }
 
     @Override
-    public List<TicketTopic> getTopicById(int id) {
-        return (List<TicketTopic>) ticketTopicRepository.findById(id)
+    public TicketTopic getTopicById(int id) {
+        return ticketTopicRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Ticket Topic not found"));
     }
 

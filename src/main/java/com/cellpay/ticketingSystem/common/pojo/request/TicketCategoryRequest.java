@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 
 
 @Getter
@@ -16,6 +17,6 @@ import lombok.Setter;
 public class TicketCategoryRequest {
 
     private String category;
-    private int ticketTopic;
+    private List<Integer> ticketTopic;
 
 }
