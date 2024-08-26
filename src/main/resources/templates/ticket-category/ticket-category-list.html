@@ -41,13 +41,17 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th>Category</th>
-                                <th>Ticket Topic</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="data, i : ${categories}">
                                 <td th:text="${data.category}"></td>
-                                <td th:text="${data.ticketTopic.topic}"></td>
+<!--                                <td th:text="${data.ticketTopic.topic}"></td>-->
+                                <td>
+                                    <a class="btn btn-primary" th:href="@{/web/getCategoryById/{id}(id=${data.getId()})}">View</a>
+                                    <a class="btn btn-outline-primary" th:href="@{/web/updateCategoryById/{id}(id=${data.getId()})}">Edit</a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

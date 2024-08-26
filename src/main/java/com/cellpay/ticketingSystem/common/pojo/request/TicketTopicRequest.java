@@ -1,7 +1,9 @@
 package com.cellpay.ticketingSystem.common.pojo.request;
 
+import com.cellpay.ticketingSystem.entity.TicketCategory;
 import lombok.*;
 
+import java.util.List;
 
 
 @Getter
@@ -11,4 +13,5 @@ import lombok.*;
 @NoArgsConstructor
 public class TicketTopicRequest{
     private String topic;
+    private List<TicketCategory> ticketCategories;
 }

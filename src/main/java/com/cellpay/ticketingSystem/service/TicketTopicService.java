@@ -16,6 +16,8 @@ TicketTopic getTopicById(int id);
 
 List<TicketTopic> getAllTopicWithoutPagination();
 
+List<TicketTopic> getAllTopicWithCategories();
+
 Page<TicketTopic> getAllTopicWithPagination(int pageNumber, int pageSize);
 
 void removeSessionMessage();

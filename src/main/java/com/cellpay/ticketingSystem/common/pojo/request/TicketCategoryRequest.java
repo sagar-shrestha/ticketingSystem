@@ -17,6 +17,4 @@ import java.util.List;
 public class TicketCategoryRequest {
 
     private String category;
-    private List<Integer> ticketTopic;
-
 }

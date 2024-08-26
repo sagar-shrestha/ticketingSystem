@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 public class TicketCategoryServiceImpl implements TicketCategoryService {
 
     private final TicketCategoryRepository ticketCategoryRepository;
-    private final TicketTopicService ticketTopicService;
 
     @Override
     public boolean saveTicketCategory(TicketRequest ticketCategoryRequest) {
@@ -36,12 +35,12 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     @Transactional
     public boolean saveTicketCategory(TicketCategoryRequest ticketCategoryRequest) {
         try {
-            List<TicketTopic> ticketTopicList = ticketCategoryRequest.getTicketTopic().stream()
-                    .map(ticketTopicService::getTopicById).collect(Collectors.toList());
+          //  List<TicketTopic> ticketTopicList = ticketCategoryRequest.getTicketTopic().stream()
+            //        .map(ticketTopicService::getTopicById).collect(Collectors.toList());
             TicketCategory ticketCategory = TicketCategory
                     .builder()
                     .category(ticketCategoryRequest.getCategory())
-                    .ticketTopic(ticketTopicList)
+              //      .ticketTopic(ticketTopicList)
                     .build();
             ticketCategoryRepository.save(ticketCategory);
             return false;
@@ -55,13 +54,13 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     public TicketCategory updateTicketCategory(TicketCategoryRequest ticketCategoryRequest, int id) {
         try {
             TicketCategory existingTicketCategory = getCategoryById(id);
-            List<TicketTopic> ticketTopicList = ticketCategoryRequest.getTicketTopic().stream()
-                    .map(ticketTopicService::getTopicById).collect(Collectors.toList());
+            //List<TicketTopic> ticketTopicList = ticketCategoryRequest.getTicketTopic().stream()
+             //       .map(ticketTopicService::getTopicById).collect(Collectors.toList());
             TicketCategory updatedTicketCategory = TicketCategory
                     .builder()
                     .id(existingTicketCategory.getId())
                     .category(ticketCategoryRequest.getCategory())
-                    .ticketTopic(ticketTopicList)
+                 //   .ticketTopic(ticketTopicList)
                     .build();
             return ticketCategoryRepository.save(updatedTicketCategory);
         } catch (Exception e) {

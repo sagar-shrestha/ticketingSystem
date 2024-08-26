@@ -23,15 +23,15 @@
                     </th:block>
 
                     <form th:action="@{/web/saveTicketCategory}" th:object="${ticketCategoryRequest}" method="post">
-                        <div class="form-group">
-                            <label for="ticketTopic">Ticket Topic:</label>
-<!--                            <select id="ticketTopic" th:field="*{ticketTopic}" class="form-control">-->
-<!--                                <option th:each="topic : ${ticketTopics}" th:value="${topic.id}" th:text="${topic.topic}"></option>-->
-<!--                            </select>-->
-                            <label id="ticketTopic" th:field="*{ticketTopic}" class="form-control">
-                                <input th:field="*{ticketTopic}" th:type="checkbox"  th:each="topic : ${ticketTopics}" th:value="${topic.id}" th:text="${topic.topic}">
-                            </label>
-                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <label for="ticketTopic">Ticket Topic:</label>-->
+<!--&lt;!&ndash;                            <select id="ticketTopic" th:field="*{ticketTopic}" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <option th:each="topic : ${ticketTopics}" th:value="${topic.id}" th:text="${topic.topic}"></option>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </select>&ndash;&gt;-->
+<!--                            <label id="ticketTopic" th:field="*{ticketTopic}" class="form-control">-->
+<!--                                <input th:field="*{ticketTopic}" th:type="checkbox"  th:each="topic : ${ticketTopics}" th:value="${topic.id}" th:text="${topic.topic}">-->
+<!--                            </label>-->
+<!--                        </div>-->
                         <div class="form-group">
                             <label for="category">Category:</label>
                             <input type="text" id="category" th:field="*{category}" class="form-control"/>
