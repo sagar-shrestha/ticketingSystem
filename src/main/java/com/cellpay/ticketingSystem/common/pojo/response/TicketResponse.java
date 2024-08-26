@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 public class TicketResponse {
     private Long id;
-    private List<TicketCategory> ticketCategory;
+    private TicketCategory ticketCategory;
     private String description;
     private List<Integer> imageId;
     private TicketTopicRequest ticketTopicRequest;

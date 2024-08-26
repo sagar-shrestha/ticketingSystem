@@ -3,7 +3,7 @@
       th:replace="layout_fragments/base::layout(~{::body})">
 <head>
     <meta charset="UTF-8">
-    <title>Ticket Topic Edit</title>
+    <title>Ticket Category Edit</title>
 </head>
 <body>
 <div class="container py-5">
@@ -13,19 +13,15 @@
 Edit Ticket Topic
     </div>
     <div class="card-body">
-    <form th:action="@{/web/updateTopicById}" th:object="${ticketTopicRequest}" method="post">
+    <form th:action="@{/web/updateCategoryById}" method="post">
         <div class="mb-3">
         <label class="form-label">Id </label>
-        <input type="text" class="form-control" id="id" readonly name="id" th:value="${ticketTopic.getId()}">
+        <input type="text" class="form-control" id="id" readonly name="id" th:value="${ticketCategory.getId()}">
         </div>
         <div class="mb-3">
-        <label id="topic" class="form-label">Topic</label>
-        <input type="text" class="form-control" name="topic" id="ticket-topic" th:value="${ticketTopic.getTopic()}"/>
-        </div>
-        <div class="mb-3">
-        <label for="ticketCategory" id="category" class="form-label">Category</label>
+        <label id="category" class="form-label">Category</label>
             <select id="ticketCategory" th:field="*{ticketCategories}" class="form-control">
-                <option th:each="ticketCategory : ${ticketCategories}" th:value="${ticketCategory.id}"
+                <option th:each="ticketCategory : ${ticketCategoryList}" th:value="${ticketCategory.id}"
                         th:text="${ticketCategory.category}"></option>
             </select>
         </div>

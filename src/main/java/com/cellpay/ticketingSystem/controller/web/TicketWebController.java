@@ -27,15 +27,14 @@ public class TicketWebController {
 
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("/AddTicketing")
+    @GetMapping("/saveTicketing")
     public String ticketing(Model model) {
         List<TicketTopic> ticketTopics = ticketTopicService.getAllTopicWithoutPagination();
         List<TicketCategory> ticketCategories = ticketCategoryService.getAllCategoryWithOutPagination();
         model.addAttribute("ticketRequestPojo", new TicketRequest());
         model.addAttribute("ticketTopics", ticketTopics);
         model.addAttribute("ticketCategories", ticketCategories);
-
-        return "/Ticket/ticketing";
+        return "ticket/ticketing";
     }
 
 
@@ -48,19 +47,18 @@ public class TicketWebController {
             session.setAttribute("sessionMessage", "Ticket saved successfully.");
         } catch (Exception e) {
             session.setAttribute("sessionMessage", "Cannot save ticket.");
-            e.printStackTrace(); // Log the exception stack trace
         }
         model.addAttribute("ticketRequestPojo", ticketRequestPojo);
-        return "Ticket/ticketing";
+        return "ticket/ticketing";
     }
 
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("/ListTicketing")
+    @GetMapping("/getAllTickets")
     public String getTickets(Model model) {
         List<TicketResponse> tickets = ticketService.getAllTickets();
         model.addAttribute("tickets", tickets);
-        return "Ticket/ticketing-list";
+        return "ticket/ticketing-list";
     }
 
 

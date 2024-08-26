@@ -16,4 +16,8 @@ public class TicketTopic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String topic;
+    @ManyToOne
+    @JoinColumn(name = "ticket_category_id", foreignKey = @ForeignKey(name = "fk_ticket_category_id"))
+    private TicketCategory ticketCategory;
+
 }

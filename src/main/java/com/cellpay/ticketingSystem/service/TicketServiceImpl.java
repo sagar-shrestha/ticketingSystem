@@ -50,7 +50,7 @@ public class TicketServiceImpl implements TicketService {
                     .build());
             Ticket ticket = ticketRepository.save(Ticket
                     .builder()
-                    .ticketCategory(List.of(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory())))
+                    .ticketCategory(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory()))
                     .description(ticketRequestPojo.getDescription())
                    .paynetUserDetails(paynetUserDetails)
                     .build());
@@ -79,7 +79,7 @@ public class TicketServiceImpl implements TicketService {
             Ticket updatedTicket = Ticket.builder()
                     .id(id)
                     .description(ticketRequest.getDescription())
-                    .ticketCategory(List.of(ticketCategoryService.getCategoryById(ticketRequest.getTicketCategory())))
+                    .ticketCategory(ticketCategoryService.getCategoryById(ticketRequest.getTicketCategory()))
                     .build();
             if (!(ticketRequest.getImages() == null)) {
                 for (int i = 0; i < ticketRequest.getImages().size(); i++) {
