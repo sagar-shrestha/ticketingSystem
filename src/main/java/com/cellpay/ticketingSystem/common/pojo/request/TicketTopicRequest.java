@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketTopicRequest{
+//    private Integer id;
     private String topic;
     private List<TicketCategory> ticketCategories;
 }

@@ -19,8 +19,14 @@ import java.util.List;
 public class TicketRequest {
 
     private int ticketCategory;
+    private int ticketTopic;
     private String description;
     private List<MultipartFile> images;
-    private TicketTopicRequest ticketTopicRequest;
-    private PaynetUserDetailsRequest paynetUserDetailsRequest;
+//    private TicketTopicRequest ticketTopicRequest;
+//    private PaynetUserDetailsRequest paynetUserDetailsRequest;
+    private Long id;
+    private String memberId;
+    private String memberType;
+    private String memberName;
+    private String username;
 }

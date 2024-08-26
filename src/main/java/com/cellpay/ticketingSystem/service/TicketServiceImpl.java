@@ -43,10 +43,10 @@ public class TicketServiceImpl implements TicketService {
         try {
             PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.save(PaynetUserDetails
                     .builder()
-                    .memberId(ticketRequestPojo.getPaynetUserDetailsRequest().getMemberId())
-                    .memberType(ticketRequestPojo.getPaynetUserDetailsRequest().getMemberType())
-                    .memberName(ticketRequestPojo.getPaynetUserDetailsRequest().getMemberName())
-                    .username(ticketRequestPojo.getPaynetUserDetailsRequest().getUsername())
+                    .memberId(ticketRequestPojo.getMemberId())
+                    .memberType(ticketRequestPojo.getMemberType())
+                    .memberName(ticketRequestPojo.getMemberName())
+                    .username(ticketRequestPojo.getUsername())
                     .build());
             Ticket ticket = ticketRepository.save(Ticket
                     .builder()

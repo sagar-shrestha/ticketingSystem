@@ -17,4 +17,9 @@ public class UserInfoServiceImpl implements UserInfoService{
 
         userInfoRepository.save(userInfo);
     }
+
+    @Override
+    public UserInfo getUserInfo(String username) {
+        return userInfoRepository.findByUsername(username);
+    }
 }
