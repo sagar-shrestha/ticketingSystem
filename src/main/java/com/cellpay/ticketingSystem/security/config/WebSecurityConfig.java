@@ -19,7 +19,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
+        http
                 .securityMatcher("/ticket/**", "/web/**", "/logout")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/ticket/**").permitAll()
