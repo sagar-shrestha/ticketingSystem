@@ -32,7 +32,7 @@ public class TicketTopicServiceImpl implements TicketTopicService {
         try {
             TicketTopic ticketTopic = TicketTopic.builder().topic(ticketTopicRequest.getTopic())
                     .ticketCategory(ticketCategoryService.getCategoryById(ticketTopicRequest
-                            .getTicketCategories().getFirst().getId()))
+                            .getTicketCategories().getFirst().getId()).getFirst())
                     .build();
             ticketTopicRepository.save(ticketTopic);
             return true;

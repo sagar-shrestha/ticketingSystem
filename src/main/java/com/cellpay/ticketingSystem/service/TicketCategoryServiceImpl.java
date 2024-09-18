@@ -4,7 +4,6 @@ import com.cellpay.ticketingSystem.Exception.DataNotFoundException;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketCategoryRequest;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.entity.TicketCategory;
-import com.cellpay.ticketingSystem.entity.TicketTopic;
 import com.cellpay.ticketingSystem.repository.TicketCategoryRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +52,7 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
     @Transactional
     public TicketCategory updateTicketCategory(TicketCategoryRequest ticketCategoryRequest, int id) {
         try {
-            TicketCategory existingTicketCategory = getCategoryById(id);
+            TicketCategory existingTicketCategory = getCategoryById(id).getFirst();
             //List<TicketTopic> ticketTopicList = ticketCategoryRequest.getTicketTopic().stream()
              //       .map(ticketTopicService::getTopicById).collect(Collectors.toList());
             TicketCategory updatedTicketCategory = TicketCategory
@@ -70,10 +69,10 @@ public class TicketCategoryServiceImpl implements TicketCategoryService {
 
 
     @Override
-    public TicketCategory getCategoryById(int categoryId) {
+    public List<TicketCategory> getCategoryById(int categoryId) {
         try {
-            return ticketCategoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new RuntimeException("Category not found"));
+            return Collections.singletonList(ticketCategoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new RuntimeException("Category not found")));
         } catch (RuntimeException e) {
             throw new DataNotFoundException("Category not found" + categoryId);
         }

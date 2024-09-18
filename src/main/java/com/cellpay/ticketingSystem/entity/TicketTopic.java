@@ -1,5 +1,6 @@
 package com.cellpay.ticketingSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class TicketTopic {
     private String topic;
     @ManyToOne
     @JoinColumn(name = "ticket_category_id", foreignKey = @ForeignKey(name = "fk_ticket_category_id"))
+    @JsonBackReference
     private TicketCategory ticketCategory;
 
 }

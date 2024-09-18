@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,30 +42,42 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     public boolean saveTicket(TicketRequest ticketRequestPojo) throws Exception {
         try {
-            PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.save(PaynetUserDetails
-                    .builder()
-                    .memberId(ticketRequestPojo.getMemberId())
-                    .memberType(ticketRequestPojo.getMemberType())
-                    .memberName(ticketRequestPojo.getMemberName())
-                    .username(ticketRequestPojo.getUsername())
-                    .build());
-            Ticket ticket = ticketRepository.save(Ticket
-                    .builder()
-                    .ticketCategory(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory()))
-                    .description(ticketRequestPojo.getDescription())
-                   .paynetUserDetails(paynetUserDetails)
-                    .build());
-            for (MultipartFile image : ticketRequestPojo.getImages()) {
-                String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getImages()
-                        .get(ticketRequestPojo.getImages().indexOf(image)));
-                TicketImage ticketImage = TicketImage
+            Ticket ticket = null;
+          Optional<PaynetUserDetails> optionalPaynetUserDetails = paynetUserDeatilsRepository.getPaynetUserDetailsByusername(ticketRequestPojo.getUsername());
+            if (optionalPaynetUserDetails.isEmpty()) {
+                PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.save(PaynetUserDetails
                         .builder()
-                        .image(imagePath)
-                        .ticket(ticket)
-                        .build();
-                ticketImageRepository.save(ticketImage);
+                        .memberId(ticketRequestPojo.getMemberId())
+                        .memberType(ticketRequestPojo.getMemberType())
+                        .memberName(ticketRequestPojo.getMemberName())
+                        .username(ticketRequestPojo.getUsername())
+                        .build());
+                 ticket = ticketRepository.save(Ticket
+                        .builder()
+                        .ticketCategories(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory()))
+                        .description(ticketRequestPojo.getDescription())
+                        .paynetUserDetails(paynetUserDetails)
+                        .build());
+            } else {
+                ticket = ticketRepository.save(Ticket
+                        .builder()
+                        .ticketCategories(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory()))
+                        .description(ticketRequestPojo.getDescription())
+                        .paynetUserDetails(optionalPaynetUserDetails.get())
+                        .build());
             }
-            return false;
+                for (MultipartFile image : ticketRequestPojo.getImages()) {
+                    String imagePath = genericFileUtil.saveFile(ticketRequestPojo.getImages()
+                            .get(ticketRequestPojo.getImages().indexOf(image)));
+                    TicketImage ticketImage = TicketImage
+                            .builder()
+                            .image(imagePath)
+                            .ticket(ticket)
+                            .build();
+                    ticketImageRepository.save(ticketImage);
+                    return true;
+                }
+                return false;
         } catch (Exception e) {
             throw new MessageDescriptorFormatException("unable to save ticket");
         }
@@ -79,7 +92,7 @@ public class TicketServiceImpl implements TicketService {
             Ticket updatedTicket = Ticket.builder()
                     .id(id)
                     .description(ticketRequest.getDescription())
-                    .ticketCategory(ticketCategoryService.getCategoryById(ticketRequest.getTicketCategory()))
+                  //  .ticketCategory(ticketCategoryService.getCategoryById(ticketRequest.getTicketCategory()))
                     .build();
             if (!(ticketRequest.getImages() == null)) {
                 for (int i = 0; i < ticketRequest.getImages().size(); i++) {
@@ -149,7 +162,7 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
-    public Page<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {
+    public List<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {
         try {
             return ticketHelper.getAllTicketsByUsernameWithoutPagination(username);
         }

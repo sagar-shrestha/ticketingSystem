@@ -27,7 +27,7 @@ public class TicketCategoryWebController {
         //  List<TicketTopic> ticketTopics = ticketTopicService.getAllTopicWithoutPagination();
         //model.addAttribute("ticketTopics", ticketTopics);
         model.addAttribute("ticketCategoryRequest", new TicketCategoryRequest());
-        return "/ticket-category/ticket-category";
+        return "ticket-category/ticket-category";
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
@@ -39,16 +39,16 @@ public class TicketCategoryWebController {
         else {
             session.setAttribute("Message", "Something went Wrong");
         }
-        return "/ticket-category/ticket-category";
+        return "redirect:getAllTicketCategory";
     }
 
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/updateCategoryById/{id}")
     public String updateTopicById(@PathVariable int id, Model model) {
-        TicketCategory ticketCategory =  ticketCategoryService.getCategoryById(id);
+        TicketCategory ticketCategory =  ticketCategoryService.getCategoryById(id).getFirst();
         model.addAttribute("ticketCategory", ticketCategory);
-        return "/ticket-category/ticket-category-edit";
+        return "ticket-category/ticket-category-edit";
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
@@ -64,9 +64,9 @@ public class TicketCategoryWebController {
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/getCategoryById/{id}")
     public String getCategoryById(@PathVariable int id, Model model) {
-        TicketCategory ticketCategory  =  ticketCategoryService.getCategoryById(id);
+        TicketCategory ticketCategory  =  ticketCategoryService.getCategoryById(id).getFirst();
         model.addAttribute("ticketCategory", ticketCategory);
-        return "/ticket-category/ticket-category-details";
+        return "ticket-category/ticket-category-details";
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
@@ -74,6 +74,6 @@ public class TicketCategoryWebController {
     public String listCategories(@RequestParam(defaultValue = "0") int page, Model model) {
         Page<TicketCategory> categories = ticketCategoryService.getAllCategoryWithPagination(page, 10);
         model.addAttribute("categories", categories);
-        return "/ticket-category/ticket-category-list";
+        return "ticket-category/ticket-category-list";
     }
 }

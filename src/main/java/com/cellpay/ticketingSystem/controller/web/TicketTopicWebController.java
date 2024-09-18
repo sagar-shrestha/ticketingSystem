@@ -55,7 +55,7 @@ public class TicketTopicWebController {
         model.addAttribute("ticketCategories", ticketCategories);
         model.addAttribute("ticketTopic", ticketTopic);
         model.addAttribute("ticketTopicRequest", new TicketTopicRequest());
-        return "/ticket-topic/ticket-topic-edit";
+        return "ticket-topic/ticket-topic-edit";
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
@@ -73,7 +73,7 @@ public class TicketTopicWebController {
     public String getTopicById(@PathVariable int id, Model model) {
         TicketTopic ticketTopic = (TicketTopic) ticketTopicService.getTopicById(id);
         model.addAttribute("ticketTopic", ticketTopic);
-        return "/ticket-topic/ticket-topic-details";
+        return "ticket-topic/ticket-topic-details";
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
@@ -88,14 +88,14 @@ public class TicketTopicWebController {
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("totalPages", totalPages);
-        return "/ticket-topic/ticket-topic-list";
+        return "ticket-topic/ticket-topic-list";
     }
 
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/ticketTopic")
     public String ticketManagement() {
-        return "/ticket-topic/ticket-topic";
+        return "ticket-topic/ticket-topic";
     }
 
 

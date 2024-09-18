@@ -56,7 +56,7 @@ public class TicketWebController {
             session.setAttribute("sessionMessage", "Cannot save ticket.");
         }
         model.addAttribute("ticketRequestPojo", ticketRequestPojo);
-        return "ticket/ticketing";
+        return "ticket/ticketing-list";
     }
 
 
