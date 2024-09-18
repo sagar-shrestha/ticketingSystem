@@ -43,14 +43,14 @@ public class TicketServiceImpl implements TicketService {
         try {
             PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.save(PaynetUserDetails
                     .builder()
-                    .memberId(ticketRequestPojo.getPaynetUserDetailsRequest().getMemberId())
-                    .memberType(ticketRequestPojo.getPaynetUserDetailsRequest().getMemberType())
-                    .memberName(ticketRequestPojo.getPaynetUserDetailsRequest().getMemberName())
-                    .username(ticketRequestPojo.getPaynetUserDetailsRequest().getUsername())
+                    .memberId(ticketRequestPojo.getMemberId())
+                    .memberType(ticketRequestPojo.getMemberType())
+                    .memberName(ticketRequestPojo.getMemberName())
+                    .username(ticketRequestPojo.getUsername())
                     .build());
             Ticket ticket = ticketRepository.save(Ticket
                     .builder()
-                    .ticketCategory(List.of(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory())))
+                    .ticketCategory(ticketCategoryService.getCategoryById(ticketRequestPojo.getTicketCategory()))
                     .description(ticketRequestPojo.getDescription())
                    .paynetUserDetails(paynetUserDetails)
                     .build());
@@ -79,7 +79,7 @@ public class TicketServiceImpl implements TicketService {
             Ticket updatedTicket = Ticket.builder()
                     .id(id)
                     .description(ticketRequest.getDescription())
-                    .ticketCategory(List.of(ticketCategoryService.getCategoryById(ticketRequest.getTicketCategory())))
+                    .ticketCategory(ticketCategoryService.getCategoryById(ticketRequest.getTicketCategory()))
                     .build();
             if (!(ticketRequest.getImages() == null)) {
                 for (int i = 0; i < ticketRequest.getImages().size(); i++) {

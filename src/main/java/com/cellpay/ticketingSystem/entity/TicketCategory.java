@@ -18,8 +18,7 @@ public class TicketCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String category;
-    @OneToMany
-    @JoinColumn(name = "ticket_topic", foreignKey = @ForeignKey(name = "fk_ticket_topic_id"))
+    @OneToMany(mappedBy = "ticketCategory")
     private List<TicketTopic> ticketTopic;
 
     @Override
