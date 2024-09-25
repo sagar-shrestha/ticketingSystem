@@ -62,7 +62,7 @@ public class TicketHelper {
     public List<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {
         PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.getPaynetUserDetailsByUsername(username);
         List<Ticket> tickets = ticketRepository.getTicketsByPaynetUserDetails(paynetUserDetails);
-        TicketResponse ticketResponse = new TicketResponse();
+        TicketResponse ticketResponse;
         List<TicketResponse> ticketResponses = new ArrayList<>();
 
         for (Ticket ticket : tickets) {
