@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout_fragments/base::layout(~{::body})">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Category Edit</title>
+</head>
+<body>
+<div class="container py-5">
+
+<div class="card shadow">
+    <div class="card-header">
+Edit Ticket Topic
+    </div>
+    <div class="card-body">
+        <form th:action="@{/web/updateTicketById}" method="post" id="editTicket">
+            <div class="mb-3">
+                <div class="card-body">
+                    <input type="hidden" class="form-control" id="id" readonly name="id"
+                           th:value="${ticketResponse.getId()}">
+                    <input type="hidden" class="form-control" id="paynetUserDetailsId" readonly name="paynetUserDetailsId"
+                    th:value="${ticketResponse.getPaynetUserDetails().getId()}">
+
+                    <h5 class="card-title"> Ticket Topic: </h5>
+                    <input type="hidden" name="ticketTopic" readonly
+                           th:value="${ticketResponse.getTicketCategory().getTicketTopic().getFirst().getId()}"/>
+                    <p th:text="${ticketResponse.getTicketCategory().getTicketTopic().getFirst().getTopic()}"></p>
+
+                    <h5 class="card-title"> Ticket Category: </h5>
+                    <input type="hidden" name="ticketCategory"
+                           th:value="${ticketResponse.getTicketCategory().getId()}">
+                    <p th:text="${ticketResponse.getTicketCategory().getCategory()}"></p>
+
+                    <h5 class="card-title"> Ticket Description: </h5>
+                    <input type="hidden" name="description" th:value="${ticketResponse.getDescription()}"/>
+
+                    <h5 class="card-title"> Ticket Status:</h5>
+                    <div class="input-group">
+                        <select class="form-select" aria-label="Ticket Status Select" name="status">
+                            <option value="OPENED" th:selected="${ticketResponse.getStatus() == null }">SELECT-OPTIONS
+                            </option>
+                            <option value="OPENED" th:selected="${ticketResponse.getStatus() == 'OPENED'}">OPENED
+                            </option>
+                            <option value="IN-PROGRESS" th:selected="${ticketResponse.getStatus() == 'IN-PROGRESS'}">
+                                IN-PROGRESS
+                            </option>
+                            <option value="CLOSED" th:selected="${ticketResponse.getStatus() == 'CLOSED'}">CLOSED
+                            </option>
+                        </select>
+                    </div>
+                    <h5 class="card-title"> Images: </h5>
+                    <p th:each="data, i : ${ticketResponse.getImages()}">
+                        <img th:src="@{/images/${data}}" alt="Issue Image" class="img-fluid">
+                    </p>
+                </div>
+                <button type="submit" class="btn btn-danger">Update</button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+</body>
+</html>

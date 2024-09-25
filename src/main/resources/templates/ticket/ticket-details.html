@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout_fragments/base::layout(~{::body})">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Topic Details</title>
+</head>
+<body>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <div class="card">
+                <div class="card-header">
+                    Ticket Category Details
+
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"> Ticket Topic: </h5><p th:text="${ticketResponse.getTicketCategory().getTicketTopic().getFirst().getTopic()}"></p>
+                    <h5 class="card-title"> Ticket Category: </h5><p th:text="${ticketResponse.getTicketCategory().getCategory()}"></p>
+                    <h5 class="card-title"> Ticket Description: </h5><p th:text="${ticketResponse.getDescription()}"></p>
+                    <h5 class="card-title"> Ticket Status:</h5> <p th:text="${ticketResponse.getStatus()}"></p>
+                    <h5 class="card-title"> Images: </h5> <p th:each="data, i : ${ticketResponse.getImages()}">
+                    <img th:src="@{/images/data}" alt="Issue Image">
+                </p>
+                    <a class="btn btn-danger" th:href="@{/web/updateTicketById/{id}(id=${ticketResponse.getId()})}">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div>-->
+<!--    <p><strong>Id:</strong> <span th:text="${ticketTopic.getId()}"></span></p>-->
+<!--    <p><strong>Ticket Topic:</strong> <span th:text="${ticketTopic.getTopic()}"></span></p>-->
+<!--    <a class="btn btn-danger" th:href="@{/web/updateTopicById/{id}(id=${ticketTopic.getId()})}">Update</a>-->
+<!--</div>-->
+</body>
+</html>

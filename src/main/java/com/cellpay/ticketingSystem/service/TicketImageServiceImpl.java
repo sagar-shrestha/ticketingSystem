@@ -39,4 +39,15 @@ public class TicketImageServiceImpl implements TicketImageService {
         }
     }
 
+    @Override
+    public String getTicketImageNameById(int imageId) {
+        TicketImage ticketImage;
+        try {
+       ticketImage = ticketImageRepository.findById((Integer) imageId).orElseThrow();
+        } catch (Exception e) {
+            throw new DataNotFoundException("Image not found.");
+        }
+        return ticketImage.getImage();
+    }
+
 }

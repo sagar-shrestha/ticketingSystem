@@ -25,7 +25,8 @@ public class GenericFileUtil {
             throw new RuntimeException("Image not found.");
         }
         String originalFileName = image.getOriginalFilename();
-        String location = System.getProperty("user.dir") + File.separator + "images" + File.separator;
+        String location = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator
+                + "resources" + File.separator + "static" + File.separator + "assets" + File.separator + "images" + File.separator;
         File file = new File(location);
         if (!file.exists()) file.mkdir();
         String fileName = UUID.randomUUID() + originalFileName;

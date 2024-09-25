@@ -136,15 +136,23 @@ public class TicketServiceImpl implements TicketService {
         try{
         Pageable pageable = PageRequest.of((pageNumber - 1), pageSize, Sort.by("id"));
         return ticketHelper.getAllTicketsByUsernameWithPagination(username, pageable);
-    }
-        catch (Exception e) {
-
+    } catch (Exception e) {
         throw new DataNotFoundException("unable to get tickets");
         }
     }
 
     @Override
-    public TicketResponse getDeleteById(Long id) throws MalformedURLException {
+    public Page<TicketResponse> getAllTicketsWithPagination(Integer pageNumber, Integer pageSize) {
+        try {
+            Pageable pageable = PageRequest.of((pageNumber - 1), pageSize, Sort.by("id"));
+            return ticketHelper.getAllTicketsWithPagination(pageable);
+        } catch (Exception e) {
+            throw new DataNotFoundException("unable to get tickets");
+        }
+    }
+
+    @Override
+    public TicketResponse getDeleteById(Long id) {
         try{
         TicketResponse ticketResponse = this.getTicketById(id);
         Ticket ticket = ticketRepository.findById(id)
@@ -156,8 +164,7 @@ public class TicketServiceImpl implements TicketService {
         }
         ticketRepository.delete(ticket);
         return ticketResponse;
-    }
-        catch (Exception e) {
+    } catch (Exception e) {
         throw new DataNotFoundException("unable to get ticket by id");
         }
     }
@@ -165,8 +172,7 @@ public class TicketServiceImpl implements TicketService {
     public List<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {
         try {
             return ticketHelper.getAllTicketsByUsernameWithoutPagination(username);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new DataNotFoundException("Paynet User Not Found.");
         }
     }

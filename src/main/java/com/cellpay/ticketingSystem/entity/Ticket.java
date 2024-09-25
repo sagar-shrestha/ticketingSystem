@@ -1,5 +1,6 @@
 package com.cellpay.ticketingSystem.entity;
 
+import com.cellpay.ticketingSystem.common.constant.StatusType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -29,5 +30,7 @@ public class  Ticket {
     @ManyToOne
     @JoinColumn(name = "paynet_user_details", foreignKey = @ForeignKey(name = "fk_paynet_user_details"))
     private PaynetUserDetails paynetUserDetails;
+    @Enumerated(EnumType.STRING)
+    private StatusType status;
 
 }

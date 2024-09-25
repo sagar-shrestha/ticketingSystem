@@ -1,6 +1,7 @@
 package com.cellpay.ticketingSystem.controller.web;
 
 import com.cellpay.ticketingSystem.common.annotations.CustomWebController;
+import com.cellpay.ticketingSystem.common.pojo.request.TicketCategoryRequest;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketRequest;
 import com.cellpay.ticketingSystem.common.pojo.response.TicketResponse;
 import com.cellpay.ticketingSystem.entity.TicketCategory;
@@ -12,10 +13,12 @@ import com.cellpay.ticketingSystem.service.TicketTopicService;
 import com.cellpay.ticketingSystem.service.UserInfoService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 
@@ -59,14 +62,58 @@ public class TicketWebController {
         return "ticket/ticketing-list";
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @GetMapping("/updateTicketById/{id}")
+    public String updateTicketById(@PathVariable Long id, Model model) throws MalformedURLException {
+        TicketResponse ticketResponse = ticketService.getTicketById(id);
+        TicketTopic ticketTopic = ticketTopicService.getTopicById(ticketResponse.getTicketCategory().getTicketTopic()
+                .getFirst().getId());
+        TicketCategory ticketCategory =  ticketCategoryService.getCategoryById(ticketResponse.getTicketCategory().getId()).getFirst();
+        model.addAttribute("ticketCategory", ticketCategory);
+        model.addAttribute("ticketTopic", ticketTopic);
+        model.addAttribute("ticketResponse", ticketResponse);
+        return "ticket/ticket-edit";
+    }
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @PostMapping("/updateTicketById")
+    public String updateTicket(@RequestParam Long id, @ModelAttribute TicketRequest ticketRequest,
+                                    Model model) throws Exception {
+        ticketService.updateTicket(ticketRequest, id);
+        model.addAttribute("message", "Ticket Updated Successfully.");
+        return "redirect:/web/getAllTicketing";
+    }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/getAllTickets")
-    public String getTickets(Model model) {
-        List<TicketResponse> tickets = ticketService.getAllTickets();
+    public String getAllTickets(@RequestParam(defaultValue = "1") int pageNumber,
+                              @RequestParam(defaultValue = "10") int pageSize, Model model) {
+        Page<TicketResponse> tickets = ticketService.getAllTicketsWithPagination(pageNumber, pageSize);
+        pageNumber = tickets.getNumber();
+        pageSize = tickets.getSize();
+        int totalPages = tickets.getTotalPages();
         model.addAttribute("tickets", tickets);
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("totalPages", totalPages);
         return "ticket/ticketing-list";
     }
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @GetMapping("/getTicketById/{id}")
+    public String getTicketById(@PathVariable Long id, Model model) throws MalformedURLException {
+        TicketResponse ticketResponse  =  ticketService.getTicketById(id);
+        model.addAttribute("ticketResponse", ticketResponse);
+        return "ticket/ticket-details";
+    }
+
+//    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+//    @GetMapping("/getAllTickets")
+//    public String getTickets(Model model) {
+//        List<TicketResponse> tickets = ticketService.getAllTickets();
+//        model.addAttribute("tickets", tickets);
+//        return "ticket/ticketing-list";
+//    }
 
 
 }

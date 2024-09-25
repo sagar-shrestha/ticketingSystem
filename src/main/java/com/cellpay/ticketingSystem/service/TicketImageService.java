@@ -10,4 +10,6 @@ public interface TicketImageService {
     void saveTicketImage(TicketImage ticketImage);
 
     void getTicketImageById(int imageId, HttpServletResponse httpServletResponse) throws IOException;
+
+    String getTicketImageNameById(int imageId);
 }

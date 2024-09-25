@@ -24,7 +24,9 @@ public class TicketRequest {
     private List<MultipartFile> images;
 //    private TicketTopicRequest ticketTopicRequest;
 //    private PaynetUserDetailsRequest paynetUserDetailsRequest;
+    private String Status;
     private Long id;
+    private int paynetUserDetailsId;
     private String memberId;
     private String memberType;
     private String memberName;
