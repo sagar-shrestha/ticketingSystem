@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class TicketHelper {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket Not Found."));
         return TicketResponse.builder()
                 .id(id)
-                .ticketCategory(ticket.getTicketCategory())
+                .ticketCategory(ticket.getTicketCategories().getFirst())
                 .description(ticket.getDescription())
                 .imageId(ticketRepository.getTicketById(id))
                 .build();
@@ -36,7 +37,7 @@ public class TicketHelper {
         return tickets.stream()
                 .map(ticket -> TicketResponse.builder()
                         .id(ticket.getId())
-                        .ticketCategory(ticket.getTicketCategory())
+                        .ticketCategory(ticket.getTicketCategories().getFirst())
                         .description(ticket.getDescription())
                         .imageId(ticketRepository.getTicketById(ticket.getId()))
                         .build())
@@ -44,13 +45,12 @@ public class TicketHelper {
     }
 
     public Page<TicketResponse> getAllTicketsByUsernameWithPagination(String username, Pageable pageable) {
-        PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.getPaynetUserDetailsByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Paynet User Not Found."));
+        PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.getPaynetUserDetailsByUsername(username);
         List<Ticket> tickets = ticketRepository.getTicketsByPaynetUserDetails(paynetUserDetails);
         List<TicketResponse> ticketResponses = tickets.stream()
                 .map(ticket -> TicketResponse.builder()
                         .id(ticket.getId())
-                        .ticketCategory(ticket.getTicketCategory())
+                        .ticketCategory(ticket.getTicketCategories().getFirst())
                         .description(ticket.getDescription())
                         .imageId(ticketRepository.getTicketById(ticket.getId()))
                         .paynetUserDetails(ticket.getPaynetUserDetails())
@@ -59,11 +59,24 @@ public class TicketHelper {
         return new PageImpl<>(ticketResponses, pageable, ticketResponses.size());
     }
 
-    public Page<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {
-        PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.getPaynetUserDetailsByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Paynet User Not Found."));
+    public List<TicketResponse> getAllTicketsByUsernameWithoutPagination(String username) {
+        PaynetUserDetails paynetUserDetails = paynetUserDeatilsRepository.getPaynetUserDetailsByUsername(username);
         List<Ticket> tickets = ticketRepository.getTicketsByPaynetUserDetails(paynetUserDetails);
-        return null;
+        TicketResponse ticketResponse = new TicketResponse();
+        List<TicketResponse> ticketResponses = new ArrayList<>();
+
+        for (Ticket ticket : tickets) {
+            ticketResponse = TicketResponse.builder()
+                    .id(ticket.getId())
+                    .ticketCategory(ticket.getTicketCategories().getFirst())
+                    .description(ticket.getDescription())
+                    .imageId(ticketRepository.getTicketById(ticket.getId()))
+                    .ticketTopic(ticket.getTicketCategories().getFirst().getTicketTopic().getFirst())
+                    .paynetUserDetails(ticket.getPaynetUserDetails())
+                    .build();
+            ticketResponses.add(ticketResponse);
+        }
+        return ticketResponses;
     }
 }
 

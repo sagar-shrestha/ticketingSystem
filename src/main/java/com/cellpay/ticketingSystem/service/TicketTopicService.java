@@ -12,9 +12,11 @@ boolean saveTicketTopic(TicketTopicRequest ticketTopicRequest);
 
 TicketTopic updateTicketTopic(TicketTopicRequest ticketTopicRequest, int id);
 
-List<TicketTopic> getTopicById(int id);
+TicketTopic getTopicById(int id);
 
 List<TicketTopic> getAllTopicWithoutPagination();
+
+List<TicketTopic> getAllTopicWithCategories();
 
 Page<TicketTopic> getAllTopicWithPagination(int pageNumber, int pageSize);
 

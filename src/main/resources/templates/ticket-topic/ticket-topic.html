@@ -12,7 +12,7 @@
         </div>
         <div class="card-body">
 
-<!--            <h1 class="card-title mb-4">Ticket Topic</h1>-->
+            <!--            <h1 class="card-title mb-4">Ticket Topic</h1>-->
 
 
             <th:block th:if="${session.sessionMessage}">
@@ -22,7 +22,12 @@
             </th:block>
 
 
-            <form action="/web/saveTopic" method="post">
+            <form th:action="@{/web/saveTopic}" th:object="${ticketTopicRequest}" method="post">
+                <label for="ticketCategory">Ticket Category:</label>-->
+                <select id="ticketCategory" th:field="*{ticketCategories}" class="form-control">
+                    <option th:each="ticketCategory : ${ticketCategoryList}" th:value="${ticketCategory.id}"
+                            th:text="${ticketCategory.category}"></option>
+                </select>
                 <div class="mb-3">
                     <label for="ticket-topic" class="form-label">Ticket Topic</label>
                     <input type="text" class="form-control" name="topic" id="ticket-topic" aria-describedby="ticket">

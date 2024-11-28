@@ -1,5 +1,7 @@
 package com.cellpay.ticketingSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,9 +20,12 @@ public class TicketCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String category;
-    @OneToMany
-    @JoinColumn(name = "ticket_topic", foreignKey = @ForeignKey(name = "fk_ticket_topic_id"))
+    @OneToMany(mappedBy = "ticketCategory", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<TicketTopic> ticketTopic;
+    @ManyToMany(mappedBy = "ticketCategories", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Ticket> tickets;
 
     @Override
     public String toString() {

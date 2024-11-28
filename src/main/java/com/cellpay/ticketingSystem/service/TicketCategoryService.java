@@ -16,7 +16,7 @@ public interface TicketCategoryService {
 
     TicketCategory updateTicketCategory(TicketCategoryRequest ticketCategoryRequest, int id);
 
-    TicketCategory getCategoryById(int id);
+    List<TicketCategory> getCategoryById(int id);
 
     Page<TicketCategory> getAllCategoryWithPagination(int pageNo, int pageSize);
 

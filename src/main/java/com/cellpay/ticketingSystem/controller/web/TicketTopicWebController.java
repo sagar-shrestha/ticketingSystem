@@ -2,7 +2,9 @@ package com.cellpay.ticketingSystem.controller.web;
 
 import com.cellpay.ticketingSystem.common.annotations.CustomWebController;
 import com.cellpay.ticketingSystem.common.pojo.request.TicketTopicRequest;
+import com.cellpay.ticketingSystem.entity.TicketCategory;
 import com.cellpay.ticketingSystem.entity.TicketTopic;
+import com.cellpay.ticketingSystem.service.TicketCategoryService;
 import com.cellpay.ticketingSystem.service.TicketTopicService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @CustomWebController
@@ -18,6 +21,17 @@ import org.springframework.web.bind.annotation.*;
 public class TicketTopicWebController {
 
     private final TicketTopicService ticketTopicService;
+    private final TicketCategoryService ticketCategoryService;
+
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @GetMapping("/saveTopic")
+    public String saveTopic(Model model) {
+        List<TicketCategory> ticketCategoryList = ticketCategoryService.getAllCategoryWithOutPagination();
+        model.addAttribute("ticketCategoryList", ticketCategoryList);
+        model.addAttribute("ticketTopicRequest", new TicketTopicRequest());
+        return "ticket-topic/ticket-topic";
+    }
+
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @PostMapping("/saveTopic")
@@ -30,12 +44,22 @@ public class TicketTopicWebController {
         }
         model.addAttribute("message", "Topic Saved Successfully.");
         return "redirect:/web/getAllTopic";
-        
+
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @GetMapping("/updateTopicById/{id}")
+    public String updateTopicById(@PathVariable int id, Model model) {
+        TicketTopic ticketTopic = ticketTopicService.getTopicById(id);
+        List<TicketCategory> ticketCategories = ticketCategoryService.getAllCategoryWithOutPagination();
+        model.addAttribute("ticketCategories", ticketCategories);
+        model.addAttribute("ticketTopic", ticketTopic);
+        model.addAttribute("ticketTopicRequest", new TicketTopicRequest());
+        return "ticket-topic/ticket-topic-edit";
+    }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @PostMapping("/updateTopic")
+    @PostMapping("/updateTopicById")
     public String updateTicketTopic(@RequestParam int id, @ModelAttribute TicketTopicRequest ticketTopicRequest,
                                     Model model) {
         TicketTopic ticketTopic = ticketTopicService.updateTicketTopic(ticketTopicRequest, id);
@@ -44,25 +68,16 @@ public class TicketTopicWebController {
         return "redirect:/web/getAllTopic";
     }
 
-
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("/updateTopicById/{id}")
-    public String updateTopicById(@PathVariable int id, Model model) {
-        TicketTopic ticketTopic = (TicketTopic) ticketTopicService.getTopicById(id);
-        model.addAttribute("ticketTopic", ticketTopic);
-        return "/ticket-topic/ticket-topic-edit";
-    }
-
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/getTopicById/{id}")
     public String getTopicById(@PathVariable int id, Model model) {
         TicketTopic ticketTopic = (TicketTopic) ticketTopicService.getTopicById(id);
         model.addAttribute("ticketTopic", ticketTopic);
-        return "/ticket-topic/ticket-topic-details";
+        return "ticket-topic/ticket-topic-details";
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
-    @GetMapping("getAllTopic")
+    @GetMapping("/getAllTopic")
     public String getAllTopic(@RequestParam(defaultValue = "1") int pageNumber,
                               @RequestParam(defaultValue = "10") int pageSize, Model model) {
         Page<TicketTopic> ticketTopics = ticketTopicService.getAllTopicWithPagination(pageNumber, pageSize);
@@ -73,14 +88,14 @@ public class TicketTopicWebController {
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("totalPages", totalPages);
-        return "/ticket-topic/ticket-topic-list";
+        return "ticket-topic/ticket-topic-list";
     }
 
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
     @GetMapping("/ticketTopic")
     public String ticketManagement() {
-        return "/ticket-topic/ticket-topic";
+        return "ticket-topic/ticket-topic";
     }
 
 

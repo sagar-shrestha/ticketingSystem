@@ -17,6 +17,11 @@
         </th:block>
 
         <div class="form-group row">
+            <input type="hidden" name="id" th:value="${userInfo.getUser_id()}">
+            <input type="hidden" name="memberId" th:value="${userInfo.getUser_id()}">
+            <input type="hidden" name="memberType" th:value="${userInfo.getRoles()}">
+            <input type="hidden" name="memberName" th:value="${userInfo.getUsername()}">
+            <input type="hidden" name="username" th:value="${userInfo.getUsername()}">
             <label for="ticketTopic" class="col-sm-2 col-form-label">Ticket Topic:</label>
             <div class="col-sm-10">
                 <select id="ticketTopic" th:field="*{ticketTopicRequest}" class="form-control">
@@ -37,7 +42,7 @@
         <div class="form-group row">
             <label for="images" class="col-sm-2 col-form-label">Images:</label>
             <div class="col-sm-10">
-                <input type="file" id="images" th:field="*{images}" class="form-control-file" multiple style="display: none;">
+                <input type="file" id="images" th:field="*{images}" class="form-control-file" multiple>
                 <button type="button" class="btn btn-primary" onclick="document.getElementById('images').click();">
                     <i class="fas fa-upload"></i> Add Picture
                 </button>

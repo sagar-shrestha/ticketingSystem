@@ -38,7 +38,7 @@ public class TicketController {
                 .builder()
                 .code(HttpStatus.OK.value())
                 .data(ticketService.getAllTicketsByUsernameWithoutPagination(username))
-                .message("Topic Found Successfully.")
+                .message("Ticket Found Successfully.")
                 .status(true)
                 .build());
     }
